@@ -1,0 +1,2 @@
+steps:
+- template: repository/create-githubrelease.yml
