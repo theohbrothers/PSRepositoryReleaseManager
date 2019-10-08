@@ -21,7 +21,7 @@ steps:
     $changeLog
     "@
     New-GHRelease -Namespace $namespace -Repository $repository -TagName $commitTag -ReleaseBody $releaseBody -ApiKey $env:GITHUB_API_KEY -Verbose > $null
+  displayName: Create GitHub Release
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   env:
     GITHUB_API_KEY: $(GITHUB_API_KEY)
-    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
-  displayName: Create GitHub Release
