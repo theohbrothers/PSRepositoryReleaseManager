@@ -23,5 +23,5 @@ steps:
     New-GHRelease -Namespace $namespace -Repository $repository -TagName $commitTag -ReleaseBody $releaseBody -ApiKey $env:GITHUB_API_KEY -Verbose > $nul
   env:
     GITHUB_API_KEY: $(GITHUB_API_KEY)
-  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   displayName: Create GitHub Release
