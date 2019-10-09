@@ -1,4 +1,4 @@
-function Get-RepositoryChangeLog {
+function Get-RepositoryCommitHistory {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
@@ -28,10 +28,10 @@ function Get-RepositoryChangeLog {
             "Second ref unspecifed. 'HEAD' will be used as the second ref."  | Write-Verbose
             $commitSHARange = "$($PSBoundParameters['FirstRef'])...HEAD"
         }
-        $_changeLog = git --no-pager log --pretty=format:"* %h %s" $commitSHARange | Out-String
+        $_commitHistory = git --no-pager log --pretty=format:"* %h %s" $commitSHARange | Out-String
         "Changelog:" | Write-Verbose
-        $_changeLog | Write-Verbose
-        $_changeLog
+        $_commitHistory | Write-Verbose
+        $_commitHistory
     }catch {
         throw
     }finally {
