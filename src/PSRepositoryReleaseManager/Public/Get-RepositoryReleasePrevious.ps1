@@ -26,7 +26,7 @@ function Get-RepositoryReleasePrevious {
         }else {
             $releasePreviousCommitSHA = ($releaseTagsInfo[1] -split "\s")[0]
             "Previous release commit SHA: $releasePreviousCommitSHA" | Write-Verbose
-            git tag --points-at $releasePreviousCommitSHA | Sort-Object -Descending
+            git tag --points-at $releasePreviousCommitSHA | Sort-Object -Descending     # Returns an array of tags if they point to the same commit
         }
     }catch {
         throw
