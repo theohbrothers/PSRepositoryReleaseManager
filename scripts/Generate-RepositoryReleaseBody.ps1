@@ -26,9 +26,16 @@ function Generate-RepositoryReleaseBody {
 
     try {
         $previousRelease = Get-RepositoryReleasePrevious -Path $PSBoundParameters['Path'] -Verbose
-        "Previous release:" | Write-Verbose
-        $previousRelease | Write-Verbose
-        $commitHistory = Get-RepositoryCommitHistory -Path $PSBoundParameters['Path'] -FirstRef @($previousRelease)[0] -SecondRef $PSBoundParameters['TagName'] -Verbose
+        if ($previousRelease) {
+            "Previous release:" | Write-Verbose
+            $previousRelease | Write-Verbose
+        }
+        $funcArgs = @{
+            Path = $PSBoundParameters['Path']
+            FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $PSBoundParameters['TagName'] }
+        }
+        if ($previousRelease) { $funcArgs['SecondRef'] = $PSBoundParameters['TagName'] }
+        $commitHistory = Get-RepositoryCommitHistory @funcArgs -Verbose
         $releaseBody = @"
 ## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
 
