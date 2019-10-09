@@ -13,7 +13,7 @@ function Get-RepositoryChangeLog {
         [ValidateNotNullOrEmpty()]
         [string]$SecondRef
     )
-    Push-Location $Path
+    Push-Location $PSBoundParameters['Path']
     $ErrorActionPreference = 'Stop'
 
     try {

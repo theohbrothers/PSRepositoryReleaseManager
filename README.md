@@ -1,4 +1,4 @@
-# PSGitHubRepositoryReleaser
+# PSRepositoryReleaseManager
 
 A powershell module for GitHub Releases.
 
@@ -7,11 +7,11 @@ A powershell module for GitHub Releases.
 To import the module:
 
 ```powershell
-Import-Module .\src\PSGitHubRepositoryReleaser\PSGitHubRepositoryReleaser.psm1 -Force -Verbose
+Import-Module .\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1 -Force -Verbose
 ```
 
 To list all available functions:
 
 ```powershell
-Get-Command -Module PSGitHubRepositoryReleaser
+Get-Command -Module PSRepositoryReleaseManager
 ```
