@@ -1,2 +1,3 @@
 steps:
-- template: repository/create-githubrelease.yml
+- template: common/process-releasevariables.yml
+- template: github/create-githubrelease.yml

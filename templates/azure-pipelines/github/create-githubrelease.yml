@@ -1,0 +1,12 @@
+steps:
+- pwsh: |
+    $ErrorActionPreference = 'Stop'
+    Set-StrictMode -Version Latest
+    Import-Module .\build\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1
+    Import-Module .\build\PSRepositoryReleaseManager\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1
+    $releaseBody = .\build\PSRepositoryReleaseManager\scripts\Generate-RepositoryReleaseBody.ps1 -Path $(Get-Location) -TagName $env:RELEASE_COMMIT_TAG
+    New-GHRelease -Namespace $env:RELEASE_NAMESPACE -Repository $env:RELEASE_REPOSITORY -TagName $env:RELEASE_COMMIT_TAG -ReleaseBody $releaseBody -ApiKey $env:GITHUB_API_KEY -Verbose > $null
+  displayName: Create GitHub Release
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), ne(variables['RELEASE_COMMIT_TAG'], ''))
+  env:
+    GITHUB_API_KEY: $(GITHUB_API_KEY)

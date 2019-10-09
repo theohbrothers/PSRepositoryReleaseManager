@@ -1,7 +1,6 @@
 steps:
 - pwsh: |
     $ErrorActionPreference = 'Stop'
-    Set-StrictMode -Version Latest
     ### Begin CI-specific code: Get the namspace and project name
     $matchInfo = $env:BUILD_SOURCEBRANCH | Select-String -Pattern '^refs\/tags\/(.*)'
     $commitTag = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
@@ -9,11 +8,10 @@ steps:
     $namespace = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
     $repository = if ($matchInfo) { $matchInfo.Matches.Groups[2].Value } else { $null }
     ### End of CI-specific code
-    Import-Module .\build\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1
-    Import-Module .\build\PSRepositoryReleaseManager\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1
-    $releaseBody = .\build\PSRepositoryReleaseManager\scripts\Generate-RepositoryReleaseBody.ps1 -Path $(Get-Location) -TagName $commitTag
-    New-GHRelease -Namespace $namespace -Repository $repository -TagName $commitTag -ReleaseBody $releaseBody -ApiKey $env:GITHUB_API_KEY -Verbose > $null
-  displayName: Create GitHub Release
+    ### Begin CI-specific code: Set job-scoped variables
+    echo "##vso[task.setvariable variable=RELEASE_COMMIT_TAG]${commitTag}"
+    echo "##vso[task.setvariable variable=RELEASE_NAMESPACE${namespace}"
+    echo "##vso[task.setvariable variable=RELEASE_REPOSITORY${repository}"
+    ### End of CI-specific code
+  displayName: Process release variables
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
-  env:
-    GITHUB_API_KEY: $(GITHUB_API_KEY)
