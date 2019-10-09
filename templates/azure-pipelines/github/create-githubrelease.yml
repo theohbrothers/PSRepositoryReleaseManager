@@ -1,11 +1,12 @@
 steps:
 - pwsh: |
     $ErrorActionPreference = 'Stop'
+    $VerbosePreference = 'Continue'
     Set-StrictMode -Version Latest
-    Import-Module .\build\PSRepositoryReleaseManager\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1 -Verbose
-    Import-Module .\build\PSRepositoryReleaseManager\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1 -Verbose
-    $releaseBody = .\build\PSRepositoryReleaseManager\scripts\Generate-RepositoryReleaseBody.ps1 -Path $(Get-Location) -TagName $env:RELEASE_COMMIT_TAG -Verbose
-    New-GHRelease -Namespace $env:RELEASE_NAMESPACE -Repository $env:RELEASE_REPOSITORY -TagName $env:RELEASE_COMMIT_TAG -ReleaseBody $releaseBody -ApiKey $env:GITHUB_API_KEY -Verbose > $null
+    Import-Module .\build\PSRepositoryReleaseManager\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1
+    Import-Module .\build\PSRepositoryReleaseManager\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1
+    $releaseBody = .\build\PSRepositoryReleaseManager\scripts\Generate-RepositoryReleaseBody.ps1 -Path $(Get-Location) -TagName $env:RELEASE_COMMIT_TAG
+    New-GHRelease -Namespace $env:RELEASE_NAMESPACE -Repository $env:RELEASE_REPOSITORY -TagName $env:RELEASE_COMMIT_TAG -ReleaseBody $releaseBody -ApiKey $env:GITHUB_API_KEY > $null
   displayName: Create GitHub release
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), ne(variables['RELEASE_COMMIT_TAG'], ''))
   env:
