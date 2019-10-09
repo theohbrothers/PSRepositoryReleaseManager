@@ -11,7 +11,7 @@ function Get-RepositoryReleasePrevious {
 
     try {
         "Searching for the previous release in the repository '$_path'" | Write-Verbose
-        $releaseTagsInfo = (git --no-pager log --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
+        $releaseTagsInfo = (git --no-pager log --date-order --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
             if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,|$)') {
                 $_
             }
