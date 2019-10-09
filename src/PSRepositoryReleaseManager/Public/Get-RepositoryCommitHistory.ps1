@@ -17,7 +17,7 @@ function Get-RepositoryCommitHistory {
     $ErrorActionPreference = 'Stop'
 
     try {
-        $PSBoundParameters['FirstRef'],$PSBoundParameters['SecondRef'] | % { 
+        $PSBoundParameters['FirstRef'],$PSBoundParameters['SecondRef'] | % {
             git rev-parse $_ > $nul
         }
         "First ref: '$FirstRef':" | Write-Verbose
@@ -25,8 +25,8 @@ function Get-RepositoryCommitHistory {
             "Second ref: '$SecondRef':" | Write-Verbose
             $commitSHARange = "$($PSBoundParameters['FirstRef'])...$($PSBoundParameters['SecondRef'])"
         }else {
-            "Second ref unspecifed. 'HEAD' will be used as the second ref."  | Write-Verbose
-            $commitSHARange = "$($PSBoundParameters['FirstRef'])...HEAD"
+            "Second ref unspecifed. Full history of First ref will be retrieved."  | Write-Verbose
+            $commitSHARange = $PSBoundParameters['FirstRef']
         }
         $_commitHistory = git --no-pager log --pretty=format:"* %h %s" $commitSHARange | Out-String
         "Changelog:" | Write-Verbose
