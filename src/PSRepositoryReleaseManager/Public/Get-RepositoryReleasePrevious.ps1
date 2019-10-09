@@ -1,4 +1,4 @@
-function Get-RepositoryPreviousRelease {
+function Get-RepositoryReleasePrevious {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
