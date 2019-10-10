@@ -8,11 +8,18 @@ steps:
     $namespace = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
     $repository = if ($matchInfo) { $matchInfo.Matches.Groups[2].Value } else { $null }
     ### End of CI-specific code
-    "Commit tag: '$commitTag'" | Write-Host
     "Namespace: '$namespace'" | Write-Host
     "Repository: '$repository'" | Write-Host
+    "Commit tag: '$commitTag'" | Write-Host
+    $matchInfo = $commitTag | Select-String -Pattern '^v(\d+\.\d+\.\d+)$'
+    $releaseCommitTag = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
+    if (!$releaseCommitTag) {
+        throw "The release tag pattern is invalid." | Write-Host
+    }else {
+        "The commit tag is valid. A release will be created." | Write-Host
+    }
     ### Begin CI-specific code: Set job-scoped variables
-    echo "##vso[task.setvariable variable=RELEASE_COMMIT_TAG]${commitTag}"
+    echo "##vso[task.setvariable variable=RELEASE_COMMIT_TAG]${releaseCommitTag}"
     echo "##vso[task.setvariable variable=RELEASE_NAMESPACE]${namespace}"
     echo "##vso[task.setvariable variable=RELEASE_REPOSITORY]${repository}"
     ### End of CI-specific code
