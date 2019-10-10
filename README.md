@@ -24,6 +24,18 @@ This project provides CI templates and scripts that other projects can utilize f
 
 Configure the following components on your main project.
 
+#### Submodule
+
+Add `PSRepositoryReleaseManager` as a submodule under the directory `build` in your main project:
+
+```shell
+# Add the submodule
+git submodule add 'https://github.com/theohbrothers/PSRepositoryReleaseManager.git' build/PSRepositoryReleaseManager
+
+# Commit the submodule
+git commit -m 'Add submodule PSRepositoryReleaseManager'
+```
+
 #### CI files
 
 Decide on which CI provider to use in your main project based on those supported by this project. Setup the CI file(s) for your main project. Then simply reference the relevant CI files of this project from your main project's CI file(s).
