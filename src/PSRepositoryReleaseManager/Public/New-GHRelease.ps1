@@ -38,7 +38,7 @@ function New-GHRelease {
         $releaseArgsMasked = $releaseArgs.Clone()
         $releaseArgsMasked['ApiKey'] = "token *******"
         ($releaseArgsMasked | Out-String).Trim() | Write-Verbose
-        New-GHRepositoryRelease @releaseArgs
+        New-GitHubRepositoryRelease @releaseArgs
     }catch {
         throw
     }
