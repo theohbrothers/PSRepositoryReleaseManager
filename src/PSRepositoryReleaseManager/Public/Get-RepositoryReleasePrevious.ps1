@@ -1,4 +1,4 @@
-function Get-RepositoryPreviousRelease {
+function Get-RepositoryReleasePrevious {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
@@ -11,7 +11,7 @@ function Get-RepositoryPreviousRelease {
 
     try {
         "Searching for the previous release in the repository '$_path'" | Write-Verbose
-        $releaseTagsInfo = (git --no-pager log --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
+        $releaseTagsInfo = (git --no-pager log --date-order --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
             if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,|$)') {
                 $_
             }
@@ -26,7 +26,7 @@ function Get-RepositoryPreviousRelease {
         }else {
             $releasePreviousCommitSHA = ($releaseTagsInfo[1] -split "\s")[0]
             "Previous release commit SHA: $releasePreviousCommitSHA" | Write-Verbose
-            git tag --points-at $releasePreviousCommitSHA | Sort-Object -Descending
+            git tag --points-at $releasePreviousCommitSHA | Sort-Object -Descending     # Returns an array of tags if they point to the same commit
         }
     }catch {
         throw
