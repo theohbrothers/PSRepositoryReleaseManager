@@ -48,7 +48,7 @@ The project contains the necessary steps in its CI files for generating changelo
 
 ### Releases
 
-Releases are created on all tag refs. Override the rule by configuring your main project's CI file(s) to limit releases to a certain tag pattern.
+Releases will be created for tag refs. Tags must follow [Semantic Versioning](https://semver.org/) and be prepended with a lowercase `v`:
 
 ```shell
 # Tag the commit to release
