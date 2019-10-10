@@ -112,5 +112,5 @@ To track a specific branch with `git submodule update`, add the `branch` key-val
 
 ## Best practices
 
-- Use tagged commits of `PSRepositoryReleaseManager` in your main project.
+- Use only tag refs of `PSRepositoryReleaseManager` in your main project.
 - Ensure your main project's CI file(s) is configured to use the CI templates of [`PSRepositoryReleaseManager`](https://github.com/theohbrothers/PSRepositoryReleaseManager) and that the commit used matches that of `PSRepositoryReleaseManager` used in your main project.
