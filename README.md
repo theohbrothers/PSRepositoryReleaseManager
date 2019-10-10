@@ -77,7 +77,7 @@ git push remotename v1.0.12
 To update the submodule:
 
 ```shell
-git submodule update --remote
+git submodule update --remote build/PSRepositoryReleaseManager
 ```
 
 #### Using a specific commit / tag
