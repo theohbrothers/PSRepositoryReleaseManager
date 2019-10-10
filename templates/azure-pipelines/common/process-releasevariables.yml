@@ -11,8 +11,8 @@ steps:
     "Namespace: '$namespace'" | Write-Host
     "Repository: '$repository'" | Write-Host
     "Commit tag: '$commitTag'" | Write-Host
-    $matchInfo = $commitTag | Select-String -Pattern '^v(\d+\.\d+\.\d+)$'
-    $releaseCommitTag = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
+    $matchInfo = $commitTag | Select-String -Pattern '^v\d+\.\d+\.\d+$'
+    $releaseCommitTag = if ($matchInfo) { $matchInfo.Matches.Groups[0].Value } else { $null }
     if (!$releaseCommitTag) {
         throw "The release tag pattern is invalid." | Write-Host
     }else {
