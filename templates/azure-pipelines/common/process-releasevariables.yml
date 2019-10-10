@@ -3,23 +3,23 @@ steps:
     $ErrorActionPreference = 'Stop'
     ### Begin CI-specific code: Get the namspace and project name
     $matchInfo = $env:BUILD_SOURCEBRANCH | Select-String -Pattern '^refs\/tags\/(.*)'
-    $commitTag = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
+    $tagRef = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
     $matchInfo = $env:BUILD_REPOSITORY_URI | Select-String -Pattern '^https:\/\/github.com\/(.*?)\/(.*)'
     $namespace = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
     $repository = if ($matchInfo) { $matchInfo.Matches.Groups[2].Value } else { $null }
     ### End of CI-specific code
     "Namespace: '$namespace'" | Write-Host
     "Repository: '$repository'" | Write-Host
-    "Commit tag: '$commitTag'" | Write-Host
-    $matchInfo = $commitTag | Select-String -Pattern '^v\d+\.\d+\.\d+$'
-    $releaseCommitTag = if ($matchInfo) { $matchInfo.Matches.Groups[0].Value } else { $null }
-    if (!$releaseCommitTag) {
-        throw "The release tag pattern is invalid." | Write-Host
+    "Tag ref: '$tagRef'" | Write-Host
+    $matchInfo = $tagRef | Select-String -Pattern '^v\d+\.\d+\.\d+$'
+    $releaseTagRef = if ($matchInfo) { $matchInfo.Matches.Groups[0].Value } else { $null }
+    if (!$releaseTagRef) {
+        throw "The tag ref is invalid for a release." | Write-Host
     }else {
-        "The commit tag is valid. A release will be created." | Write-Host
+        "The tag ref is valid for a release." | Write-Host
     }
     ### Begin CI-specific code: Set job-scoped variables
-    echo "##vso[task.setvariable variable=RELEASE_COMMIT_TAG]${releaseCommitTag}"
+    echo "##vso[task.setvariable variable=RELEASE_TAG_REF]${releaseTagRef}"
     echo "##vso[task.setvariable variable=RELEASE_NAMESPACE]${namespace}"
     echo "##vso[task.setvariable variable=RELEASE_REPOSITORY]${repository}"
     ### End of CI-specific code
