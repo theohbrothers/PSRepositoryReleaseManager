@@ -5,10 +5,10 @@ function Get-RepositoryReleasePrevious {
         [ValidateScript({Test-Path -Path $_ -PathType Container})]
         [string]$Path
     )
-    Push-Location $PSBoundParameters['Path']
     $ErrorActionPreference = 'Stop'
-
+    
     try {
+        Push-Location $PSBoundParameters['Path']
         "Searching for the previous release in the repository '$($PSBoundParameters['Path'])'" | Write-Verbose
         $releaseTagsInfo = (git --no-pager log --date-order --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
             if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,|$)') {
