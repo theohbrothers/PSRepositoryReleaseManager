@@ -3,18 +3,102 @@
 [badge-version-github-tag-img]: https://img.shields.io/github/v/tag/theohbrothers/PSRepositoryReleaseManager?style=flat-square
 [badge-version-github-tag-src]: https://github.com/theohbrothers/PSRepositoryReleaseManager/releases
 
-A powershell module for GitHub Releases.
+A project for managing repository releases, such as [GitHub releases](https://help.github.com/en/articles/about-releases).
+
+## Introduction
+
+This project provides CI templates and scripts that other projects can utilize for managing releases.
+
+### Main project structure
+
+`PSRepositoryReleaseManager` requires main projects to adopt the following directory structure:
+
+```shell
+/build/                                         # Directory containing build files
+/build/PSRepositoryReleaseManager/              # The root directory of PSRepositoryReleaseManager as a submodule
+```
+
+## Configuration
+
+### Main project
+
+Configure the following components on your main project.
+
+#### CI files
+
+Decide on which CI provider to use in your main project based on those supported by this project. Setup the CI file(s) for your main project. Then simply reference the relevant CI files of this project from your main project's CI file(s).
+
+Sample CI files can be found [here](docs/samples/ci).
+
+### CI settings
+
+Configure the following CI settings for your project.
+
+#### Secrets
+
+##### GitHub API token
+
+Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line), ensuring it has write permissions to the repository.
 
 ## Usage
 
-To import the module:
+### Continuous Integration
 
-```powershell
-Import-Module .\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1 -Force -Verbose
+The project contains the necessary steps in its CI files for generating changelogs and managing releases. You can configure your main project's CI file(s) to run the steps on every push. Refer to the [sample CI files](docs/samples/ci) for some working examples.
+
+### Releases
+
+Releases are created on all tag refs. Override the rule by configuring your main project's CI file(s) to limit releases to a certain tag pattern.
+
+```shell
+# Tag the commit to release
+git tag v1.0.12
+
+# Push the tag
+git push remotename v1.0.12
 ```
 
-To list all available functions:
+### Managing the submodule
 
-```powershell
-Get-Command -Module PSRepositoryReleaseManager
+#### Retrieving updates
+
+To update the submodule:
+
+```shell
+git submodule update --remote
 ```
+
+#### Using a specific commit / tag
+
+To use a specific commit or tag of the submodule:
+
+```shell
+# Change to the submodule's root directory
+cd build/PSRepositoryReleaseManager
+
+# To use a specific commit
+git checkout 0123456789abcdef0123456789abcdef01234567
+# Or, to use a specific tag
+git checkout v1.0.1
+
+# Return to the main project's root directory
+cd "$(git rev-parse --show-superproject-working-tree)"
+# Commit the submodule
+git commit -m 'Update submodule PSRepositoryReleaseManager'
+```
+
+#### Tracking a specific branch
+
+To track a specific branch with `git submodule update`, add the `branch` key-value pair under the submodule's entry in `.gitmodules` like so:
+
+```shell
+[submodule "build/PSRepositoryReleaseManager"]
+    path = build/PSRepositoryReleaseManager
+    url = https://github.com/theohbrothers/PSRepositoryReleaseManager.git
+    branch = trackedbranch
+```
+
+## Best practices
+
+- Use tagged commits of `PSRepositoryReleaseManager` in your main project.
+- Ensure your main project's CI file(s) is configured to use the CI templates of [`PSRepositoryReleaseManager`](https://github.com/theohbrothers/PSRepositoryReleaseManager) and that the commit used matches that of `PSRepositoryReleaseManager` used in your main project.
