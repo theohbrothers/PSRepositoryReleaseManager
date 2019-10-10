@@ -1,7 +1,7 @@
 steps:
 - pwsh: |
     $ErrorActionPreference = 'Stop'
-    ### Begin CI-specific code: Get the namspace and project name
+    ### Begin CI-specific code: Get the namspace, project name, and tag ref
     $matchInfo = $env:BUILD_SOURCEBRANCH | Select-String -Pattern '^refs\/tags\/(.*)'
     $tagRef = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
     $matchInfo = $env:BUILD_REPOSITORY_URI | Select-String -Pattern '^https:\/\/github.com\/(.*?)\/(.*)'
