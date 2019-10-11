@@ -1,4 +1,27 @@
-function New-GHRelease {
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Namespace
+    ,
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Repository
+    ,
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ApiKey
+    ,
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$TagName
+    ,
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ReleaseBody
+)
+
+function Create-GitHubRelease {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
@@ -43,3 +66,5 @@ function New-GHRelease {
         throw
     }
 }
+
+Create-GitHubRelease @PSBoundParameters
