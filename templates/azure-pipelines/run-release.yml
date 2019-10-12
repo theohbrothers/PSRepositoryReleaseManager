@@ -1,3 +1,0 @@
-steps:
-- template: common/process-releasevariables.yml
-- template: github/create-githubrelease.yml
