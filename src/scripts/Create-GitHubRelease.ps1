@@ -21,6 +21,8 @@ param(
     [string]$ReleaseBody
 )
 
+Set-StrictMode -Version Latest
+
 function Create-GitHubRelease {
     [CmdletBinding()]
     param(
@@ -45,7 +47,6 @@ function Create-GitHubRelease {
         [string]$ReleaseBody
     )
 
-    Set-StrictMode -Version Latest
     $ErrorActionPreference = 'Stop'
 
     try {
