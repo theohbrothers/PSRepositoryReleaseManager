@@ -18,7 +18,7 @@ function Get-RepositoryCommitHistory {
     try {
         Push-Location $PSBoundParameters['Path']
         $PSBoundParameters['FirstRef'],$PSBoundParameters['SecondRef'] | % {
-            git rev-parse $_ > $nul
+            git rev-parse $_ > $null
         }
         "First ref: '$FirstRef':" | Write-Verbose
         if ($SecondRef) {
