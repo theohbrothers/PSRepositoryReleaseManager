@@ -1,0 +1,29 @@
+trigger:
+  branches:
+    include:
+    - '*'
+  tags:
+    include:
+    - '*'
+pr: none
+
+resources:
+  repositories:
+  - repository: PSRepositoryReleaseManager
+    type: github
+    name: theohbrothers/PSRepositoryReleaseManager
+    endpoint: myserviceconnection                   # Check for your 'Type: Github' connection under 'Project Settings' > 'Service connections'
+    ref: refs/tags/vx.x.x
+
+stages:
+- stage: release
+  displayName: Release
+  jobs:
+  - job: linux
+    displayName: '[Linux]'
+    pool:
+      vmImage: ubuntu-16.04
+    steps:
+    - checkout: self
+      submodules: recursive
+    - template: templates/azure-pipelines/pwsh/release.yml@PSRepositoryReleaseManager

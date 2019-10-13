@@ -9,6 +9,8 @@ param(
     [string]$TagName
 )
 
+Set-StrictMode -Version Latest
+
 function Generate-RepositoryReleaseBody {
     [CmdletBinding()]
     param(
@@ -21,7 +23,6 @@ function Generate-RepositoryReleaseBody {
         [string]$TagName
     )
 
-    Set-StrictMode -Version Latest
     $ErrorActionPreference = 'Stop'
 
     try {

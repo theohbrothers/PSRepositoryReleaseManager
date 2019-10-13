@@ -16,13 +16,14 @@ resources:
     ref: refs/tags/vx.x.x
 
 stages:
-- stage: Build_Release
-  displayName: Build, Release
+- stage: release
+  displayName: Release
   jobs:
-  - job: Linux
+  - job: macos
+    displayName: '[macOS]'
     pool:
-      vmImage: ubuntu-16.04
+      vmImage: macOS-10.14
     steps:
     - checkout: self
       submodules: recursive
-    - template: templates/azure-pipelines/run-release.yml@PSRepositoryReleaseManager
+    - template: templates/azure-pipelines/pwsh/release.yml@PSRepositoryReleaseManager
