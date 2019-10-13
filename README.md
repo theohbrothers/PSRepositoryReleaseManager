@@ -82,7 +82,7 @@ git submodule update --remote build/PSRepositoryReleaseManager
 
 #### Using a specific tag / commit
 
-To use a specific commit or tag of the submodule:
+To use a specific tag or commit of the submodule:
 
 ```shell
 # Change to the submodule's root directory
@@ -101,13 +101,13 @@ git commit -m 'Update submodule PSRepositoryReleaseManager'
 
 #### Tracking a specific branch
 
-To track a specific branch with `git submodule update`, add the `branch` key-value pair under the submodule's entry in `.gitmodules` like so:
+To track a specific branch for  `git submodule update`, add the `branch` key-value pair under the submodule's entry in `.gitmodules` like so:
 
 ```shell
 [submodule "build/PSRepositoryReleaseManager"]
-    path = build/PSRepositoryReleaseManager
-    url = https://github.com/theohbrothers/PSRepositoryReleaseManager.git
-    branch = trackedbranch
+	path = build/PSRepositoryReleaseManager
+	url = https://github.com/theohbrothers/PSRepositoryReleaseManager.git
+	branch = trackedbranch
 ```
 
 ## Best practices
