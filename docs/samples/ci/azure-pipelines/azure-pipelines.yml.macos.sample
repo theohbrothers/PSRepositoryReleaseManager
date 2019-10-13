@@ -19,9 +19,10 @@ stages:
 - stage: release
   displayName: Release
   jobs:
-  - job: Linux
+  - job: macos
+    displayName: '[macOS]'
     pool:
-      vmImage: ubuntu-16.04
+      vmImage: macOS-10.14
     steps:
     - checkout: self
       submodules: recursive
