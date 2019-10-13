@@ -44,6 +44,8 @@ function Create-GitHubRelease {
         [ValidateNotNullOrEmpty()]
         [string]$ReleaseBody
     )
+
+    Set-StrictMode -Version Latest
     $ErrorActionPreference = 'Stop'
 
     try {
