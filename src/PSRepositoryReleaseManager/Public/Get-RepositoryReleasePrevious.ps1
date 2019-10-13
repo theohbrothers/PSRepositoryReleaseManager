@@ -6,7 +6,7 @@ function Get-RepositoryReleasePrevious {
         [string]$Path
     )
     $ErrorActionPreference = 'Stop'
-    
+
     try {
         Push-Location $PSBoundParameters['Path']
         "Searching for the previous release in the repository '$($PSBoundParameters['Path'])'" | Write-Verbose

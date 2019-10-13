@@ -6,7 +6,7 @@ function Get-RepositoryReleaseLatest {
         [string]$Path
     )
     $ErrorActionPreference = 'Stop'
-    
+
     try {
         Push-Location $PSBoundParameters['Path']
         "Searching for the latest release in the repository '$($PSBoundParameters['Path'])'" | Write-Verbose
