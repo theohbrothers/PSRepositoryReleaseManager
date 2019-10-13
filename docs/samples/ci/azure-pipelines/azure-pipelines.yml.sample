@@ -16,8 +16,8 @@ resources:
     ref: refs/tags/vx.x.x
 
 stages:
-- stage: Build_Release
-  displayName: Build, Release
+- stage: release
+  displayName: Release
   jobs:
   - job: Linux
     pool:
