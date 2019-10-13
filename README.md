@@ -56,9 +56,9 @@ Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](http
 
 ### Continuous Integration
 
-The project contains the necessary steps in its CI files for generating changelogs and managing releases. You can configure your main project's CI file(s) to run the steps on every push. Refer to the [sample CI files](docs/samples/ci) for some working examples.
+#### Releases
 
-### Releases
+**Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
 Releases will be created for tag refs. Tags must follow [Semantic Versioning](https://semver.org/) and be prepended with a lowercase `v`:
 
@@ -80,7 +80,7 @@ To update the submodule:
 git submodule update --remote build/PSRepositoryReleaseManager
 ```
 
-#### Using a specific commit / tag
+#### Using a specific tag / commit
 
 To use a specific commit or tag of the submodule:
 
@@ -88,13 +88,13 @@ To use a specific commit or tag of the submodule:
 # Change to the submodule's root directory
 cd build/PSRepositoryReleaseManager
 
-# To use a specific commit
-git checkout 0123456789abcdef0123456789abcdef01234567
-# Or, to use a specific tag
+# To use a specific tag
 git checkout v1.0.1
+# Or, to use a specific commit
+git checkout 0123456789abcdef0123456789abcdef01234567
 
 # Return to the main project's root directory
-cd "$(git rev-parse --show-superproject-working-tree)"
+cd -
 # Commit the submodule
 git commit -m 'Update submodule PSRepositoryReleaseManager'
 ```
