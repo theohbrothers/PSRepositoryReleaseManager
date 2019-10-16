@@ -12,6 +12,7 @@ function Get-RepositoryReleasePrevious {
 
     try {
         Push-Location $PSBoundParameters['Path']
+        "Retrieving info on release tags" | Write-Verbose
         $releaseTagsInfo = (git --no-pager log --date-order --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
             if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,|$)') {
                 $_
@@ -52,6 +53,7 @@ function Get-RepositoryReleasePrevious {
         }
 
         "Previous release commit SHA: $releasePreviousCommitSHA" | Write-Verbose
+        "Retrieving previous release tag(s)" | Write-Verbose
         git tag --points-at $releasePreviousCommitSHA | Sort-Object -Descending     # Returns an array of tags if they point to the same commit
 
     }catch {
