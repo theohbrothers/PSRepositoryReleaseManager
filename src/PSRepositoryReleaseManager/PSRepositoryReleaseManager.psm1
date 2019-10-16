@@ -13,4 +13,4 @@ $script:MODULE['PUBLIC_DIR'] = Join-Path $script:MODULE['BASE_DIR'] 'Public'    
 Get-ChildItem -Path "$($script:MODULE['PUBLIC_DIR'])\*.ps1" | % { . $_.FullName }
 
 # Export Public functions
-Export-ModuleMember -Function (Get-ChildItem "$($script:MODULE['PUBLIC_DIR'] )\*.ps1" | Select-Object -ExpandProperty BaseName)
+Export-ModuleMember -Function (Get-ChildItem "$($script:MODULE['PUBLIC_DIR'])\*.ps1" | Select-Object -ExpandProperty BaseName)

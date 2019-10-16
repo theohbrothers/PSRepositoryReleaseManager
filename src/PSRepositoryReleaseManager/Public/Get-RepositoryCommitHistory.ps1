@@ -13,12 +13,15 @@ function Get-RepositoryCommitHistory {
         [ValidateNotNullOrEmpty()]
         [string]$SecondRef
     )
-    $ErrorActionPreference = 'Stop'
 
     try {
+        "Verifying refs" | Write-Verbose
         Push-Location $PSBoundParameters['Path']
         $PSBoundParameters['FirstRef'],$PSBoundParameters['SecondRef'] | % {
             git rev-parse $_ > $null
+            if ($LASTEXITCODE) {
+                throw "An error occurred."
+            }
         }
         "First ref: '$FirstRef':" | Write-Verbose
         if ($SecondRef) {
@@ -28,7 +31,7 @@ function Get-RepositoryCommitHistory {
             "Second ref unspecifed. Full history of First ref will be retrieved."  | Write-Verbose
             $commitSHARange = $PSBoundParameters['FirstRef']
         }
-        $_commitHistory = git --no-pager log --pretty=format:"* %h %s" $commitSHARange | Out-String
+        $_commitHistory = git --no-pager log --pretty=format:"%h %s" $commitSHARange | Out-String
         "Changelog:" | Write-Verbose
         $_commitHistory | Write-Verbose
         $_commitHistory
