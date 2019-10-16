@@ -13,7 +13,6 @@ function Get-RepositoryCommitHistory {
         [ValidateNotNullOrEmpty()]
         [string]$SecondRef
     )
-    $ErrorActionPreference = 'Stop'
 
     try {
         "Verifying refs" | Write-Verbose
@@ -21,8 +20,7 @@ function Get-RepositoryCommitHistory {
         $PSBoundParameters['FirstRef'],$PSBoundParameters['SecondRef'] | % {
             git rev-parse $_ > $null
             if ($LASTEXITCODE) {
-                Write-Error "An error occurred."
-                return
+                throw "An error occurred."
             }
         }
         "First ref: '$FirstRef':" | Write-Verbose

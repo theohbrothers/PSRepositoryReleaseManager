@@ -5,7 +5,6 @@ function Get-RepositoryReleaseLatest {
         [ValidateScript({Test-Path -Path $_ -PathType Container})]
         [string]$Path
     )
-    $ErrorActionPreference = 'Stop'
 
     try {
         Push-Location $PSBoundParameters['Path']

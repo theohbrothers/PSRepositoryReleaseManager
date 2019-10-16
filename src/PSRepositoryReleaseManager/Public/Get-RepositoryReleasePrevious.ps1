@@ -9,7 +9,6 @@ function Get-RepositoryReleasePrevious {
         [ValidateNotNullOrEmpty()]
         [string]$Ref
     )
-    $ErrorActionPreference = 'Stop'
 
     try {
         Push-Location $PSBoundParameters['Path']
@@ -19,7 +18,7 @@ function Get-RepositoryReleasePrevious {
             }
         }
         if (!$releaseTagsInfo) {
-            "No release tags exist in the repository '$($PSBoundParameters['Path'])'." | Write-Error
+            throw "No release tags exist in the repository '$($PSBoundParameters['Path'])'."
         }
         "Release tags info:" | Write-Verbose
         $releaseTagsInfo | Write-Verbose
@@ -27,12 +26,12 @@ function Get-RepositoryReleasePrevious {
         if ($PSBoundParameters['Ref']) {
             $refSHA = git rev-parse $PSBoundParameters['Ref']
             if ($LASTEXITCODE) {
-                "An error occurred." | Write-Error
+                throw "An error occurred."
             }
             "Found SHA: $refSHA" | Write-Verbose
         }
         if (@($releaseTagsInfo).Count -eq 1) {
-            "Only one release tag exists in the repository '$($PSBoundParameters['Path'])'." | Write-Error
+            throw "Only one release tag exists in the repository '$($PSBoundParameters['Path'])'."
         }
 
         $releasePreviousCommitSHA = if ($PSBoundParameters['Ref']) {
@@ -45,7 +44,7 @@ function Get-RepositoryReleasePrevious {
                 $cnt++
             }
             if (@($releaseTagsInfo).Count -eq ($cnt+1)) {
-                "No previous release exists relative from the ref '$($PSBoundParameters['Ref'])'" | Write-Error
+                throw "No previous release exists relative from the ref '$($PSBoundParameters['Ref'])'"
             }
             ($releaseTagsInfo[$cnt+1] -split "\s")[0]
         }else {
