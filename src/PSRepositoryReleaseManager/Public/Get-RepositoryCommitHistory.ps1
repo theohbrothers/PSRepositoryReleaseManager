@@ -28,7 +28,7 @@ function Get-RepositoryCommitHistory {
             "Second ref unspecifed. Full history of First ref will be retrieved."  | Write-Verbose
             $commitSHARange = $PSBoundParameters['FirstRef']
         }
-        $_commitHistory = git --no-pager log --pretty=format:"* %h %s" $commitSHARange | Out-String
+        $_commitHistory = git --no-pager log --pretty=format:"%h %s" $commitSHARange | Out-String
         "Changelog:" | Write-Verbose
         $_commitHistory | Write-Verbose
         $_commitHistory
