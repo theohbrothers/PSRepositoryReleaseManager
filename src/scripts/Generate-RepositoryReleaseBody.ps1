@@ -37,10 +37,11 @@ function Generate-RepositoryReleaseBody {
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = $PSBoundParameters['TagName'] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
+        $commitHistoryWithAsterisks = $commitHistory -split "`n" | % { "* $_" }
         $releaseBody = @"
 ## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
 
-$commitHistory
+$commitHistoryWithAsterisks
 "@
         $releaseBody
     }catch {
