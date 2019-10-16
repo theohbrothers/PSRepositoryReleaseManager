@@ -16,9 +16,14 @@ function Get-RepositoryCommitHistory {
     $ErrorActionPreference = 'Stop'
 
     try {
+        "Verifying refs" | Write-Verbose
         Push-Location $PSBoundParameters['Path']
         $PSBoundParameters['FirstRef'],$PSBoundParameters['SecondRef'] | % {
             git rev-parse $_ > $null
+            if ($LASTEXITCODE) {
+                Write-Error "An error occurred."
+                return
+            }
         }
         "First ref: '$FirstRef':" | Write-Verbose
         if ($SecondRef) {
