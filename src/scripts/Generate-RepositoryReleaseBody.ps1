@@ -26,7 +26,7 @@ function Generate-RepositoryReleaseBody {
     $ErrorActionPreference = 'Stop'
 
     try {
-        $previousRelease = Get-RepositoryReleasePrevious -Path $PSBoundParameters['Path']
+        $previousRelease = Get-RepositoryReleasePrevious -Path $PSBoundParameters['Path'] -Ref $TagName
         if ($previousRelease) {
             "Previous release:" | Write-Verbose
             $previousRelease | Write-Verbose
