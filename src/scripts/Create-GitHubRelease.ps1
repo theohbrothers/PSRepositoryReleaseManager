@@ -63,7 +63,7 @@ function Create-GitHubRelease {
         }
         $releaseArgsMasked = $releaseArgs.Clone()
         $releaseArgsMasked['ApiKey'] = "token *******"
-        ($releaseArgsMasked | Out-String).Trim() | Write-Verbose
+        $releaseArgsMasked | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
         New-GitHubRepositoryRelease @releaseArgs
     }catch {
         throw
