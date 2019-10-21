@@ -2,7 +2,7 @@ steps:
 - pwsh: |
     $ErrorActionPreference = 'Stop'
     $VerbosePreference = 'Continue'
-    .\build\PSRepositoryReleaseManager\src\scripts\ci\Create-GitHubRelease.ps1
+    .\build\PSRepositoryReleaseManager\src\scripts\ci\Create-GitHubRelease.ps1 > $null
   displayName: Create GitHub release
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), ne(variables['RELEASE_TAG_REF'], ''))
   env:
