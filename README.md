@@ -54,7 +54,23 @@ Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](http
 
 ## Usage
 
+### Development
+
+#### Release notes
+
+The entrypoint script [`Generate-ReleaseNotes.ps1`](src/scripts/dev/Generate-ReleaseNotes.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
+
+##### Variants
+
+The names of all release notes variants can be found in the module's [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory and goes by the convention `GenerateVariant-<VariantName>.ps1`.
+
+#### Releases
+
+The entrypoint script [`Create-GitHubRelease.ps1`](src/scripts/dev/Create-GitHubRelease.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Simply fill in all relevant values pertaining to the release, and if desired, the path a file containing the release notes to include with it.
+
 ### Continuous Integration
+
+The included CI files use a very similar set of [entrypoint scripts](src/scripts/ci) to the development versions to run the very same steps of generating release notes and creating releases.
 
 #### Releases
 
@@ -113,4 +129,4 @@ To track a specific branch for  `git submodule update`, add the `branch` key-val
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- Ensure your main project's CI file(s) is configured to use the CI templates of [`PSRepositoryReleaseManager`](https://github.com/theohbrothers/PSRepositoryReleaseManager) and that the commit used matches that of `PSRepositoryReleaseManager` used in your main project.
+- Ensure your main project's CI file(s) is configured to use the CI templates of `PSRepositoryReleaseManager` and that the commit used matches that of `PSRepositoryReleaseManager` used in your main project.

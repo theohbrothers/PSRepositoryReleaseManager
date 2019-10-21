@@ -1,17 +1,4 @@
-[CmdletBinding()]
-param(
-    [Parameter(Mandatory=$true)]
-    [ValidateScript({Test-Path -Path $_ -PathType Container})]
-    [string]$Path
-    ,
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
-    [string]$TagName
-)
-
-Set-StrictMode -Version Latest
-
-function Generate-RepositoryReleaseBody {
+function GenerateVariant-DateCommitHistory {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
@@ -37,16 +24,19 @@ function Generate-RepositoryReleaseBody {
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = $PSBoundParameters['TagName'] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
-        $commitHistoryWithAsterisks = $commitHistory -split "`n" | ? { $_ } | % { "* $_" } | Out-String
-        $releaseBody = @"
+        $releaseBody = & {
+@"
 ## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
 
-$commitHistoryWithAsterisks
 "@
+$commitHistory -split "`n" | % { $_.Trim() } | ? { $_ } | % {
+@"
+* $_
+"@
+}
+    }
         $releaseBody
     }catch {
         throw
     }
 }
-
-Generate-RepositoryReleaseBody @PSBoundParameters

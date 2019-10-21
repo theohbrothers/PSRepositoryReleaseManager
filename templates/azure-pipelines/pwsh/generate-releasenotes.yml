@@ -1,9 +1,7 @@
 steps:
-- powershell: |
+- pwsh: |
     $ErrorActionPreference = 'Stop'
     $VerbosePreference = 'Continue'
-    .\build\PSRepositoryReleaseManager\src\scripts\ci\Create-GitHubRelease.ps1 > $null
-  displayName: Create GitHub release
+    .\build\PSRepositoryReleaseManager\src\scripts\ci\Generate-ReleaseNotes.ps1
+  displayName: Generate release notes
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), ne(variables['RELEASE_TAG_REF'], ''))
-  env:
-    GITHUB_API_TOKEN: $(GITHUB_API_TOKEN)
