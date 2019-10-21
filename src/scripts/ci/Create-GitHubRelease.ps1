@@ -12,7 +12,7 @@ $private:releaseArgs = @{
     TagName = $env:RELEASE_TAG_REF
     TargetCommitish = git rev-parse $env:RELEASE_TAG_REF
     Name = $env:RELEASE_TAG_REF
-    Body = Get-Content (if ($env:RELEASE_NOTES_PATH) { $env:RELEASE_NOTES_PATH } else { "$(git rev-parse --show-toplevel)\.release-notes.md" | Resolve-Path }) -Raw
+    Body = Get-Content $(if ($env:RELEASE_NOTES_PATH) { $env:RELEASE_NOTES_PATH } else { "$(git rev-parse --show-toplevel)\.release-notes.md" | Resolve-Path }) -Raw
     Draft = $false
     Prerelease = $false
 }
