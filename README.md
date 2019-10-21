@@ -66,7 +66,7 @@ The names of all release notes variants can be found in the module's [`generate/
 
 #### Releases
 
-The entrypoint script [`Create-GitHubRelease.ps1`](src/scripts/dev/Create-GitHubRelease.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Simply fill in all relevant values pertaining to the release, and if desired, the path a file containing the release notes to include with it.
+The entrypoint script [`Create-GitHubRelease.ps1`](src/scripts/dev/Create-GitHubRelease.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Simply fill in all relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
 
 ### Continuous Integration
 
