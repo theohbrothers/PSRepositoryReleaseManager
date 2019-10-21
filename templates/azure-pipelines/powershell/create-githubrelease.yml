@@ -1,5 +1,7 @@
 steps:
 - powershell: |
+    $ErrorActionPreference = 'Stop'
+    $VerbosePreference = 'Continue'
     .\build\PSRepositoryReleaseManager\src\scripts\ci\Create-GitHubRelease.ps1
   displayName: Create GitHub release
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), ne(variables['RELEASE_TAG_REF'], ''))
