@@ -62,7 +62,7 @@ The entrypoint script [`Generate-ReleaseNotes.ps1`](src/scripts/dev/Generate-Rel
 
 ##### Variants
 
-The names of all available variants of release notes that can be generated can be found within the [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory within the `PSRepositoryReleaseManager` module, going by the convention `GenerateVariant-<VariantName>.ps1`.
+The names of all release notes variants can be found in the module's [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory and goes by the convention `GenerateVariant-<VariantName>.ps1`.
 
 #### Releases
 
@@ -70,7 +70,7 @@ The entrypoint script [`Create-GitHubRelease.ps1`](src/scripts/dev/Create-GitHub
 
 ### Continuous Integration
 
-The included CI files are a very similar set of [entrypoint scripts](src/scripts/ci) as the development versions for CI environments to run the same steps for generating release notes and creating releases.
+The included CI files use a very similar set of [entrypoint scripts](src/scripts/ci) to the development versions to run the very same steps of generating release notes and creating releases.
 
 #### Releases
 
