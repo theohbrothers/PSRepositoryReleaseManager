@@ -5,12 +5,19 @@ steps:
     Set-StrictMode -Version Latest
     Import-Module .\build\PSRepositoryReleaseManager\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1
     Import-Module .\build\PSRepositoryReleaseManager\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1
-    $private:generateArgs = @{
-        Path = "$(Get-Location)"
+    $private:releaseArgs = @{
+        Namespace = $env:RELEASE_NAMESPACE
+        Repository = $env:RELEASE_REPOSITORY
+        ApiKey = $env:GITHUB_API_TOKEN
         TagName = $env:RELEASE_TAG_REF
-        Variant = 'DateCommitHistory'
-        ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) { $env:RELEASE_NOTES_PATH } else { "$(git rev-parse --show-toplevel)\.release-notes.md" }
+        TargetCommitish = git rev-parse $env:RELEASE_TAG_REF
+        Name = $env:RELEASE_TAG_REF
+        Body = Get-Content (if ($env:RELEASE_NOTES_PATH) { $env:RELEASE_NOTES_PATH } else { "$(git rev-parse --show-toplevel)\.release-notes.md" }) -Raw
+        Draft = $false
+        Prerelease = $false
     }
-    Get-RepositoryReleaseNotes @generateArgs
-  displayName: Generate release notes
+    New-GitHubRepositoryRelease @releaseArgs > $null
+  displayName: Create GitHub release
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), ne(variables['RELEASE_TAG_REF'], ''))
+  env:
+    GITHUB_API_TOKEN: $(GITHUB_API_TOKEN)
