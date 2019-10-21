@@ -5,8 +5,18 @@ steps:
     Set-StrictMode -Version Latest
     Import-Module .\build\PSRepositoryReleaseManager\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1
     Import-Module .\build\PSRepositoryReleaseManager\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1
-    $releaseBody = .\build\PSRepositoryReleaseManager\src\scripts\Invoke-Generate.ps1 -Path $(Get-Location) -TagName $env:RELEASE_TAG_REF -Variant DateCommitHistory
-    .\build\PSRepositoryReleaseManager\src\scripts\Invoke-Release.ps1 -Namespace $env:RELEASE_NAMESPACE -Repository $env:RELEASE_REPOSITORY -ApiKey $env:GITHUB_API_TOKEN -TagName $env:RELEASE_TAG_REF -Body $releaseBody > $null
+    $private:releaseArgs = @{
+        Namespace = $env:RELEASE_NAMESPACE
+        Repository = $env:RELEASE_REPOSITORY
+        ApiKey = $env:GITHUB_API_TOKEN
+        TagName = $env:RELEASE_TAG_REF
+        TargetCommitish = git rev-parse $env:RELEASE_TAG_REF
+        Name = $env:RELEASE_TAG_REF
+        Body = Get-Content (if ($env:RELEASE_NOTES_PATH) { $env:RELEASE_NOTES_PATH } else { "$(git rev-parse --show-toplevel)\.release-notes.md" }) -Raw
+        Draft = $false
+        Prerelease = $false
+    }
+    New-GitHubRepositoryRelease @releaseArgs > $null
   displayName: Create GitHub release
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags/'), ne(variables['RELEASE_TAG_REF'], ''))
   env:
