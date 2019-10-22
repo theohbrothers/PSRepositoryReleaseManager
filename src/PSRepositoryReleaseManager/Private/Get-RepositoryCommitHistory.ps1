@@ -23,8 +23,8 @@ function Get-RepositoryCommitHistory {
                 throw "An error occurred."
             }
         }
-        "First ref: '$FirstRef':" | Write-Verbose
-        if ($SecondRef) {
+        "First ref: '$($PSBoundParameters['FirstRef'])':" | Write-Verbose
+        if ($PSBoundParameters['SecondRef']) {
             "Second ref: '$SecondRef':" | Write-Verbose
             $commitSHARange = "$($PSBoundParameters['FirstRef'])...$($PSBoundParameters['SecondRef'])"
         }else {
