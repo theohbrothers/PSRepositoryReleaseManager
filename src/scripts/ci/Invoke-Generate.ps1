@@ -10,7 +10,7 @@ try {
     . "$(git rev-parse --show-toplevel)\src\scripts\includes\Generate-ReleaseNotes.ps1"
 
     $private:generateArgs = @{
-        Path = "$(Get-Location)"
+        Path = if (git rev-parse --show-superproject-working-tree) { git rev-parse --show-superproject-working-tree } else { git rev-parse --show-toplevel }
         TagName = $env:RELEASE_TAG_REF
         Variant = 'DateCommitHistory'
         ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) { $env:RELEASE_NOTES_PATH } else { "$(git rev-parse --show-toplevel)/.release-notes.md" }
