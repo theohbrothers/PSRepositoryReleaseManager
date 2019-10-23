@@ -22,8 +22,12 @@ try {
         Prerelease = if ($env:RELEASE_PRERELEASE) { [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) } else { $false }
     }
 
-    if ($env:RELEASE_NOTES_PATH) { $private:releaseArgs['ReleaseNotesPath'] = "$private:superProjectDir/$env:RELEASE_NOTES_PATH" }
-    elseif ($env:RELEASE_NOTES_CONTENT) { $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT }
+    if ($env:RELEASE_NOTES_PATH) {
+        "Sourcing from specified release notes path '$defaultReleaseNotesPath'" | Write-Verbose
+        $private:releaseArgs['ReleaseNotesPath'] = "$private:superProjectDir/$env:RELEASE_NOTES_PATH"
+    }elseif ($env:RELEASE_NOTES_CONTENT) {
+        "Using specified release notes content" | Write-Verbose
+        $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT }
     elseif (!$env:RELEASE_NOTES_PATH -And !$env:RELEASE_NOTES_PATH) {
         $defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
         "Sourcing from the default release notes path '$defaultReleaseNotesPath'" | Write-Verbose
