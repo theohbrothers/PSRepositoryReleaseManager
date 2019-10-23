@@ -27,11 +27,15 @@ try {
         $private:releaseArgs['ReleaseNotesPath'] = "$private:superProjectDir/$env:RELEASE_NOTES_PATH"
     }elseif ($env:RELEASE_NOTES_CONTENT) {
         "Using specified release notes content" | Write-Verbose
-        $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT }
-    elseif (!$env:RELEASE_NOTES_PATH -And !$env:RELEASE_NOTES_PATH) {
+        $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT
+    }else {
         $defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
-        "Sourcing from the default release notes path '$defaultReleaseNotesPath'" | Write-Verbose
-        $private:releaseArgs['ReleaseNotesPath'] = $defaultReleaseNotesPath
+        if (Test-Path -Path $defaultReleaseNotesPath -PathType Leaf) {
+            "Sourcing from the default release notes path '$defaultReleaseNotesPath'" | Write-Verbose
+            $private:releaseArgs['ReleaseNotesPath'] = $defaultReleaseNotesPath
+        }else {
+            "Default release notes not found at the path '$defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
+        }
     }
 
     # Create GitHub release
