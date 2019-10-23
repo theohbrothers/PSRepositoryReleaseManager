@@ -56,7 +56,7 @@ Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](http
 
 ### Development
 
-#### Release notes
+#### Generating release notes
 
 The entrypoint script [`Invoke-Generate.ps1`](src/scripts/dev/Invoke-Generate.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
 
@@ -72,9 +72,15 @@ The entrypoint script [`Invoke-Release.ps1`](src/scripts/dev/Invoke-Release.ps1)
 
 The included CI files use a very similar set of [entrypoint scripts](src/scripts/ci) to the development versions to run the very same steps of generating release notes and creating releases.
 
+#### Generating release notes
+
+Parameters are provided for [customizing](docs/samples/ci/azure-pipelines/generate) the **generate** step.
+
 #### Releases
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
+
+Parameters are provided for [customizing](docs/samples/ci/azure-pipelines/release) the **release** step.
 
 Releases will be created for tag refs. Tags must follow [Semantic Versioning](https://semver.org/) and be prepended with a lowercase `v`:
 
