@@ -82,7 +82,7 @@ To generate release notes, [reference](docs/samples/ci/azure-pipelines/generic) 
 
 To create releases, [reference](docs/samples/ci/azure-pipelines/generic) the `release.yml` entrypoint template of this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.release.sample).
 
-Releases will be created for tag refs. Tags must follow [Semantic Versioning](https://semver.org/) and be prepended with a lowercase `v`:
+Releases will be created for all tag refs. Tags need not follow [Semantic Versioning](https://semver.org/) though the convention is recommended:
 
 ```shell
 # Tag the commit to release
