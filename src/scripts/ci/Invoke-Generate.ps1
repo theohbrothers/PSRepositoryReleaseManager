@@ -9,11 +9,13 @@ try {
     Push-Location $PSScriptRoot
     . "$(git rev-parse --show-toplevel)/src/scripts/includes/Generate-ReleaseNotes.ps1"
 
+    $private:superProjectDir = $private:superProjectDir
+    if (!$private:superProjectDir) { throw "The superproject root directory cannot be determined." }
     $private:generateArgs = @{
-        Path = if (git rev-parse --show-superproject-working-tree) { git rev-parse --show-superproject-working-tree } else { git rev-parse --show-toplevel }
+        Path = $private:superProjectDir
         TagName = $env:RELEASE_TAG_REF
         Variant = 'DateCommitHistory'
-        ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) { $env:RELEASE_NOTES_PATH } else { "$(git rev-parse --show-toplevel)/.release-notes.md" }
+        ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) { "$private:superProjectDir/$env:RELEASE_NOTES_PATH" } else { "$(git rev-parse --show-toplevel)/.release-notes.md" }
     }
 
     # Generate release notes
