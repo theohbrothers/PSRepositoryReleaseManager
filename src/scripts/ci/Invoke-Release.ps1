@@ -9,7 +9,7 @@ try {
     Push-Location $PSScriptRoot
     . "$(git rev-parse --show-toplevel)/src/scripts/includes/Create-GitHubRelease.ps1"
 
-    $private:superProjectDir = $private:superProjectDir
+    $private:superProjectDir = git rev-parse --show-superproject-working-tree
     if (!$private:superProjectDir) { throw "The superproject root directory cannot be determined." }
     $private:releaseArgs = @{
         Namespace = $env:RELEASE_NAMESPACE
