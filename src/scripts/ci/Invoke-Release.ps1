@@ -7,7 +7,7 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    . "$(git rev-parse --show-toplevel)\src\scripts\includes\Create-GitHubRelease.ps1"
+    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Create-GitHubRelease.ps1"
 
     $private:releaseArgs = @{
         Namespace = $env:RELEASE_NAMESPACE
@@ -23,7 +23,7 @@ try {
     if ($env:RELEASE_NOTES_PATH) { $private:releaseArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
     elseif ($env:RELEASE_NOTES_CONTENT) { $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT }
     elseif (!$env:RELEASE_NOTES_PATH -And !$env:RELEASE_NOTES_PATH) {
-        $defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)\.release-notes.md"
+        $defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
         "Sourcing from the default release notes path '$defaultReleaseNotesPath'" | Write-Verbose
         $private:releaseArgs['ReleaseNotesPath'] = $defaultReleaseNotesPath
     }

@@ -7,7 +7,7 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    . "$(git rev-parse --show-toplevel)\src\scripts\includes\Generate-ReleaseNotes.ps1"
+    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Generate-ReleaseNotes.ps1"
 
     $private:generateArgs = @{
         Path = if (git rev-parse --show-superproject-working-tree) { git rev-parse --show-superproject-working-tree } else { git rev-parse --show-toplevel }

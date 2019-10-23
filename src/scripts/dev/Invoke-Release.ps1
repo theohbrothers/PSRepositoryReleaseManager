@@ -26,7 +26,7 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    . "$(git rev-parse --show-toplevel)\src\scripts\includes\Create-GitHubRelease.ps1"
+    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Create-GitHubRelease.ps1"
 
     # Create GitHub release
     $response = Create-GitHubRelease @private:releaseArgs
