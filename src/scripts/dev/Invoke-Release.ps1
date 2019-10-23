@@ -12,7 +12,8 @@ $private:releaseArgs = @{
     TagName = $private:tagName
     TargetCommitish = git --git-dir "$private:Path/.git" rev-parse $private:tagName
     Name = $private:tagName
-    Body = Get-Content "$private:Path/.release-notes.md" -Raw
+    ReleaseNotesPath = "$private:Path/.release-notes.md"
+    # ReleaseNotesContent = Get-Content "$private:Path/.release-notes.md" -Raw
     Draft = $false
     Prerelease = $false
 }
@@ -25,10 +26,10 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    Import-Module "$(git rev-parse --show-toplevel)\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1" -Force -Verbose
+    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Create-GitHubRelease.ps1"
 
     # Create GitHub release
-    $response = New-GitHubRepositoryRelease @private:releaseArgs
+    $response = Create-GitHubRelease @private:releaseArgs
     $response
 
 }catch {

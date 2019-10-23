@@ -22,12 +22,12 @@ stages:
 - stage: release
   displayName: Release
   jobs:
-  - job: linux_container
-    displayName: '[Linux] [Container]'
+  - job: macos
+    displayName: '[macOS]'
     pool:
-      vmImage: ubuntu-16.04
-    container: joeltimothyoh/powershell:6.1.0-ubuntu-18.04-git
+      vmImage: macOS-10.14
     steps:
     - checkout: self
       submodules: recursive
+    - template: templates/azure-pipelines/entrypoint/pwsh/generate.yml@PSRepositoryReleaseManager
     - template: templates/azure-pipelines/entrypoint/pwsh/release.yml@PSRepositoryReleaseManager

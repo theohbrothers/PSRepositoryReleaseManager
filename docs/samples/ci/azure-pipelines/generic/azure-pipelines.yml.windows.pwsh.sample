@@ -22,11 +22,12 @@ stages:
 - stage: release
   displayName: Release
   jobs:
-  - job: windows_powershell_5_1
-    displayName: '[Windows] PowerShell 5.1'
+  - job: windows_pwsh
+    displayName: '[Windows] PowerShell Core'
     pool:
       vmImage: windows-2019
     steps:
     - checkout: self
       submodules: recursive
-    - template: templates/azure-pipelines/entrypoint/powershell/release.yml@PSRepositoryReleaseManager
+    - template: templates/azure-pipelines/entrypoint/pwsh/generate.yml@PSRepositoryReleaseManager
+    - template: templates/azure-pipelines/entrypoint/pwsh/release.yml@PSRepositoryReleaseManager

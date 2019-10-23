@@ -1,12 +1,9 @@
 parameters:
-  NAME: ''
   NOTES_PATH: ''
-  NOTES_CONTENT: ''
-  DRAFT: ''
-  PRERELEASE: ''
+  VARIANT: ''
 
 steps:
-- powershell: |
+- pwsh: |
     $ErrorActionPreference = 'Stop'
     ### Begin CI-specific code: Get the namspace, project name, and tag ref
     $matchInfo = $env:BUILD_SOURCEBRANCH | Select-String -Pattern '^refs\/tags\/(.*)'
@@ -26,13 +23,9 @@ steps:
         "The tag ref is valid for a release." | Write-Host
     }
     $VerbosePreference = 'Continue'
-    .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Release.ps1 > $null
-  displayName: Create GitHub release
+    .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1
+  displayName: Generate release notes
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   env:
-    GITHUB_API_TOKEN: $(GITHUB_API_TOKEN)
-    RELEASE_NAME: ${{ parameters['NAME'] }}
     RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
-    RELEASE_NOTES_CONTENT: ${{ parameters['NOTES_CONTENT'] }}
-    RELEASE_DRAFT: ${{ parameters['DRAFT'] }}
-    RELEASE_PRERELEASE: ${{ parameters['PRERELEASE'] }}
+    RELEASE_NOTES_VARIANT: ${{ parameters['VARIANT'] }}
