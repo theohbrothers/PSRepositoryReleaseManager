@@ -18,13 +18,6 @@ steps:
     "Namespace: '$env:RELEASE_NAMESPACE'" | Write-Host
     "Repository: '$env:RELEASE_REPOSITORY'" | Write-Host
     "Tag ref: '$env:RELEASE_TAG_REF'" | Write-Host
-    $matchInfo = $env:RELEASE_TAG_REF | Select-String -Pattern '^v\d+\.\d+\.\d+$'
-    $releaseTagRef = if ($matchInfo) { $matchInfo.Matches.Groups[0].Value } else { $null }
-    if (!$releaseTagRef) {
-        throw "The tag ref is invalid for a release." | Write-Host
-    }else {
-        "The tag ref is valid for a release." | Write-Host
-    }
     $VerbosePreference = 'Continue'
     .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Release.ps1 > $null
   displayName: Create GitHub release
