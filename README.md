@@ -76,21 +76,25 @@ The included CI files use a very similar set of [entrypoint scripts](src/scripts
 
 To generate release notes, [reference](docs/samples/ci/azure-pipelines/generic) the `generate.yml` entrypoint template of this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
 
+At present, only tags of the format `MAJOR.MINOR.PATCH` prepended with a lowercase `v` are allowed:
+
+```shell
+# Valid tags
+git tag v0.12.1
+git tag v1.0.12
+
+# Invalid tags
+git tag v1.0.12-alpha
+git tag v1.0.12-beta.1
+```
+
 #### Releases
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
 To create releases, [reference](docs/samples/ci/azure-pipelines/generic) the `release.yml` entrypoint template of this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.release.sample).
 
-Releases will be created for all tag refs. Tags need not follow [Semantic Versioning](https://semver.org/) though the convention is recommended:
-
-```shell
-# Tag the commit to release
-git tag v1.0.12
-
-# Push the tag
-git push remotename v1.0.12
-```
+Releases will be created for all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended:
 
 ### Managing the submodule
 
