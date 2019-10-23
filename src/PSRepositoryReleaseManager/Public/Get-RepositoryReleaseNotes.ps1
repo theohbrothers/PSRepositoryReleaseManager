@@ -26,6 +26,9 @@ function Get-RepositoryReleaseNotes {
         }
         "Generating release notes of variant '$($PSBoundParameters['Variant'])'" | Write-Verbose
         $releaseNotesContent = & "GenerateVariant-$($PSBoundParameters['Variant'])" @generateArgs
+        if (!(Test-Path -Path ($ReleaseNotesPath | Split-Path))) {
+            New-Item -Path ($ReleaseNotesPath | Split-Path) -ItemType Directory
+        }
         $releaseNotesContent | Out-File -FilePath $ReleaseNotesPath -Encoding utf8
         "Release notes generated at the path '$ReleaseNotesPath'" | Write-Verbose
 
