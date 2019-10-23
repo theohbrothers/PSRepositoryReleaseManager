@@ -1,0 +1,24 @@
+parameters:
+  NOTES_PATH: ''
+  VARIANT: ''
+
+steps:
+- pwsh: |
+    $ErrorActionPreference = 'Stop'
+    ### Begin CI-specific code: Get the namspace, project name, and tag ref
+    $matchInfo = $env:BUILD_SOURCEBRANCH | Select-String -Pattern '^refs\/tags\/(.*)'
+    $env:RELEASE_TAG_REF = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
+    $matchInfo = $env:BUILD_REPOSITORY_URI | Select-String -Pattern '^https:\/\/github.com\/(.*?)\/(.*)'
+    $env:RELEASE_NAMESPACE = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
+    $env:RELEASE_REPOSITORY = if ($matchInfo) { $matchInfo.Matches.Groups[2].Value } else { $null }
+    ### End of CI-specific code
+    "Namespace: '$env:RELEASE_NAMESPACE'" | Write-Host
+    "Repository: '$env:RELEASE_REPOSITORY'" | Write-Host
+    "Tag ref: '$env:RELEASE_TAG_REF'" | Write-Host
+    $VerbosePreference = 'Continue'
+    .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1
+  displayName: Generate release notes
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+  env:
+    RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
+    RELEASE_NOTES_VARIANT: ${{ parameters['VARIANT'] }}
