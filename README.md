@@ -92,7 +92,7 @@ The included CI files use a very similar set of [entrypoint scripts](src/scripts
 
 To generate release notes, [reference](docs/samples/ci/azure-pipelines/generic) the `generate.yml` entrypoint template of this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
 
-Generation of release notes are limited and subject to the module's [valid tags pattern](#valid-tags).
+Generation of release notes are limited to the module's [valid tags pattern](#valid-tags).
 
 #### Releases
 
