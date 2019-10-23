@@ -14,7 +14,7 @@ try {
     $private:generateArgs = @{
         Path = $private:superProjectDir
         TagName = $env:RELEASE_TAG_REF
-        Variant = 'DateCommitHistory'
+        Variant = if ($env:RELEASE_NOTES_VARIANT) { $env:RELEASE_NOTES_VARIANT } else { 'DateCommitHistory' }
         ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) { "$private:superProjectDir/$env:RELEASE_NOTES_PATH" } else { "$(git rev-parse --show-toplevel)/.release-notes.md" }
     }
 

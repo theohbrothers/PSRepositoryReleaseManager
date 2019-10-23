@@ -1,5 +1,6 @@
 parameters:
   NOTES_PATH: ''
+  VARIANT: ''
 
 steps:
 - pwsh: |
@@ -27,3 +28,4 @@ steps:
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   env:
     RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
+    RELEASE_NOTES_VARIANT: ${{ parameters['VARIANT'] }}
