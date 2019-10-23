@@ -58,7 +58,7 @@ Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](http
 
 #### Release notes
 
-The entrypoint script [`Generate-ReleaseNotes.ps1`](src/scripts/dev/Generate-ReleaseNotes.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
+The entrypoint script [`Invoke-Generate.ps1`](src/scripts/dev/Invoke-Generate.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
 
 ##### Variants
 
@@ -66,7 +66,7 @@ The names of all release notes variants can be found in the module's [`generate/
 
 #### Releases
 
-The entrypoint script [`Create-GitHubRelease.ps1`](src/scripts/dev/Create-GitHubRelease.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Simply fill in all relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
+The entrypoint script [`Invoke-Release.ps1`](src/scripts/dev/Invoke-Release.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Simply fill in all relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
 
 ### Continuous Integration
 
