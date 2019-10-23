@@ -50,6 +50,8 @@ Configure the following CI settings for your project.
 
 ##### GitHub API token
 
+**Note:** This step is necessary only for [creating releases](#releases-1) on CI environments.
+
 Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line), ensuring it has write permissions to the repository.
 
 ## Usage
