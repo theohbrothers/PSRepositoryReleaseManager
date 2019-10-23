@@ -1,0 +1,7 @@
+steps:
+- checkout: self
+  submodules: recursive
+- template: templates/azure-pipelines/entrypoint/pwsh/generate.yml@PSRepositoryReleaseManager
+  parameters:
+    NOTES_PATH: path/to/my-release-notes.md
+    VARIANT: DateCommitHistory
