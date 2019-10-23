@@ -23,7 +23,7 @@ try {
     }
 
     if ($env:RELEASE_NOTES_PATH) {
-        "Sourcing from specified release notes path '$defaultReleaseNotesPath'" | Write-Verbose
+        "Sourcing from specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
         $private:releaseArgs['ReleaseNotesPath'] = "$private:superProjectDir/$env:RELEASE_NOTES_PATH"
     }elseif ($env:RELEASE_NOTES_CONTENT) {
         "Using specified release notes content" | Write-Verbose
