@@ -44,6 +44,9 @@ function Get-RepositoryReleasePrevious {
                 }
                 $cnt++
             }
+            if ($releaseTagsInfo.Count -eq $cnt) {
+                throw "The specified ref '$($PSBoundParameters['Ref'])' is not a valid release."
+            }
             if (@($releaseTagsInfo).Count -eq ($cnt+1)) {
                 throw "No previous release exists relative from the ref '$($PSBoundParameters['Ref'])'"
             }
