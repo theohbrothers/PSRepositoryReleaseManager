@@ -26,5 +26,4 @@ steps:
   displayName: Generate release notes
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   env:
-    GITHUB_API_TOKEN: $(GITHUB_API_TOKEN)
     RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
