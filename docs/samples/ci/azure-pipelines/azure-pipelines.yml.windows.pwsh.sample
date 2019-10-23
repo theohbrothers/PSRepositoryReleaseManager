@@ -29,4 +29,4 @@ stages:
     steps:
     - checkout: self
       submodules: recursive
-    - template: templates/azure-pipelines/pwsh/release.yml@PSRepositoryReleaseManager
+    - template: templates/azure-pipelines/entrypoint/pwsh/release.yml@PSRepositoryReleaseManager

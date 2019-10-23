@@ -1,0 +1,4 @@
+steps:
+- template: ../../steps/pwsh/process-releasevariables.yml
+- template: ../../steps/pwsh/generate-releasenotes.yml
+- template: ../../steps/pwsh/create-githubrelease.yml
