@@ -29,4 +29,5 @@ stages:
     steps:
     - checkout: self
       submodules: recursive
+    - template: templates/azure-pipelines/entrypoint/powershell/generate-notes.yml@PSRepositoryReleaseManager
     - template: templates/azure-pipelines/entrypoint/powershell/release.yml@PSRepositoryReleaseManager

@@ -1,4 +1,38 @@
+parameters:
+  NAME: ''
+  NOTES_PATH: ''
+  NOTES_CONTENT: ''
+  DRAFT: ''
+  PRERELEASE: ''
+
 steps:
-- template: ../../steps/pwsh/process-releasevariables.yml
-- template: ../../steps/pwsh/generate-releasenotes.yml
-- template: ../../steps/pwsh/create-githubrelease.yml
+- pwsh: |
+    $ErrorActionPreference = 'Stop'
+    ### Begin CI-specific code: Get the namspace, project name, and tag ref
+    $matchInfo = $env:BUILD_SOURCEBRANCH | Select-String -Pattern '^refs\/tags\/(.*)'
+    $env:RELEASE_TAG_REF = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
+    $matchInfo = $env:BUILD_REPOSITORY_URI | Select-String -Pattern '^https:\/\/github.com\/(.*?)\/(.*)'
+    $env:RELEASE_NAMESPACE = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
+    $env:RELEASE_REPOSITORY = if ($matchInfo) { $matchInfo.Matches.Groups[2].Value } else { $null }
+    ### End of CI-specific code
+    "Namespace: '$env:RELEASE_NAMESPACE'" | Write-Host
+    "Repository: '$env:RELEASE_REPOSITORY'" | Write-Host
+    "Tag ref: '$env:RELEASE_TAG_REF'" | Write-Host
+    $matchInfo = $env:RELEASE_TAG_REF | Select-String -Pattern '^v\d+\.\d+\.\d+$'
+    $releaseTagRef = if ($matchInfo) { $matchInfo.Matches.Groups[0].Value } else { $null }
+    if (!$releaseTagRef) {
+        throw "The tag ref is invalid for a release." | Write-Host
+    }else {
+        "The tag ref is valid for a release." | Write-Host
+    }
+    $VerbosePreference = 'Continue'
+    .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Release.ps1 > $null
+  displayName: Create GitHub release
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+  env:
+    GITHUB_API_TOKEN: $(GITHUB_API_TOKEN)
+    RELEASE_NAME: ${{ parameters['NAME'] }}
+    RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
+    RELEASE_NOTES_CONTENT: ${{ parameters['NOTES_CONTENT'] }}
+    RELEASE_DRAFT: ${{ parameters['DRAFT'] }}
+    RELEASE_PRERELEASE: ${{ parameters['PRERELEASE'] }}

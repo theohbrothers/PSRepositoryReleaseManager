@@ -19,11 +19,10 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
-    Import-Module "$(git rev-parse --show-toplevel)\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1" -Force -Verbose
+    . "$(git rev-parse --show-toplevel)\src\scripts\includes\Generate-ReleaseNotes.ps1"
 
     # Generate release notes
-    Get-RepositoryReleaseNotes @private:generateArgs
+    Generate-ReleaseNotes @private:generateArgs
 
 }catch {
     throw
