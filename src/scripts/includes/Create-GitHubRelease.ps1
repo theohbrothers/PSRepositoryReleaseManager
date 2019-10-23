@@ -25,11 +25,11 @@ function Create-GitHubRelease {
         [ValidateNotNullOrEmpty()]
         [string]$Name
         ,
-        [Parameter(ParameterSetName='Path', Mandatory=$true)]
+        [Parameter(ParameterSetName='Path', Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
         [string]$ReleaseNotesPath
         ,
-        [Parameter(ParameterSetName='Content', Mandatory=$true)]
+        [Parameter(ParameterSetName='Content', Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
         [string]$ReleaseNotesContent
         ,
