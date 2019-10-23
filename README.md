@@ -64,19 +64,9 @@ The entrypoint script [`Invoke-Generate.ps1`](src/scripts/dev/Invoke-Generate.ps
 
 The names of all release notes variants that can be generated can be found in the module's [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory and goes by the convention `GenerateVariant-<VariantName>.ps1`.
 
-#### Releases
+##### Valid tags
 
-The entrypoint script [`Invoke-Release.ps1`](src/scripts/dev/Invoke-Release.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Fill in all relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
-
-### Continuous Integration
-
-The included CI files use a very similar set of [entrypoint scripts](src/scripts/ci) to the development versions to run the very same steps of generating release notes and creating releases.
-
-#### Release notes
-
-To generate release notes, [reference](docs/samples/ci/azure-pipelines/generic) the `generate.yml` entrypoint template of this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
-
-At present, only tags of the format `MAJOR.MINOR.PATCH` prepended with a lowercase `v` are allowed:
+At present, generation of release notes is only possible for tags of the format `MAJOR.MINOR.PATCH`, prepended with a lowercase `v`:
 
 ```shell
 # Valid tags
@@ -90,11 +80,25 @@ git tag v1.0.12-beta.1
 
 #### Releases
 
+The entrypoint script [`Invoke-Release.ps1`](src/scripts/dev/Invoke-Release.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Fill in all relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
+
+### Continuous Integration
+
+The included CI files use a very similar set of [entrypoint scripts](src/scripts/ci) to the development versions to run the very same steps of generating release notes and creating releases.
+
+#### Release notes
+
+To generate release notes, [reference](docs/samples/ci/azure-pipelines/generic) the `generate.yml` entrypoint template of this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
+
+Generation of release notes are limited and subject to the module's [valid tags pattern](#valid-tags).
+
+#### Releases
+
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
 To create releases, [reference](docs/samples/ci/azure-pipelines/generic) the `release.yml` entrypoint template of this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.release.sample).
 
-Releases will be created for all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended:
+Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
 ### Managing the submodule
 
