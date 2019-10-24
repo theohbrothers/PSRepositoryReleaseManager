@@ -5,7 +5,10 @@ trigger:
   tags:
     include:
     - '*'
-pr: none
+pr:
+  branches:
+    include:
+    - '*'
 
 resources:
   repositories:
@@ -27,4 +30,5 @@ stages:
     steps:
     - checkout: self
       submodules: recursive
-    - template: templates/azure-pipelines/pwsh/release.yml@PSRepositoryReleaseManager
+    - template: templates/azure-pipelines/entrypoint/generate.yml@PSRepositoryReleaseManager
+    - template: templates/azure-pipelines/entrypoint/release.yml@PSRepositoryReleaseManager

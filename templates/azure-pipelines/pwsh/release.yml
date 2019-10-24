@@ -1,4 +1,0 @@
-steps:
-- template: process-releasevariables.yml
-- template: generate-releasenotes.yml
-- template: create-githubrelease.yml

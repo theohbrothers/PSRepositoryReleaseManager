@@ -1,0 +1,14 @@
+steps:
+- checkout: self
+  submodules: recursive
+- template: templates/azure-pipelines/entrypoint/release.yml@PSRepositoryReleaseManager
+  parameters:
+    NAME: My release name
+    NOTES_PATH: path/to/my-release-notes.md
+    # NOTES_CONTENT: |
+    #   My
+    #   multi-line
+    #   release
+    #   notes
+    DRAFT: false
+    PRERELEASE: false

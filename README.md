@@ -50,41 +50,57 @@ Configure the following CI settings for your project.
 
 ##### GitHub API token
 
+**Note:** This step is only necessary for [creating releases](#releases-1) on CI environments.
+
 Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line), ensuring it has write permissions to the repository.
 
 ## Usage
 
 ### Development
 
-#### Release notes
+#### Generating release notes
 
-The entrypoint script [`Generate-ReleaseNotes.ps1`](src/scripts/dev/Generate-ReleaseNotes.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
+The entrypoint script [`Invoke-Generate.ps1`](src/scripts/dev/Invoke-Generate.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
 
 ##### Variants
 
-The names of all release notes variants can be found in the module's [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory and goes by the convention `GenerateVariant-<VariantName>.ps1`.
+The names of all release notes variants that can be generated can be found in the module's [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory and goes by the convention `GenerateVariant-<VariantName>.ps1`.
+
+##### Valid tags
+
+At present, generation of release notes is only possible for tags of the format `MAJOR.MINOR.PATCH`, prepended with a lowercase `v`:
+
+```shell
+# Valid tags
+git tag v0.12.1
+git tag v1.0.12
+
+# Invalid tags
+git tag v1.0.12-alpha
+git tag v1.0.12-beta.1
+```
 
 #### Releases
 
-The entrypoint script [`Create-GitHubRelease.ps1`](src/scripts/dev/Create-GitHubRelease.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Simply fill in all relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
+The entrypoint script [`Invoke-Release.ps1`](src/scripts/dev/Invoke-Release.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Fill in all relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
 
 ### Continuous Integration
 
 The included CI files use a very similar set of [entrypoint scripts](src/scripts/ci) to the development versions to run the very same steps of generating release notes and creating releases.
 
+#### Generating release notes
+
+To generate release notes, [reference](docs/samples/ci/azure-pipelines/generic) the `generate.yml` entrypoint template of this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
+
+Generation of release notes are limited to the module's [valid tags pattern](#valid-tags).
+
 #### Releases
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
-Releases will be created for tag refs. Tags must follow [Semantic Versioning](https://semver.org/) and be prepended with a lowercase `v`:
+To create releases, [reference](docs/samples/ci/azure-pipelines/generic) the `release.yml` entrypoint template of this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.release.sample).
 
-```shell
-# Tag the commit to release
-git tag v1.0.12
-
-# Push the tag
-git push remotename v1.0.12
-```
+Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
 ### Managing the submodule
 
@@ -129,4 +145,4 @@ To track a specific branch for  `git submodule update`, add the `branch` key-val
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- Ensure your main project's CI file(s) is configured to use the CI templates of `PSRepositoryReleaseManager` and that the commit used matches that of `PSRepositoryReleaseManager` used in your main project.
+- Ensure your main project's CI file(s) is configured to use the CI templates of `PSRepositoryReleaseManager` and that the ref used matches that of `PSRepositoryReleaseManager` used in your main project.
