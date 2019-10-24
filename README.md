@@ -50,7 +50,7 @@ Configure the following CI settings for your project.
 
 ##### GitHub API token
 
-**Note:** This step is necessary only for [creating releases](#releases-1) on CI environments.
+**Note:** This step is only necessary for [creating releases](#releases-1) on CI environments.
 
 Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line), ensuring it has write permissions to the repository.
 
@@ -58,7 +58,7 @@ Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](http
 
 ### Development
 
-#### Release notes
+#### Generating release notes
 
 The entrypoint script [`Invoke-Generate.ps1`](src/scripts/dev/Invoke-Generate.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
 
@@ -88,7 +88,7 @@ The entrypoint script [`Invoke-Release.ps1`](src/scripts/dev/Invoke-Release.ps1)
 
 The included CI files use a very similar set of [entrypoint scripts](src/scripts/ci) to the development versions to run the very same steps of generating release notes and creating releases.
 
-#### Release notes
+#### Generating release notes
 
 To generate release notes, [reference](docs/samples/ci/azure-pipelines/generic) the `generate.yml` entrypoint template of this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
 
@@ -145,4 +145,4 @@ To track a specific branch for  `git submodule update`, add the `branch` key-val
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- Ensure your main project's CI file(s) is configured to use the CI templates of `PSRepositoryReleaseManager` and that the commit used matches that of `PSRepositoryReleaseManager` used in your main project.
+- Ensure your main project's CI file(s) is configured to use the CI templates of `PSRepositoryReleaseManager` and that the ref used matches that of `PSRepositoryReleaseManager` used in your main project.
