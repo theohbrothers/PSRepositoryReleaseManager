@@ -23,7 +23,7 @@ stages:
   displayName: Release
   jobs:
   - job: linux_container
-    displayName: '[Linux] [Container]'
+    displayName: '[Linux] [Container] PowerShell Core'
     pool:
       vmImage: ubuntu-16.04
     container: joeltimothyoh/powershell:6.1.0-ubuntu-18.04-git

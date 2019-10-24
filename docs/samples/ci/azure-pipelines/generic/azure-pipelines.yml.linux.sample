@@ -23,7 +23,7 @@ stages:
   displayName: Release
   jobs:
   - job: linux
-    displayName: '[Linux]'
+    displayName: '[Windows] PowerShell Core'
     pool:
       vmImage: ubuntu-16.04
     steps:

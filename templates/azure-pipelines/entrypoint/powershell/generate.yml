@@ -18,7 +18,7 @@ steps:
     $VerbosePreference = 'Continue'
     .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1
   displayName: Generate release notes
-  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
   env:
     RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
     RELEASE_NOTES_VARIANT: ${{ parameters['VARIANT'] }}
