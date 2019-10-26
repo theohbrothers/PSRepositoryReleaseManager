@@ -34,7 +34,5 @@ function Get-RepositoryReleaseNotes {
 
     }catch {
         Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
-    }finally {
-        Pop-Location
     }
 }
