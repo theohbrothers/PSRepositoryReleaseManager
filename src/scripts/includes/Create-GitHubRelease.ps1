@@ -70,5 +70,4 @@ function Create-GitHubRelease {
     }finally {
         Pop-Location
     }
-
 }
