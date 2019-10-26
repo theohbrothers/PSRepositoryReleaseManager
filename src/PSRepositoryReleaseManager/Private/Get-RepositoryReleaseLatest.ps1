@@ -23,7 +23,7 @@ function Get-RepositoryReleaseLatest {
         $releaseLatestCommitSHA = ($releaseTagsInfo[0] -split "\s")[0]
         git tag --points-at $releaseLatestCommitSHA | Sort-Object -Descending       # Returns an array of tags if they point to the same commit
     }catch {
-        throw
+        Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
     }finally {
         Pop-Location
     }

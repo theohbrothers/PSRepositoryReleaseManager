@@ -32,8 +32,14 @@ Add `PSRepositoryReleaseManager` as a submodule under the directory `build` in y
 # Add the submodule
 git submodule add 'https://github.com/theohbrothers/PSRepositoryReleaseManager.git' build/PSRepositoryReleaseManager
 
+# Checkout submodules recursively
+git submodule update --init --recursive build/PSRepositoryReleaseManager
+
+# Checkout ref to use
+git --git-dir build/PSRepositoryReleaseManager/.git checkout vx.x.x
+
 # Commit the submodule
-git commit -m 'Add submodule PSRepositoryReleaseManager'
+git commit -am 'Add submodule PSRepositoryReleaseManager'
 ```
 
 #### CI files
@@ -120,15 +126,14 @@ To use a specific tag or commit of the submodule:
 # Change to the submodule's root directory
 cd build/PSRepositoryReleaseManager
 
-# To use a specific tag
-git checkout v1.0.1
-# Or, to use a specific commit
-git checkout 0123456789abcdef0123456789abcdef01234567
+# Checkout ref to use
+git checkout v1.0.1                                         # Specific tag
+git checkout 0123456789abcdef0123456789abcdef01234567       # Specific commit
 
-# Return to the main project's root directory
+# Return
 cd -
 # Commit the submodule
-git commit -m 'Update submodule PSRepositoryReleaseManager'
+git commit -am 'Update submodule PSRepositoryReleaseManager'
 ```
 
 #### Tracking a specific branch

@@ -13,7 +13,7 @@ function GenerateVariant-DateCommitHistory {
     $ErrorActionPreference = 'Stop'
 
     try {
-        $previousRelease = Get-RepositoryReleasePrevious -Path $PSBoundParameters['Path'] -Ref $PSBoundParameters['TagName']
+        $previousRelease = Get-RepositoryReleasePrevious -Path $PSBoundParameters['Path'] -Ref $PSBoundParameters['TagName'] -ErrorAction SilentlyContinue
         if ($previousRelease) {
             "Previous release:" | Write-Verbose
             $previousRelease | Write-Verbose
@@ -37,6 +37,6 @@ $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ } | % {
     }
         $releaseBody
     }catch {
-        throw
+        Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
     }
 }

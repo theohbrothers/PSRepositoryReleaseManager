@@ -13,7 +13,7 @@ function Get-RepositoryReleaseNotes {
         [ValidateSet("DateCommitHistory")]
         [string]$Variant
         ,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
         [string]$ReleaseNotesPath
     )
@@ -33,8 +33,6 @@ function Get-RepositoryReleaseNotes {
         "Release notes generated at the path '$ReleaseNotesPath'" | Write-Verbose
 
     }catch {
-        throw
-    }finally {
-        Pop-Location
+        Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
     }
 }

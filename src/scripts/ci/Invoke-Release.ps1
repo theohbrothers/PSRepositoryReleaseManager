@@ -16,7 +16,7 @@ try {
         Repository = $env:RELEASE_REPOSITORY
         ApiKey = $env:GITHUB_API_TOKEN
         TagName = $env:RELEASE_TAG_REF
-        TargetCommitish = if ($private:superProjectDir) { git --git-dir "$($private:superProjectDir)/.git" rev-parse $env:RELEASE_TAG_REF }
+        TargetCommitish = git --git-dir "$($private:superProjectDir)/.git" rev-parse $env:RELEASE_TAG_REF
         Name = if ($env:RELEASE_NAME) { $env:RELEASE_NAME } else { $env:RELEASE_TAG_REF }
         Draft = if ($env:RELEASE_DRAFT) { [System.Convert]::ToBoolean($env:RELEASE_DRAFT) } else { $false }
         Prerelease = if ($env:RELEASE_PRERELEASE) { [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) } else { $false }
