@@ -9,11 +9,11 @@ function Generate-ReleaseNotes {
         [ValidateNotNullOrEmpty()]
         [string]$TagName
         ,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
         [string]$Variant
         ,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
         [string]$ReleaseNotesPath
     )

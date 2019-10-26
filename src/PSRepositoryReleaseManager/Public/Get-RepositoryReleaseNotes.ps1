@@ -13,7 +13,7 @@ function Get-RepositoryReleaseNotes {
         [ValidateSet("DateCommitHistory")]
         [string]$Variant
         ,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
         [string]$ReleaseNotesPath
     )
