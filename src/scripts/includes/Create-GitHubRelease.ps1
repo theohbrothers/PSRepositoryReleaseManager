@@ -43,6 +43,7 @@ function Create-GitHubRelease {
         ,
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
+        [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
         [string[]]$Assets
     )
 
@@ -65,14 +66,6 @@ function Create-GitHubRelease {
                                        elseif ($PSBoundParameters['ReleaseNotesContent']) { $private:releaseArgs['Body'] = $PSBoundParameters['ReleaseNotesContent'] }
         if ($null -ne $PSBoundParameters['Draft']) { $private:releaseArgs['Draft'] = $PSBoundParameters['Draft'] }
         if ($null -ne $PSBoundParameters['Prerelease']) { $private:releaseArgs['Prerelease'] = $PSBoundParameters['Prerelease'] }
-
-        # Verify specified assets exist
-        if ($PSBoundParameters['Assets']) {
-            $PSBoundParameters['Assets'] | % {
-                if (!(Test-Path -Path $_)) { throw "Asset '$_' does not exist." }
-                if (!(Test-Path -Path $_ -PathType Leaf)) { throw "Asset '$_' is not a file." }
-            }
-        }
 
         # Create GitHub release
         $response = New-GitHubRepositoryRelease @private:releaseArgs
