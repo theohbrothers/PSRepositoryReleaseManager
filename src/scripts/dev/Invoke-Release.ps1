@@ -16,6 +16,10 @@ $private:releaseArgs = @{
     # ReleaseNotesContent = Get-Content "$private:Path/.release-notes.md" -Raw
     Draft = $false
     Prerelease = $false
+    # Assets = @(
+    #     "/path/to/asset1"
+    #     "/path/to/asset2"
+    # )
 }
 
 ################################################
