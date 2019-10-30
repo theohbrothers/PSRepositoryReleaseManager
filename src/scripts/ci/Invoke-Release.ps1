@@ -40,7 +40,7 @@ try {
     if ($env:RELEASE_ASSETS) {
         "Including specified release assets:" | Write-Verbose
         $env:RELEASE_ASSETS | Write-Verbose
-        $private:releaseArgs['Assets'] = $env:RELEASE_ASSETS
+        $private:releaseArgs['Assets'] = $env:RELEASE_ASSETS | % { "$private:superProjectDir/$_" }
     }
 
     # Create GitHub release
