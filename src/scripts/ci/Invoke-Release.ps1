@@ -37,6 +37,11 @@ try {
             "Default release notes not found at the path '$defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
         }
     }
+    if ($env:RELEASE_ASSETS) {
+        "Including specified release assets:" | Write-Verbose
+        $env:RELEASE_ASSETS | Write-Verbose
+        $private:releaseArgs['Assets'] = $env:RELEASE_ASSETS
+    }
 
     # Create GitHub release
     $response = Create-GitHubRelease @private:releaseArgs

@@ -12,3 +12,7 @@ steps:
     #   notes
     DRAFT: false
     PRERELEASE: false
+    # ASSETS: |
+    #   /path/to/asset1.tar.gz
+    #   /path/to/asset2.gz
+    #   /path/to/asset3.zip
