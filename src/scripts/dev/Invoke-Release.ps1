@@ -17,8 +17,9 @@ $private:releaseArgs = @{
     Draft = $false
     Prerelease = $false
     Assets = @(
-        # "/path/to/asset1"
-        # "/path/to/asset2"
+        # "$private:Path/path/to/asset1.tar.gz"
+        # "$private:Path/path/to/asset2.gz"
+        # "$private:Path/path/to/asset3.zip"
     )
 }
 
