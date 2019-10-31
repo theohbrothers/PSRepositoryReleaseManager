@@ -44,17 +44,27 @@ try {
 
     # Upload release assets
     if ($env:RELEASE_ASSETS) {
-        "Release assets:" | Write-Verbose
-        $releaseAssetsRelative = $env:RELEASE_ASSETS -Split "`n" | % { $_.Trim() } | ? { $_ }
-        $releaseAssetsRelative | Out-String -Stream | Write-Verbose
+        try {
+            $private:releaseAssetsArr = $env:RELEASE_ASSETS -Split "`n" | % { $_.Trim() } | ? { $_ }
+            "Release assets (Specified):" | Write-Verbose
+            $private:releaseAssetsArr | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
+            Push-Location -Path $private:superProjectDir
+            $private:assets = $private:releaseAssetsArr | % { Resolve-Path -Path $_ }
+            if (!$private:assets) { throw "No assets of the specified release assets file pattern could be found." }
+        }catch {
+            throw
+        }finally {
+            Pop-Location
+        }
+        "Release assets (Full):" | Write-Verbose
+        $private:assets | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
         $private:uploadReleaseAssetsArgs = [Ordered]@{
             UploadUrl = $responseContent.upload_url
-            Assets = $releaseAssetsRelative | % { "$private:superProjectDir/$_" }
+            Assets = $private:assets
             ApiKey = $env:GITHUB_API_TOKEN
         }
         Upload-GitHubReleaseAsset @private:uploadReleaseAssetsArgs
     }
-
 
 }catch {
     throw
