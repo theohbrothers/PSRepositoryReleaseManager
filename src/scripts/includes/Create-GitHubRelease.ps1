@@ -59,7 +59,7 @@ function Create-GitHubRelease {
         if ($PSBoundParameters['TargetCommitish']) { $private:releaseArgs['TargetCommitish'] = $PSBoundParameters['TargetCommitish'] }
         if ($PSBoundParameters['Name']) { $private:releaseArgs['Name'] = $PSBoundParameters['Name'] }
         if ($PSBoundParameters['ReleaseNotesPath']) { $private:releaseArgs['Body'] = Get-Content -Path $PSBoundParameters['ReleaseNotesPath'] -Raw }
-                                       elseif ($PSBoundParameters['ReleaseNotesContent']) { $private:releaseArgs['Body'] = $PSBoundParameters['ReleaseNotesContent'] }
+        elseif ($PSBoundParameters['ReleaseNotesContent']) { $private:releaseArgs['Body'] = $PSBoundParameters['ReleaseNotesContent'] }
         if ($null -ne $PSBoundParameters['Draft']) { $private:releaseArgs['Draft'] = $PSBoundParameters['Draft'] }
         if ($null -ne $PSBoundParameters['Prerelease']) { $private:releaseArgs['Prerelease'] = $PSBoundParameters['Prerelease'] }
 
