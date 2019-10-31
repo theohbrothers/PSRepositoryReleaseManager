@@ -41,11 +41,6 @@ function Create-GitHubRelease {
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
         [bool]$Prerelease
-        ,
-        [Parameter(Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
-        [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
-        [string[]]$Assets
     )
 
     $ErrorActionPreference = 'Stop'
@@ -73,21 +68,6 @@ function Create-GitHubRelease {
         $responseContent = $response.Content | ConvertFrom-Json
         "Response:" | Write-Verbose
         $responseContent | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
-
-        # Create release assets
-        if ($PSBoundParameters['Assets']) {
-            $private:releaseAssetArgs = [Ordered]@{}
-            $private:releaseAssetArgs['UploadUrl'] = $responseContent.upload_url
-            if ($PSBoundParameters['ApiKey']) { $private:releaseAssetArgs['ApiKey'] = $PSBoundParameters['ApiKey'] }
-            foreach ($a in $PSBoundParameters['Assets']) {
-                $private:releaseAssetArgs['Asset'] = Get-Item -Path $a | Select-Object -ExpandProperty FullName
-                "Uploading release asset '$a':" | Write-Verbose
-                $response = New-GitHubRepositoryReleaseAsset @private:releaseAssetArgs
-                $responseContent = $response.Content | ConvertFrom-Json
-                "Response:" | Write-Verbose
-                $responseContent | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
-            }
-        }
 
     }catch {
         throw
