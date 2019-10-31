@@ -38,9 +38,10 @@ try {
         }
     }
     if ($env:RELEASE_ASSETS) {
-        "Including specified release assets:" | Write-Verbose
-        $env:RELEASE_ASSETS | Write-Verbose
-        $private:releaseArgs['Assets'] = $env:RELEASE_ASSETS | % { "$private:superProjectDir/$_" }
+        "Release assets:" | Write-Verbose
+        $releaseAssetsRelative = $env:RELEASE_ASSETS -Split "`n" | % { $_.Trim() } | ? { $_ }
+        $releaseAssetsRelative | Out-String -Stream | Write-Verbose
+        $private:releaseArgs['Assets'] = $releaseAssetsRelative | % { "$private:superProjectDir/$_" }
     }
 
     # Create GitHub release
