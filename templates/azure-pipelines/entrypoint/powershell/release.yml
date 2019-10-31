@@ -4,6 +4,7 @@ parameters:
   NOTES_CONTENT: ''
   DRAFT: ''
   PRERELEASE: ''
+  ASSETS: ''
 
 steps:
 - powershell: |
@@ -29,3 +30,4 @@ steps:
     RELEASE_NOTES_CONTENT: ${{ parameters['NOTES_CONTENT'] }}
     RELEASE_DRAFT: ${{ parameters['DRAFT'] }}
     RELEASE_PRERELEASE: ${{ parameters['PRERELEASE'] }}
+    RELEASE_ASSETS: ${{ parameters['ASSETS'] }}

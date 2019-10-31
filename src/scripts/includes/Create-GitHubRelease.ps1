@@ -27,6 +27,7 @@ function Create-GitHubRelease {
         ,
         [Parameter(ParameterSetName='Path', Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
+        [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
         [string]$ReleaseNotesPath
         ,
         [Parameter(ParameterSetName='Content', Mandatory=$false)]
@@ -63,7 +64,8 @@ function Create-GitHubRelease {
         if ($null -ne $PSBoundParameters['Prerelease']) { $private:releaseArgs['Prerelease'] = $PSBoundParameters['Prerelease'] }
 
         # Create GitHub release
-        New-GitHubRepositoryRelease @private:releaseArgs
+        $response = New-GitHubRepositoryRelease @private:releaseArgs
+        $response
 
     }catch {
         throw
