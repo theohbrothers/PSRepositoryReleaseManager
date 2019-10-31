@@ -56,7 +56,7 @@ try {
         $private:uploadReleaseAssetsArgs = [Ordered]@{
             UploadUrl = $responseContent.upload_url
             Assets = $private:releaseArgs['Assets']
-            ApiKey = $env:GITHUB_API_TOKEN
+            ApiKey = $private:releaseArgs['ApiKey']
         }
         Upload-GitHubReleaseAsset @private:uploadReleaseAssetsArgs
     }
