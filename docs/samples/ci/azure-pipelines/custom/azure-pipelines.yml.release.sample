@@ -16,3 +16,5 @@ steps:
       path/to/asset1.tar.gz
       path/to/asset2.gz
       path/to/asset3.zip
+      path/to/assets/*.gz
+      path/to/assets/*.zip
