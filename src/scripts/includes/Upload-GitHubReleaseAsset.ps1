@@ -23,7 +23,7 @@ function Upload-GitHubReleaseAsset {
         Push-Location $PSScriptRoot
         Import-Module "$(git rev-parse --show-toplevel)\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1" -Force -Verbose
 
-        # Create release assets
+        # Upload release assets
         $private:releaseAssetArgs = [Ordered]@{}
         if ($PSBoundParameters['UploadUrl']) { $private:releaseAssetArgs['UploadUrl'] = $PSBoundParameters['UploadUrl'] }
         if ($PSBoundParameters['ApiKey']) { $private:releaseAssetArgs['ApiKey'] = $PSBoundParameters['ApiKey'] }
