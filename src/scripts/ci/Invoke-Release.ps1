@@ -8,10 +8,11 @@ Set-StrictMode -Version Latest
 try {
     Push-Location $PSScriptRoot
     . "$(git rev-parse --show-toplevel)/src/scripts/includes/Create-GitHubRelease.ps1"
+    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Upload-GitHubReleaseAsset.ps1"
 
     $private:superProjectDir = git rev-parse --show-superproject-working-tree
     if (!$private:superProjectDir) { throw "The superproject root directory cannot be determined." }
-    $private:releaseArgs = @{
+    $private:createReleaseArgs = @{
         Namespace = $env:RELEASE_NAMESPACE
         Repository = $env:RELEASE_REPOSITORY
         ApiKey = $env:GITHUB_API_TOKEN
@@ -24,29 +25,35 @@ try {
 
     if ($env:RELEASE_NOTES_PATH) {
         "Sourcing from specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
-        $private:releaseArgs['ReleaseNotesPath'] = "$private:superProjectDir/$env:RELEASE_NOTES_PATH"
+        $private:createReleaseArgs['ReleaseNotesPath'] = "$private:superProjectDir/$env:RELEASE_NOTES_PATH"
     }elseif ($env:RELEASE_NOTES_CONTENT) {
         "Using specified release notes content" | Write-Verbose
-        $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT
+        $private:createReleaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT
     }else {
         $defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
         if (Test-Path -Path $defaultReleaseNotesPath -PathType Leaf) {
             "Sourcing from the default release notes path '$defaultReleaseNotesPath'" | Write-Verbose
-            $private:releaseArgs['ReleaseNotesPath'] = $defaultReleaseNotesPath
+            $private:createReleaseArgs['ReleaseNotesPath'] = $defaultReleaseNotesPath
         }else {
             "Default release notes not found at the path '$defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
         }
     }
+    # Create GitHub release
+    $response = Create-GitHubRelease @private:createReleaseArgs
+    $responseContent = $response.Content | ConvertFrom-Json
+
     if ($env:RELEASE_ASSETS) {
         "Release assets:" | Write-Verbose
         $releaseAssetsRelative = $env:RELEASE_ASSETS -Split "`n" | % { $_.Trim() } | ? { $_ }
         $releaseAssetsRelative | Out-String -Stream | Write-Verbose
-        $private:releaseArgs['Assets'] = $releaseAssetsRelative | % { "$private:superProjectDir/$_" }
+        $private:uploadReleaseAssetsArgs = [Ordered]@{
+            UploadUrl = $responseContent.upload_url
+            Assets = $releaseAssetsRelative | % { "$private:superProjectDir/$_" }
+            ApiKey = $env:GITHUB_API_TOKEN
+        }
+        Upload-GitHubReleaseAsset @private:uploadReleaseAssetsArgs
     }
 
-    # Create GitHub release
-    $response = Create-GitHubRelease @private:releaseArgs
-    $response
 
 }catch {
     throw
