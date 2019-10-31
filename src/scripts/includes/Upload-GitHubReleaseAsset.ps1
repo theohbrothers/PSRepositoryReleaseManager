@@ -31,9 +31,6 @@ function Upload-GitHubReleaseAsset {
             $private:releaseAssetArgs['Asset'] = Get-Item -Path $a | Select-Object -ExpandProperty FullName
             "Uploading release asset '$a':" | Write-Verbose
             $response = New-GitHubRepositoryReleaseAsset @private:releaseAssetArgs
-            $responseContent = $response.Content | ConvertFrom-Json
-            "Response:" | Write-Verbose
-            $responseContent | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
             $response
         }
 

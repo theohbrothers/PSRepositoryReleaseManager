@@ -65,9 +65,6 @@ function Create-GitHubRelease {
 
         # Create GitHub release
         $response = New-GitHubRepositoryRelease @private:releaseArgs
-        $responseContent = $response.Content | ConvertFrom-Json
-        "Response:" | Write-Verbose
-        $responseContent | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
         $response
 
     }catch {
