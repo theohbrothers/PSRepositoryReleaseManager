@@ -20,6 +20,8 @@ $private:releaseArgs = @{
         # "$private:Path/path/to/asset1.tar.gz"
         # "$private:Path/path/to/asset2.gz"
         # "$private:Path/path/to/asset3.zip"
+        # "$private:Path/path/to/assets/*.gz"
+        # "$private:Path/path/to/assets/*.zip"
     )
 }
 
@@ -51,12 +53,24 @@ try {
     $response = Create-GitHubRelease @private:createReleaseArgs
     $responseContent = $response.Content | ConvertFrom-Json
 
+    # Upload release assets
     if ($private:releaseArgs['Assets']) {
-        "Release assets:" | Write-Verbose
-        $private:releaseArgs['Assets'] | Out-String -Stream | Write-Verbose
+        try {
+            "Release assets (Specified):" | Write-Verbose
+            $private:releaseArgs['Assets'] | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
+            Push-Location -Path $private:Path
+            $private:assets = $private:releaseArgs['Assets'] | % { Resolve-Path -Path $_ }
+            if (!$private:assets) { throw "No assets of the specified release assets file pattern could be found." }
+        }catch {
+            throw
+        }finally {
+            Pop-Location
+        }
+        "Release assets (Full):" | Write-Verbose
+        $private:assets | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
         $private:uploadReleaseAssetsArgs = [Ordered]@{
             UploadUrl = $responseContent.upload_url
-            Assets = $private:releaseArgs['Assets']
+            Assets = $private:assets
             ApiKey = $private:releaseArgs['ApiKey']
         }
         Upload-GitHubReleaseAsset @private:uploadReleaseAssetsArgs
