@@ -34,6 +34,7 @@ function Upload-GitHubReleaseAsset {
             $responseContent = $response.Content | ConvertFrom-Json
             "Response:" | Write-Verbose
             $responseContent | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
+            $response
         }
 
     }catch {
