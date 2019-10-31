@@ -31,6 +31,7 @@ Set-StrictMode -Version Latest
 try {
     Push-Location $PSScriptRoot
     . "$(git rev-parse --show-toplevel)/src/scripts/includes/Create-GitHubRelease.ps1"
+    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Upload-GitHubReleaseAsset.ps1"
 
     $private:createReleaseArgs = @{
         Namespace = $private:releaseArgs['Namespace']
