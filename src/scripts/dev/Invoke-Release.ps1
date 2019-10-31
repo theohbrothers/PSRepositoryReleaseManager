@@ -51,6 +51,7 @@ try {
     $response = Create-GitHubRelease @private:createReleaseArgs
     $responseContent = $response.Content | ConvertFrom-Json
 
+    # Upload release assets
     if ($private:releaseArgs['Assets']) {
         "Release assets:" | Write-Verbose
         $private:releaseArgs['Assets'] | Out-String -Stream | Write-Verbose

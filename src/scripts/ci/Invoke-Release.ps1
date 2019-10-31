@@ -42,6 +42,7 @@ try {
     $response = Create-GitHubRelease @private:createReleaseArgs
     $responseContent = $response.Content | ConvertFrom-Json
 
+    # Upload release assets
     if ($env:RELEASE_ASSETS) {
         "Release assets:" | Write-Verbose
         $releaseAssetsRelative = $env:RELEASE_ASSETS -Split "`n" | % { $_.Trim() } | ? { $_ }
