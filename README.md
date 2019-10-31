@@ -96,7 +96,7 @@ The included CI files use a very similar set of [entrypoint scripts](src/scripts
 
 #### Generating release notes
 
-To generate release notes, [reference](docs/samples/ci/azure-pipelines/generic) the `generate.yml` entrypoint template of this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
+To generate release notes, reference the appropriate `generate.yml` entrypoint CI template provided by this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
 
 Generation of release notes are limited to the module's [valid tags pattern](#valid-tags).
 
@@ -104,7 +104,7 @@ Generation of release notes are limited to the module's [valid tags pattern](#va
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
-To create releases, [reference](docs/samples/ci/azure-pipelines/generic) the `release.yml` entrypoint template of this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.release.sample).
+To create releases, reference the appropriate `release.yml` entrypoint CI template provided by this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.release.sample).
 
 Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
