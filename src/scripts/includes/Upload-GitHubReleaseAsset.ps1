@@ -1,5 +1,5 @@
 function Upload-GitHubReleaseAsset {
-    [CmdletBinding(DefaultParameterSetName='Path')]
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
