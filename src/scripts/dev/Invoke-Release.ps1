@@ -68,7 +68,7 @@ try {
         }
         "Release assets (Full):" | Write-Verbose
         $private:assets | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
-        $private:uploadReleaseAssetsArgs = [Ordered]@{
+        $private:uploadReleaseAssetsArgs = @{
             UploadUrl = $responseContent.upload_url
             Assets = $private:assets
             ApiKey = $private:releaseArgs['ApiKey']
