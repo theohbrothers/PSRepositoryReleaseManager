@@ -20,12 +20,12 @@ function Generate-ReleaseNotes {
     )
 
     try {
-        $generateArgs = @{
+        $private:generateArgs = @{
             Path = $PSBoundParameters['Path']
             TagName = $PSBoundParameters['TagName']
         }
         "Generating release notes of variant '$($PSBoundParameters['Variant'])'" | Write-Verbose
-        $releaseNotesContent = & "GenerateVariant-$($PSBoundParameters['Variant'])" @generateArgs -ErrorAction Stop
+        $releaseNotesContent = & "GenerateVariant-$($PSBoundParameters['Variant'])" @private:generateArgs -ErrorAction Stop
         if (!(Test-Path -Path ($ReleaseNotesPath | Split-Path))) {
             New-Item -Path ($ReleaseNotesPath | Split-Path) -ItemType Directory
         }
