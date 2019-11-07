@@ -7,7 +7,7 @@ $private:Path = '/path/to/mylocalrepository'
 $private:generateArgs = @{
     Path = $private:Path
     TagName = 'v0.0.0'
-    Variant = 'DateCommitHistory'
+    Variant = 'DateCommitHistoryNoMerges'
     ReleaseNotesPath = "$($private:Path)/.release-notes.md"
 }
 
