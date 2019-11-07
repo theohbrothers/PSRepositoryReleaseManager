@@ -11,7 +11,6 @@ function Generate-ReleaseNotes {
         [string]$TagName
         ,
         [Parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
         [ValidateSet("DateCommitHistory", "DateCommitHistoryNoMerges")]
         [string]$Variant
         ,
