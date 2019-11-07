@@ -7,7 +7,7 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Generate-ReleaseNotes.ps1"
+    Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
     $private:superProjectDir = git rev-parse --show-superproject-working-tree
     if (!$private:superProjectDir) { throw "The superproject root directory cannot be determined." }

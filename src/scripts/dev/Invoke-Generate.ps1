@@ -19,7 +19,7 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Generate-ReleaseNotes.ps1"
+    Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
     # Generate release notes
     Generate-ReleaseNotes @private:generateArgs
