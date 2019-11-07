@@ -43,14 +43,7 @@ function Create-GitHubRelease {
         [bool]$Prerelease
     )
 
-    $ErrorActionPreference = 'Stop'
-    $VerbosePreference = 'Continue'
-    Set-StrictMode -Version Latest
-
     try {
-        Push-Location $PSScriptRoot
-        Import-Module "$(git rev-parse --show-toplevel)\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1" -Force -Verbose
-
         $private:releaseArgs = [Ordered]@{}
         if ($PSBoundParameters['Namespace']) { $private:releaseArgs['Namespace'] = $PSBoundParameters['Namespace'] }
         if ($PSBoundParameters['Repository']) { $private:releaseArgs['Repository'] = $PSBoundParameters['Repository'] }
@@ -62,14 +55,9 @@ function Create-GitHubRelease {
         elseif ($PSBoundParameters['ReleaseNotesContent']) { $private:releaseArgs['Body'] = $PSBoundParameters['ReleaseNotesContent'] }
         if ($null -ne $PSBoundParameters['Draft']) { $private:releaseArgs['Draft'] = $PSBoundParameters['Draft'] }
         if ($null -ne $PSBoundParameters['Prerelease']) { $private:releaseArgs['Prerelease'] = $PSBoundParameters['Prerelease'] }
-
-        # Create GitHub release
-        $response = New-GitHubRepositoryRelease @private:releaseArgs
+        $response = New-GitHubRepositoryRelease @private:releaseArgs -ErrorAction Stop
         $response
-
     }catch {
-        throw
-    }finally {
-        Pop-Location
+        Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
     }
 }
