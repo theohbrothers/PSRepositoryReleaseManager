@@ -60,7 +60,7 @@ try {
         $private:assets | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
         $private:uploadReleaseAssetsArgs = @{
             UploadUrl = $responseContent.upload_url
-            Assets = $private:assets
+            Asset = $private:assets
             ApiKey = $env:GITHUB_API_TOKEN
         }
         Upload-GitHubReleaseAsset @private:uploadReleaseAssetsArgs
