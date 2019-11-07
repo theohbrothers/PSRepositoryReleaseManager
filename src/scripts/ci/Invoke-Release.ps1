@@ -7,8 +7,8 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Create-GitHubRelease.ps1"
-    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Upload-GitHubReleaseAsset.ps1"
+    Import-Module "$(git rev-parse --show-toplevel)\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1" -Force -Verbose
+    Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
     $private:superProjectDir = git rev-parse --show-superproject-working-tree
     if (!$private:superProjectDir) { throw "The superproject root directory cannot be determined." }
@@ -58,7 +58,7 @@ try {
         }
         "Release assets (Full):" | Write-Verbose
         $private:assets | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
-        $private:uploadReleaseAssetsArgs = [Ordered]@{
+        $private:uploadReleaseAssetsArgs = @{
             UploadUrl = $responseContent.upload_url
             Assets = $private:assets
             ApiKey = $env:GITHUB_API_TOKEN

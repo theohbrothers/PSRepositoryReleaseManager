@@ -1,5 +1,5 @@
 function Upload-GitHubReleaseAsset {
-    [CmdletBinding(DefaultParameterSetName='Path')]
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
@@ -15,28 +15,17 @@ function Upload-GitHubReleaseAsset {
         [string]$ApiKey
     )
 
-    $ErrorActionPreference = 'Stop'
-    $VerbosePreference = 'Continue'
-    Set-StrictMode -Version Latest
-
     try {
-        Push-Location $PSScriptRoot
-        Import-Module "$(git rev-parse --show-toplevel)\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1" -Force -Verbose
-
-        # Upload release assets
         $private:releaseAssetArgs = [Ordered]@{}
         if ($PSBoundParameters['UploadUrl']) { $private:releaseAssetArgs['UploadUrl'] = $PSBoundParameters['UploadUrl'] }
         if ($PSBoundParameters['ApiKey']) { $private:releaseAssetArgs['ApiKey'] = $PSBoundParameters['ApiKey'] }
         foreach ($a in $PSBoundParameters['Assets']) {
-            $private:releaseAssetArgs['Asset'] = Get-Item -Path $a | Select-Object -ExpandProperty FullName
+            $private:releaseAssetArgs['Asset'] = Get-Item -Path $a | Select-Object -ExpandProperty FullName -ErrorAction Stop
             "Uploading release asset '$a':" | Write-Verbose
-            $response = New-GitHubRepositoryReleaseAsset @private:releaseAssetArgs
+            $response = New-GitHubRepositoryReleaseAsset @private:releaseAssetArgs -ErrorAction Stop
             $response
         }
-
     }catch {
-        throw
-    }finally {
-        Pop-Location
+        Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
     }
 }

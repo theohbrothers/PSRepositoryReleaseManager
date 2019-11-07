@@ -1,5 +1,5 @@
 function Get-RepositoryCommitHistory {
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName='Merges')]
     param(
         [Parameter(Mandatory=$true)]
         [ValidateScript({Test-Path -Path $_ -PathType Container})]
@@ -12,6 +12,12 @@ function Get-RepositoryCommitHistory {
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
         [string]$SecondRef
+        ,
+        [Parameter(ParameterSetName='Merges', Mandatory=$false)]
+        [switch]$Merges
+        ,
+        [Parameter(ParameterSetName='NoMerges', Mandatory=$false)]
+        [string]$NoMerges
     )
 
     try {
@@ -31,7 +37,15 @@ function Get-RepositoryCommitHistory {
             "Second ref unspecifed. Full history of First ref will be retrieved."  | Write-Verbose
             $commitSHARange = $PSBoundParameters['FirstRef']
         }
-        $_commitHistory = git --no-pager log --pretty=format:"%h %s" $commitSHARange | Out-String
+        $gitArgs = @(
+            '--no-pager'
+            'log'
+            '--pretty=format:"%h %s"'
+            $commitSHARange
+            if ($PSBoundParameters['Merges']) { '--merges' }
+            elseif ($PSBoundParameters['NoMerges']) { '--no-merges' }
+        )
+        $_commitHistory = git $gitArgs | Out-String
         "Changelog:" | Write-Verbose
         $_commitHistory | Write-Verbose
         $_commitHistory

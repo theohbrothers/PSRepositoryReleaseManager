@@ -7,14 +7,14 @@ Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
-    . "$(git rev-parse --show-toplevel)/src/scripts/includes/Generate-ReleaseNotes.ps1"
+    Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
     $private:superProjectDir = git rev-parse --show-superproject-working-tree
     if (!$private:superProjectDir) { throw "The superproject root directory cannot be determined." }
     $private:generateArgs = @{
         Path = $private:superProjectDir
         TagName = $env:RELEASE_TAG_REF
-        Variant = if ($env:RELEASE_NOTES_VARIANT) { $env:RELEASE_NOTES_VARIANT } else { 'DateCommitHistory' }
+        Variant = if ($env:RELEASE_NOTES_VARIANT) { $env:RELEASE_NOTES_VARIANT } else { 'DateCommitHistoryNoMerges' }
         ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) { "$private:superProjectDir/$env:RELEASE_NOTES_PATH" } else { "$(git rev-parse --show-toplevel)/.release-notes.md" }
     }
 
