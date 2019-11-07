@@ -12,7 +12,7 @@ function Generate-ReleaseNotes {
         ,
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
-        [ValidateSet("DateCommitHistory")]
+        [ValidateSet("DateCommitHistory", "DateCommitHistoryNoMerges")]
         [string]$Variant
         ,
         [Parameter(Mandatory=$true)]
