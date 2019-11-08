@@ -27,9 +27,14 @@ try {
         TagName = if ($private:myGenerateArgs['TagName']) { $private:myGenerateArgs['TagName'] }
         Variant = if ($private:myGenerateArgs['Variant']) { $private:myGenerateArgs['Variant'] } else { 'DateCommitHistoryNoMerges' }
         ReleaseNotesPath = if ($private:myGenerateArgs['ReleaseNotesPath']) {
+                               "Using the specified release notes path '$($private:myGenerateArgs['ReleaseNotesPath'])'" | Write-Verbose
                                if ([System.IO.Path]::IsPathRooted($private:myGenerateArgs['ReleaseNotesPath'])) { $private:myGenerateArgs['ReleaseNotesPath'] }
                                else { $private:myGenerateArgs['ReleaseNotesPath'] }
-                           }else { "$(git rev-parse --show-toplevel)/.release-notes.md" }
+                           }else {
+                                $private:defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
+                               "Using the default release notes path '$private:defaultReleaseNotesPath'" | Write-Verbose
+                               $private:defaultReleaseNotesPath
+                           }
     }
     Generate-ReleaseNotes @private:generateArgs
 
