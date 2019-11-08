@@ -1,5 +1,5 @@
 function Get-RepositoryCommitHistory {
-    [CmdletBinding(DefaultParameterSetName='Merges')]
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [ValidateScript({Test-Path -Path $_ -PathType Container})]
