@@ -71,7 +71,7 @@ try {
         try {
             "Release assets (Specified):" | Write-Verbose
             $private:myReleaseArgs['Assets'] | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
-            Push-Location -Path $private:path
+            Push-Location $private:path
             $private:assets = $private:myReleaseArgs['Assets'] | % { Resolve-Path -Path $_ }
             if (!$private:assets) { throw "No assets of the specified release assets file pattern could be found." }
         }catch {

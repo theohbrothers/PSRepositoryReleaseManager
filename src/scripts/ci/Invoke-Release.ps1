@@ -48,7 +48,7 @@ try {
             $private:releaseAssetsArr = $env:RELEASE_ASSETS -Split "`n" | % { $_.Trim() } | ? { $_ }
             "Release assets (Specified):" | Write-Verbose
             $private:releaseAssetsArr | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
-            Push-Location -Path $private:superProjectDir
+            Push-Location $private:superProjectDir
             $private:assets = $private:releaseAssetsArr | % { Resolve-Path -Path $_ }
             if (!$private:assets) { throw "No assets of the specified release assets file pattern could be found." }
         }catch {
