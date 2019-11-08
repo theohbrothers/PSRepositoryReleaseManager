@@ -3,25 +3,25 @@ param()
 
 ################################################
 
-$private:Path = '/path/to/mylocalrepository'
+$private:path = '/path/to/mylocalrepository'
 $private:tagName = 'v0.0.0'
 $private:myReleaseArgs = @{
     Namespace = 'myusername'
     Repository = 'myrepository'
     ApiKey = 'myapikey'
     TagName = $private:tagName
-    TargetCommitish = git --git-dir "$private:Path/.git" rev-parse $private:tagName
+    TargetCommitish = git --git-dir "$private:path/.git" rev-parse $private:tagName
     Name = $private:tagName
-    ReleaseNotesPath = "$private:Path/.release-notes.md"
-    # ReleaseNotesContent = Get-Content "$private:Path/.release-notes.md" -Raw
+    ReleaseNotesPath = "$private:path/.release-notes.md"
+    # ReleaseNotesContent = Get-Content "$private:path/.release-notes.md" -Raw
     Draft = $false
     Prerelease = $false
     Assets = @(
-        # "$private:Path/path/to/asset1.tar.gz"
-        # "$private:Path/path/to/asset2.gz"
-        # "$private:Path/path/to/asset3.zip"
-        # "$private:Path/path/to/assets/*.gz"
-        # "$private:Path/path/to/assets/*.zip"
+        # "$private:path/path/to/asset1.tar.gz"
+        # "$private:path/path/to/asset2.gz"
+        # "$private:path/path/to/asset3.zip"
+        # "$private:path/path/to/assets/*.gz"
+        # "$private:path/path/to/assets/*.zip"
     )
 }
 
@@ -71,7 +71,7 @@ try {
         try {
             "Release assets (Specified):" | Write-Verbose
             $private:myReleaseArgs['Assets'] | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
-            Push-Location -Path $private:Path
+            Push-Location -Path $private:path
             $private:assets = $private:myReleaseArgs['Assets'] | % { Resolve-Path -Path $_ }
             if (!$private:assets) { throw "No assets of the specified release assets file pattern could be found." }
         }catch {

@@ -3,12 +3,12 @@ param()
 
 ################################################
 
-$private:Path = '/path/to/mylocalrepository'
+$private:path = '/path/to/mylocalrepository'
 $private:myGenerateArgs = @{
-    Path = $private:Path
+    Path = $private:path
     TagName = 'v0.0.0'
     Variant = 'DateCommitHistoryNoMerges'
-    ReleaseNotesPath = "$($private:Path)/.release-notes.md"
+    ReleaseNotesPath = "$($private:path)/.release-notes.md"
 }
 
 ################################################
