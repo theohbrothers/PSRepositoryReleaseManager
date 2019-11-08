@@ -36,6 +36,7 @@ try {
     Import-Module "$(git rev-parse --show-toplevel)\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1" -Force -Verbose
     Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
+    # Create GitHub release
     $private:createReleaseArgs = @{
         Namespace = $private:myReleaseArgs['Namespace']
         Repository = $private:myReleaseArgs['Repository']
@@ -46,7 +47,6 @@ try {
         Draft = $private:myReleaseArgs['Draft']
         Prerelease = $private:myReleaseArgs['Prerelease']
     }
-
     if ($private:myReleaseArgs['ReleaseNotesPath']) {
         "Sourcing from specified release notes path '$($private:myReleaseArgs['ReleaseNotesPath'])'" | Write-Verbose
         $private:createReleaseArgs['ReleaseNotesPath'] = if ([System.IO.Path]::IsPathRooted($private:myReleaseArgs['ReleaseNotesPath'])) { $private:myReleaseArgs['ReleaseNotesPath'] }
@@ -63,7 +63,6 @@ try {
             "Default release notes not found at the path '$defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
         }
     }
-    # Create GitHub release
     $response = Create-GitHubRelease @private:createReleaseArgs
     $responseContent = $response.Content | ConvertFrom-Json
 

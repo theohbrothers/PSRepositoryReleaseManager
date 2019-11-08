@@ -21,6 +21,7 @@ try {
     Push-Location $PSScriptRoot
     Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
+    # Generate release notes
     $private:generateArgs = @{
         Path = if ($private:myGenerateArgs['Path']) { $private:myGenerateArgs['Path'] }
         TagName = if ($private:myGenerateArgs['TagName']) { $private:myGenerateArgs['TagName'] }
@@ -30,8 +31,6 @@ try {
                                else { $private:myGenerateArgs['ReleaseNotesPath'] }
                            }else { "$(git rev-parse --show-toplevel)/.release-notes.md" }
     }
-
-    # Generate release notes
     Generate-ReleaseNotes @private:generateArgs
 
 }catch {
