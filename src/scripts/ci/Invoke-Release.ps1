@@ -25,7 +25,8 @@ try {
 
     if ($env:RELEASE_NOTES_PATH) {
         "Sourcing from specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
-        $private:createReleaseArgs['ReleaseNotesPath'] = "$private:superProjectDir/$env:RELEASE_NOTES_PATH"
+        $private:createReleaseArgs['ReleaseNotesPath'] = if ([System.IO.Path]::IsPathRooted($env:RELEASE_NOTES_PATH)) { $env:RELEASE_NOTES_PATH }
+                                                         else { "$private:superProjectDir/$env:RELEASE_NOTES_PATH" }
     }elseif ($env:RELEASE_NOTES_CONTENT) {
         "Using specified release notes content" | Write-Verbose
         $private:createReleaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT
