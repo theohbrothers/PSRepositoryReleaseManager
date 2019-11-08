@@ -31,12 +31,12 @@ try {
         "Using specified release notes content" | Write-Verbose
         $private:createReleaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT
     }else {
-        $defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
-        if (Test-Path -Path $defaultReleaseNotesPath -PathType Leaf) {
-            "Sourcing from the default release notes path '$defaultReleaseNotesPath'" | Write-Verbose
-            $private:createReleaseArgs['ReleaseNotesPath'] = $defaultReleaseNotesPath
+        $private:defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
+        if (Test-Path -Path $private:defaultReleaseNotesPath -PathType Leaf) {
+            "Sourcing from the default release notes path '$private:defaultReleaseNotesPath'" | Write-Verbose
+            $private:createReleaseArgs['ReleaseNotesPath'] = $private:defaultReleaseNotesPath
         }else {
-            "Default release notes not found at the path '$defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
+            "Default release notes not found at the path '$private:defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
         }
     }
     $response = Create-GitHubRelease @private:createReleaseArgs
