@@ -27,7 +27,7 @@ try {
         TagName = if ($private:myGenerateArgs['TagName']) { $private:myGenerateArgs['TagName'] }
         Variant = if ($private:myGenerateArgs['Variant']) { $private:myGenerateArgs['Variant'] } else { 'DateCommitHistoryNoMerges' }
         ReleaseNotesPath = if ($private:myGenerateArgs['ReleaseNotesPath']) {
-                               "Using the specified release notes path '$($private:myGenerateArgs['ReleaseNotesPath'])'" | Write-Verbose
+                               "Using specified release notes path '$($private:myGenerateArgs['ReleaseNotesPath'])'" | Write-Verbose
                                if ([System.IO.Path]::IsPathRooted($private:myGenerateArgs['ReleaseNotesPath'])) { $private:myGenerateArgs['ReleaseNotesPath'] }
                                else { $private:myGenerateArgs['ReleaseNotesPath'] }
                            }else {

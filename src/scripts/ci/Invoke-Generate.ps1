@@ -17,7 +17,7 @@ try {
         TagName = $env:RELEASE_TAG_REF
         Variant = if ($env:RELEASE_NOTES_VARIANT) { $env:RELEASE_NOTES_VARIANT } else { 'DateCommitHistoryNoMerges' }
         ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) {
-                               "Using the specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
+                               "Using specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
                                if ([System.IO.Path]::IsPathRooted($env:RELEASE_NOTES_PATH)) { $env:RELEASE_NOTES_PATH }
                                else { "$private:superProjectDir/$env:RELEASE_NOTES_PATH" }
                            }else {
