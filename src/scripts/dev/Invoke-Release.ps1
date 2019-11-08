@@ -5,7 +5,7 @@ param()
 
 $private:Path = '/path/to/mylocalrepository'
 $private:tagName = 'v0.0.0'
-$private:releaseArgs = @{
+$private:myReleaseArgs = @{
     Namespace = 'myusername'
     Repository = 'myrepository'
     ApiKey = 'myapikey'
@@ -37,29 +37,43 @@ try {
     Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
     $private:createReleaseArgs = @{
-        Namespace = $private:releaseArgs['Namespace']
-        Repository = $private:releaseArgs['Repository']
-        ApiKey = $private:releaseArgs['ApiKey']
-        TagName = $private:releaseArgs['TagName']
-        TargetCommitish = $private:releaseArgs['TargetCommitish']
-        Name = $private:releaseArgs['Name']
-        Draft = $private:releaseArgs['Draft']
-        Prerelease = $private:releaseArgs['Prerelease']
+        Namespace = $private:myReleaseArgs['Namespace']
+        Repository = $private:myReleaseArgs['Repository']
+        ApiKey = $private:myReleaseArgs['ApiKey']
+        TagName = $private:myReleaseArgs['TagName']
+        TargetCommitish = $private:myReleaseArgs['TargetCommitish']
+        Name = $private:myReleaseArgs['Name']
+        Draft = $private:myReleaseArgs['Draft']
+        Prerelease = $private:myReleaseArgs['Prerelease']
     }
-    if ($PSBoundParameters['ReleaseNotesPath']) { $private:createReleaseArgs['ReleaseNotesPath'] = $PSBoundParameters['ReleaseNotesPath'] }
-    if ($PSBoundParameters['ReleaseNotesContent']) { $private:createReleaseArgs['ReleaseNotesContent'] = $PSBoundParameters['ReleaseNotesContent'] }
 
+    if ($private:myReleaseArgs['ReleaseNotesPath']) {
+        "Sourcing from specified release notes path '$($private:myReleaseArgs['ReleaseNotesPath'])'" | Write-Verbose
+        $private:createReleaseArgs['ReleaseNotesPath'] = if ([System.IO.Path]::IsPathRooted($private:myReleaseArgs['ReleaseNotesPath'])) { $private:myReleaseArgs['ReleaseNotesPath'] }
+                                                         else { $private:myReleaseArgs['ReleaseNotesPath'] }
+    }elseif ($private:myReleaseArgs['ReleaseNotesPath']) {
+        "Using specified release notes content" | Write-Verbose
+        $private:createReleaseArgs['ReleaseNotesContent'] = $private:myReleaseArgs['ReleaseNotesPath']
+    }else {
+        $defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
+        if (Test-Path -Path $defaultReleaseNotesPath -PathType Leaf) {
+            "Sourcing from the default release notes path '$defaultReleaseNotesPath'" | Write-Verbose
+            $private:createReleaseArgs['ReleaseNotesPath'] = $defaultReleaseNotesPath
+        }else {
+            "Default release notes not found at the path '$defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
+        }
+    }
     # Create GitHub release
     $response = Create-GitHubRelease @private:createReleaseArgs
     $responseContent = $response.Content | ConvertFrom-Json
 
     # Upload release assets
-    if ($private:releaseArgs['Assets']) {
+    if ($private:myReleaseArgs['Assets']) {
         try {
             "Release assets (Specified):" | Write-Verbose
-            $private:releaseArgs['Assets'] | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
+            $private:myReleaseArgs['Assets'] | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
             Push-Location -Path $private:Path
-            $private:assets = $private:releaseArgs['Assets'] | % { Resolve-Path -Path $_ }
+            $private:assets = $private:myReleaseArgs['Assets'] | % { Resolve-Path -Path $_ }
             if (!$private:assets) { throw "No assets of the specified release assets file pattern could be found." }
         }catch {
             throw
@@ -71,7 +85,7 @@ try {
         $private:uploadReleaseAssetsArgs = @{
             UploadUrl = $responseContent.upload_url
             Asset = $private:assets
-            ApiKey = $private:releaseArgs['ApiKey']
+            ApiKey = $private:myReleaseArgs['ApiKey']
         }
         Upload-GitHubReleaseAsset @private:uploadReleaseAssetsArgs
     }
