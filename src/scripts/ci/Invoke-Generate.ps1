@@ -15,7 +15,7 @@ try {
     $private:generateArgs = @{
         Path = $private:superProjectDir
         TagName = $env:RELEASE_TAG_REF
-        Variant = if ($env:RELEASE_NOTES_VARIANT) { $env:RELEASE_NOTES_VARIANT } else { 'DateCommitHistoryNoMerges' }
+        Variant = if ($env:RELEASE_NOTES_VARIANT) { $env:RELEASE_NOTES_VARIANT } else { 'DateHistory-HashSubject-NoMerges' }
         ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) {
                                "Using specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
                                if ([System.IO.Path]::IsPathRooted($env:RELEASE_NOTES_PATH)) { $env:RELEASE_NOTES_PATH }

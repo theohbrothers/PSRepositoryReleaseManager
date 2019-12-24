@@ -1,4 +1,4 @@
-function GenerateVariant-DateCommitHistory {
+function DateHistory-Subject-NoMerges {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
@@ -21,7 +21,8 @@ function GenerateVariant-DateCommitHistory {
         $funcArgs = @{
             Path = $PSBoundParameters['Path']
             FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $PSBoundParameters['TagName'] }
-            PrettyFormat = '%h %s'
+            PrettyFormat = '%s'
+            NoMerges = $true
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = $PSBoundParameters['TagName'] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs

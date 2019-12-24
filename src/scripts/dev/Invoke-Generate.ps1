@@ -7,7 +7,7 @@ $private:path = '/path/to/mylocalrepository'
 $private:myGenerateArgs = @{
     Path = $private:path
     TagName = 'v0.0.0'
-    Variant = 'DateCommitHistoryNoMerges'
+    Variant = 'DateHistory-HashSubject-NoMerges'
     ReleaseNotesPath = "$($private:path)/.release-notes.md"
 }
 
@@ -25,7 +25,7 @@ try {
     $private:generateArgs = @{
         Path = if ($private:myGenerateArgs['Path']) { $private:myGenerateArgs['Path'] }
         TagName = if ($private:myGenerateArgs['TagName']) { $private:myGenerateArgs['TagName'] }
-        Variant = if ($private:myGenerateArgs['Variant']) { $private:myGenerateArgs['Variant'] } else { 'DateCommitHistoryNoMerges' }
+        Variant = if ($private:myGenerateArgs['Variant']) { $private:myGenerateArgs['Variant'] } else { 'DateHistory-HashSubject-NoMerges' }
         ReleaseNotesPath = if ($private:myGenerateArgs['ReleaseNotesPath']) {
                                "Using specified release notes path '$($private:myGenerateArgs['ReleaseNotesPath'])'" | Write-Verbose
                                if ([System.IO.Path]::IsPathRooted($private:myGenerateArgs['ReleaseNotesPath'])) { $private:myGenerateArgs['ReleaseNotesPath'] }

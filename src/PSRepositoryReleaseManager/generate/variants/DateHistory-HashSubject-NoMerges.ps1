@@ -1,4 +1,4 @@
-function GenerateVariant-DateCommitHistoryNoMerges {
+function DateHistory-HashSubject-NoMerges {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
