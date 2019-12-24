@@ -14,6 +14,10 @@ function Get-RepositoryCommitHistory {
         [string]$SecondRef
         ,
         [Parameter(Mandatory=$false)]
+        [ValidateNotNullOrEmpty()]
+        [string]$PrettyFormat
+        ,
+        [Parameter(Mandatory=$false)]
         [switch]$Merges
         ,
         [Parameter(Mandatory=$false)]
@@ -40,7 +44,7 @@ function Get-RepositoryCommitHistory {
         $gitArgs = @(
             '--no-pager'
             'log'
-            '--pretty=format:"%h %s"'
+            "--pretty=format:$($PSBoundParameters['PrettyFormat'])"
             $commitSHARange
             if ($PSBoundParameters['Merges']) { '--merges' }
             elseif ($PSBoundParameters['NoMerges']) { '--no-merges' }

@@ -21,6 +21,7 @@ function GenerateVariant-DateCommitHistory {
         $funcArgs = @{
             Path = $PSBoundParameters['Path']
             FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $PSBoundParameters['TagName'] }
+            PrettyFormat = '%h %s'
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = $PSBoundParameters['TagName'] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
