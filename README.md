@@ -70,7 +70,7 @@ The entrypoint script [`Invoke-Generate.ps1`](src/scripts/dev/Invoke-Generate.ps
 
 ##### Variants
 
-The names of all release notes variants that can be generated can be found in the module's [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory and goes by the convention `GenerateVariant-<VariantName>.ps1`.
+The names of all release notes variants that can be generated can be found in the module's [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory and goes by the convention `<VariantName>.ps1`.
 
 ##### Valid tags
 

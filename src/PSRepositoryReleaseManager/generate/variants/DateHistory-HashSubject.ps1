@@ -1,4 +1,4 @@
-function GenerateVariant-DateCommitHistory {
+function DateHistory-HashSubject {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]

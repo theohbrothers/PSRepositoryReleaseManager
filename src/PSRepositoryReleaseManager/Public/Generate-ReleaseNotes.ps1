@@ -11,7 +11,7 @@ function Generate-ReleaseNotes {
         [string]$TagName
         ,
         [Parameter(Mandatory=$true)]
-        [ValidateSet("DateCommitHistory", "DateCommitHistoryNoMerges")]
+        [ValidateSet("DateHistory-HashSubject", "DateHistory-HashSubject-NoMerges")]
         [string]$Variant
         ,
         [Parameter(Mandatory=$true)]
@@ -25,7 +25,7 @@ function Generate-ReleaseNotes {
             TagName = $PSBoundParameters['TagName']
         }
         "Generating release notes of variant '$($PSBoundParameters['Variant'])'" | Write-Verbose
-        $releaseNotesContent = & "GenerateVariant-$($PSBoundParameters['Variant'])" @private:generateArgs -ErrorAction Stop
+        $releaseNotesContent = & $PSBoundParameters['Variant'] @private:generateArgs -ErrorAction Stop
         if (!(Test-Path -Path ($ReleaseNotesPath | Split-Path))) {
             New-Item -Path ($ReleaseNotesPath | Split-Path) -ItemType Directory
         }
