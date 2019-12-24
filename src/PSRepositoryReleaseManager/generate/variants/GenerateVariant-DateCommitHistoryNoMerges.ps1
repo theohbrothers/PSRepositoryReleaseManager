@@ -21,6 +21,7 @@ function GenerateVariant-DateCommitHistoryNoMerges {
         $funcArgs = @{
             Path = $PSBoundParameters['Path']
             FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $PSBoundParameters['TagName'] }
+            PrettyFormat = '%h %s'
             NoMerges = $true
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = $PSBoundParameters['TagName'] }
