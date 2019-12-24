@@ -13,10 +13,10 @@ function Get-RepositoryCommitHistory {
         [ValidateNotNullOrEmpty()]
         [string]$SecondRef
         ,
-        [Parameter(ParameterSetName='Merges', Mandatory=$false)]
+        [Parameter(Mandatory=$false)]
         [switch]$Merges
         ,
-        [Parameter(ParameterSetName='NoMerges', Mandatory=$false)]
+        [Parameter(Mandatory=$false)]
         [string]$NoMerges
     )
 
