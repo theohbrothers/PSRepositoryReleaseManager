@@ -13,18 +13,18 @@ function DateHistory-Subject-NoMerges {
     $ErrorActionPreference = 'Stop'
 
     try {
-        $previousRelease = Get-RepositoryReleasePrevious -Path $PSBoundParameters['Path'] -Ref $PSBoundParameters['TagName'] -ErrorAction SilentlyContinue
+        $previousRelease = Get-RepositoryReleasePrevious -Path $Path -Ref $TagName -ErrorAction SilentlyContinue
         if ($previousRelease) {
             "Previous release:" | Write-Verbose
             $previousRelease | Write-Verbose
         }
         $funcArgs = @{
-            Path = $PSBoundParameters['Path']
-            FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $PSBoundParameters['TagName'] }
+            Path = $Path
+            FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $TagName }
             PrettyFormat = '%s'
             NoMerges = $true
         }
-        if ($previousRelease) { $funcArgs['SecondRef'] = $PSBoundParameters['TagName'] }
+        if ($previousRelease) { $funcArgs['SecondRef'] = $TagName }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
         $releaseBody = & {
 @"

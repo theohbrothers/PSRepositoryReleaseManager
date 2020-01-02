@@ -11,7 +11,7 @@ function Get-RepositoryReleasePrevious {
     )
 
     try {
-        Push-Location $PSBoundParameters['Path']
+        Push-Location $Path
         "Retrieving info on release tags" | Write-Verbose
         $releaseTagsInfo = (git --no-pager log --date-order --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
             if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,|$)') {
@@ -19,24 +19,24 @@ function Get-RepositoryReleasePrevious {
             }
         }
         if (!$releaseTagsInfo) {
-            throw "No release tags exist in the repository '$($PSBoundParameters['Path'])'."
+            throw "No release tags exist in the repository '$($Path)'."
         }
         "Release tags info:" | Write-Verbose
         $releaseTagsInfo | Write-Verbose
 
-        if ($PSBoundParameters['Ref']) {
-            $refSHA = git rev-parse $PSBoundParameters['Ref']
+        if ($Ref) {
+            $refSHA = git rev-parse $Ref
             if ($LASTEXITCODE) {
                 throw "An error occurred."
             }
             "Found SHA: $refSHA" | Write-Verbose
         }
         if (@($releaseTagsInfo).Count -eq 1) {
-            throw "Only one release tag exists in the repository '$($PSBoundParameters['Path'])'."
+            throw "Only one release tag exists in the repository '$($Path)'."
         }
 
-        $releasePreviousCommitSHA = if ($PSBoundParameters['Ref']) {
-            "Searching for the previous release relative from the ref '$($PSBoundParameters['Ref'])'" | Write-Verbose
+        $releasePreviousCommitSHA = if ($Ref) {
+            "Searching for the previous release relative from the ref '$($Ref)'" | Write-Verbose
             $cnt = 0;
             foreach ($r in $releaseTagsInfo) {
                 if ($r -match "^$refSHA\s+") {
@@ -45,10 +45,10 @@ function Get-RepositoryReleasePrevious {
                 $cnt++
             }
             if ($releaseTagsInfo.Count -eq $cnt) {
-                throw "The specified ref '$($PSBoundParameters['Ref'])' is not a valid release."
+                throw "The specified ref '$($Ref)' is not a valid release."
             }
             if (@($releaseTagsInfo).Count -eq ($cnt+1)) {
-                throw "No previous release exists relative from the ref '$($PSBoundParameters['Ref'])'"
+                throw "No previous release exists relative from the ref '$($Ref)'"
             }
             ($releaseTagsInfo[$cnt+1] -split "\s")[0]
         }else {

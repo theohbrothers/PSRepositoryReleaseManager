@@ -45,16 +45,16 @@ function Create-GitHubRelease {
 
     try {
         $private:releaseArgs = [Ordered]@{}
-        if ($PSBoundParameters['Namespace']) { $private:releaseArgs['Namespace'] = $PSBoundParameters['Namespace'] }
-        if ($PSBoundParameters['Repository']) { $private:releaseArgs['Repository'] = $PSBoundParameters['Repository'] }
-        if ($PSBoundParameters['ApiKey']) { $private:releaseArgs['ApiKey'] = $PSBoundParameters['ApiKey'] }
-        if ($PSBoundParameters['TagName']) { $private:releaseArgs['TagName'] = $PSBoundParameters['TagName'] }
-        if ($PSBoundParameters['TargetCommitish']) { $private:releaseArgs['TargetCommitish'] = $PSBoundParameters['TargetCommitish'] }
-        if ($PSBoundParameters['Name']) { $private:releaseArgs['Name'] = $PSBoundParameters['Name'] }
-        if ($PSBoundParameters['ReleaseNotesPath']) { $private:releaseArgs['Body'] = Get-Content -Path $PSBoundParameters['ReleaseNotesPath'] -Raw }
-        elseif ($PSBoundParameters['ReleaseNotesContent']) { $private:releaseArgs['Body'] = $PSBoundParameters['ReleaseNotesContent'] }
-        if ($null -ne $PSBoundParameters['Draft']) { $private:releaseArgs['Draft'] = $PSBoundParameters['Draft'] }
-        if ($null -ne $PSBoundParameters['Prerelease']) { $private:releaseArgs['Prerelease'] = $PSBoundParameters['Prerelease'] }
+        if ($Namespace) { $private:releaseArgs['Namespace'] = $Namespace }
+        if ($Repository) { $private:releaseArgs['Repository'] = $Repository }
+        if ($ApiKey) { $private:releaseArgs['ApiKey'] = $ApiKey }
+        if ($TagName) { $private:releaseArgs['TagName'] = $TagName }
+        if ($TargetCommitish) { $private:releaseArgs['TargetCommitish'] = $TargetCommitish }
+        if ($Name) { $private:releaseArgs['Name'] = $Name }
+        if ($ReleaseNotesPath) { $private:releaseArgs['Body'] = Get-Content -Path $ReleaseNotesPath -Raw }
+        elseif ($ReleaseNotesContent) { $private:releaseArgs['Body'] = $ReleaseNotesContent }
+        if ($null -ne $Draft) { $private:releaseArgs['Draft'] = $Draft }
+        if ($null -ne $Prerelease) { $private:releaseArgs['Prerelease'] = $Prerelease }
         $response = New-GitHubRepositoryRelease @private:releaseArgs -ErrorAction Stop
         $response
     }catch {
