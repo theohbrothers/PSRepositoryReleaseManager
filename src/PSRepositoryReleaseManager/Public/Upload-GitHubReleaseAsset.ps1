@@ -17,9 +17,9 @@ function Upload-GitHubReleaseAsset {
 
     try {
         $private:releaseAssetArgs = [Ordered]@{}
-        if ($PSBoundParameters['UploadUrl']) { $private:releaseAssetArgs['UploadUrl'] = $PSBoundParameters['UploadUrl'] }
-        if ($PSBoundParameters['ApiKey']) { $private:releaseAssetArgs['ApiKey'] = $PSBoundParameters['ApiKey'] }
-        foreach ($a in $PSBoundParameters['Asset']) {
+        if ($UploadUrl) { $private:releaseAssetArgs['UploadUrl'] = $UploadUrl }
+        if ($ApiKey) { $private:releaseAssetArgs['ApiKey'] = $ApiKey }
+        foreach ($a in $Asset) {
             try {
                 $private:releaseAssetArgs['Asset'] = Get-Item -Path $a | Select-Object -ExpandProperty FullName
                 "Uploading release asset '$a':" | Write-Verbose
