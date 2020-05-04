@@ -7,7 +7,7 @@ function Get-RepositoryReleaseLatest {
     )
 
     try {
-        Push-Location $PSBoundParameters['Path']
+        Push-Location $Path
         "Retrieving info on release tags" | Write-Verbose
         $releaseTagsInfo = (git --no-pager log --date-order --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
             if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,|$)') {
@@ -15,7 +15,7 @@ function Get-RepositoryReleaseLatest {
             }
         }
         if (!$releaseTagsInfo) {
-            throw "No release tags exist in the repository '$($PSBoundParameters['Path'])'."
+            throw "No release tags exist in the repository '$($Path)'."
         }
         "Release tags info:" | Write-Verbose
         $releaseTagsInfo | Write-Verbose

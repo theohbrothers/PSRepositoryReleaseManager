@@ -26,28 +26,28 @@ function Get-RepositoryCommitHistory {
 
     try {
         "Verifying refs" | Write-Verbose
-        Push-Location $PSBoundParameters['Path']
-        $PSBoundParameters['FirstRef'],$PSBoundParameters['SecondRef'] | % {
+        Push-Location $Path
+        $FirstRef,$SecondRef | % {
             git rev-parse $_ > $null
             if ($LASTEXITCODE) {
                 throw "An error occurred."
             }
         }
-        "First ref: '$($PSBoundParameters['FirstRef'])':" | Write-Verbose
-        if ($PSBoundParameters['SecondRef']) {
+        "First ref: '$($FirstRef)':" | Write-Verbose
+        if ($SecondRef) {
             "Second ref: '$SecondRef':" | Write-Verbose
-            $commitSHARange = "$($PSBoundParameters['FirstRef'])...$($PSBoundParameters['SecondRef'])"
+            $commitSHARange = "$($FirstRef)...$($SecondRef)"
         }else {
             "Second ref unspecifed. Full history of First ref will be retrieved."  | Write-Verbose
-            $commitSHARange = $PSBoundParameters['FirstRef']
+            $commitSHARange = $FirstRef
         }
         $gitArgs = @(
             '--no-pager'
             'log'
-            "--pretty=format:$($PSBoundParameters['PrettyFormat'])"
+            "--pretty=format:$($PrettyFormat)"
             $commitSHARange
-            if ($PSBoundParameters['Merges']) { '--merges' }
-            elseif ($PSBoundParameters['NoMerges']) { '--no-merges' }
+            if ($Merges) { '--merges' }
+            elseif ($NoMerges) { '--no-merges' }
         )
         $_commitHistory = git $gitArgs | Out-String
         "Changelog:" | Write-Verbose
