@@ -115,7 +115,7 @@ Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](htt
 To update the submodule:
 
 ```shell
-git submodule update --recursive build/PSRepositoryReleaseManager
+git submodule update --remote --recursive build/PSRepositoryReleaseManager
 ```
 
 #### Using a specific tag / commit
