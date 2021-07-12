@@ -14,6 +14,7 @@ $private:myGenerateArgs = @{
 ################################################
 
 $ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
 $VerbosePreference = 'Continue'
 Set-StrictMode -Version Latest
 
