@@ -28,6 +28,7 @@ $private:myReleaseArgs = @{
 ################################################
 
 $ErrorActionPreference = 'Stop'
+$ErrorView = 'NormalView'
 $VerbosePreference = 'Continue'
 Set-StrictMode -Version Latest
 

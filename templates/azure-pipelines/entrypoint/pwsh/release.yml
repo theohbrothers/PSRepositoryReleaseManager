@@ -9,6 +9,7 @@ parameters:
 steps:
 - pwsh: |
     $ErrorActionPreference = 'Stop'
+    $ErrorView = 'NormalView'
     ### Begin CI-specific code: Get the namspace, project name, and tag ref
     $matchInfo = $env:BUILD_SOURCEBRANCH | Select-String -Pattern '^refs\/tags\/(.*)'
     $env:RELEASE_TAG_REF = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
