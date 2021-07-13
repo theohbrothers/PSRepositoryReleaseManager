@@ -3,7 +3,7 @@
 [badge-version-github-tag-img]: https://img.shields.io/github/v/tag/theohbrothers/PSRepositoryReleaseManager?style=flat-square
 [badge-version-github-tag-src]: https://github.com/theohbrothers/PSRepositoryReleaseManager/releases
 
-A project for managing repository releases, such as [GitHub releases](https://help.github.com/en/articles/about-releases).
+A project for managing repository releases, such as [GitHub releases](https://docs.github.com/en/github/administering-a-repository/releasing-projects-on-github/about-releases).
 
 ## Introduction
 
@@ -58,7 +58,7 @@ Configure the following CI settings for your project.
 
 **Note:** This step is only necessary for [creating releases](#releases-1) on CI environments.
 
-Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line), ensuring it has write permissions to the repository.
+Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token), ensuring it has write permissions to the repository.
 
 ## Usage
 
@@ -96,15 +96,15 @@ The included CI files use a very similar set of [entrypoint scripts](src/scripts
 
 #### Generating release notes
 
-To generate release notes, reference the appropriate `generate.yml` entrypoint CI template provided by this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample).
+To generate release notes, reference the appropriate `generate.yml` entrypoint CI template provided by this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.generate.sample#L4-#L7).
 
-Generation of release notes are limited to the module's [valid tags pattern](#valid-tags).
+Generation of release notes are limited to the module's [valid tags](#valid-tags) [pattern](src/PSRepositoryReleaseManager/Private/Get-RepositoryReleasePrevious.ps1#L17).
 
 #### Releases
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
-To create releases, reference the appropriate `release.yml` entrypoint CI template provided by this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.release.sample).
+To create releases, reference the appropriate `release.yml` entrypoint CI template provided by this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.yml.release.sample#L4-#L20).
 
 Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
@@ -136,18 +136,7 @@ cd -
 git commit -am 'Update submodule PSRepositoryReleaseManager'
 ```
 
-#### Tracking a specific branch
-
-To track a specific branch for  `git submodule update`, add the `branch` key-value pair under the submodule's entry in `.gitmodules` like so:
-
-```shell
-[submodule "build/PSRepositoryReleaseManager"]
-	path = build/PSRepositoryReleaseManager
-	url = https://github.com/theohbrothers/PSRepositoryReleaseManager.git
-	branch = trackedbranch
-```
-
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- Ensure your main project's CI file(s) is configured to use the CI templates of `PSRepositoryReleaseManager` and that the ref used matches that of `PSRepositoryReleaseManager` used in your main project.
+- Ensure your main project's CI file(s) is configured to use the CI templates of `PSRepositoryReleaseManager` and that the ref used matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
