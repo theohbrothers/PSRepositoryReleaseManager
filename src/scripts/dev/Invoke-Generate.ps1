@@ -32,7 +32,7 @@ try {
                                if ([System.IO.Path]::IsPathRooted($private:myGenerateArgs['ReleaseNotesPath'])) { $private:myGenerateArgs['ReleaseNotesPath'] }
                                else { $private:myGenerateArgs['ReleaseNotesPath'] }
                            }else {
-                                $private:defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
+                               $private:defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
                                "Using the default release notes path '$private:defaultReleaseNotesPath'" | Write-Verbose
                                $private:defaultReleaseNotesPath
                            }
