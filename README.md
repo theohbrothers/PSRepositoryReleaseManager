@@ -30,7 +30,7 @@ Add `PSRepositoryReleaseManager` as a submodule under the directory `build` in y
 
 ```shell
 # Add the submodule
-git submodule add 'https://github.com/theohbrothers/PSRepositoryReleaseManager.git' build/PSRepositoryReleaseManager
+git submodule add https://github.com/theohbrothers/PSRepositoryReleaseManager.git build/PSRepositoryReleaseManager
 
 # Checkout submodules recursively
 git submodule update --init --recursive build/PSRepositoryReleaseManager
@@ -39,7 +39,7 @@ git submodule update --init --recursive build/PSRepositoryReleaseManager
 git --git-dir build/PSRepositoryReleaseManager/.git checkout vx.x.x
 
 # Commit the submodule
-git commit -am 'Add submodule PSRepositoryReleaseManager'
+git commit -am 'Add submodule PSRepositoryReleaseManager vx.x.x'
 ```
 
 #### CI files
