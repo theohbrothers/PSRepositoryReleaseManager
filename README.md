@@ -14,8 +14,8 @@ This project provides CI templates and scripts that other projects can utilize f
 `PSRepositoryReleaseManager` requires main projects to adopt the following directory structure:
 
 ```shell
-/build/                                         # Directory containing build files
-/build/PSRepositoryReleaseManager/              # The root directory of PSRepositoryReleaseManager as a submodule
+/build/                                 # Directory containing build files
+/build/PSRepositoryReleaseManager/      # The root directory of PSRepositoryReleaseManager as a submodule
 ```
 
 ## Configuration
@@ -74,7 +74,7 @@ The names of all release notes variants that can be generated can be found in th
 
 ##### Valid tags
 
-At present, generation of release notes is only possible for tags of the format `MAJOR.MINOR.PATCH`, prepended with a lowercase `v`:
+At present, generation of release notes is only possible for tags of the format [`MAJOR.MINOR.PATCH`](src/PSRepositoryReleaseManager/Private/Get-RepositoryReleasePrevious.ps1#L17), prepended with a lowercase `v`:
 
 ```shell
 # Valid tags
@@ -98,7 +98,7 @@ The included CI files use a very similar set of [entrypoint scripts](src/scripts
 
 To generate release notes, reference the appropriate `generate.yml` entrypoint CI template provided by this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.generate.yml#L4-#L7).
 
-Generation of release notes are limited to the module's [valid tags](#valid-tags) [pattern](src/PSRepositoryReleaseManager/Private/Get-RepositoryReleasePrevious.ps1#L17).
+Generation of release notes is presently *limited* to the module's [valid tags pattern](#valid-tags).
 
 #### Releases
 
