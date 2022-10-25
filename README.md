@@ -118,22 +118,19 @@ To update the submodule:
 git submodule update --remote --recursive build/PSRepositoryReleaseManager
 ```
 
-#### Using a specific tag / commit
+#### Using a specific tag
 
-To use a specific tag or commit of the submodule:
+To use a specific tag of the submodule:
 
 ```shell
-# Change to the submodule's root directory
-cd build/PSRepositoryReleaseManager
-
 # Checkout ref to use
-git checkout v1.0.1                                         # Specific tag
-git checkout 0123456789abcdef0123456789abcdef01234567       # Specific commit
+git --git-dir build/PSRepositoryReleaseManager/.git checkout vx.x.x
 
-# Return
-cd -
-# Commit the submodule
-git commit -am 'Update submodule PSRepositoryReleaseManager'
+# Bump PSRepositoryReleaseManager to the same ref in CI file
+vi azure-pipelines.yml
+
+# Commit the submodule and CI file
+git commit -am 'Bump PSRepositoryReleaseManager to vx.x.x'
 ```
 
 ## Best practices
