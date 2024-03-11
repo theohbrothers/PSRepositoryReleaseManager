@@ -1,4 +1,4 @@
-function DateHistory-Subject-NoMerges {
+function VersionDate-Subject-NoMerges {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]

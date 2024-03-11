@@ -1,4 +1,4 @@
-function DateHistory-HashSubject {
+function VersionDate-HashSubject-NoMerges {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
@@ -22,6 +22,7 @@ function DateHistory-HashSubject {
             Path = $Path
             FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $TagName }
             PrettyFormat = '%h %s'
+            NoMerges = $true
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = $TagName }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
