@@ -1,4 +1,4 @@
-function DateHistory-Subject-Merges {
+function VersionDate-Subject {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
@@ -22,7 +22,6 @@ function DateHistory-Subject-Merges {
             Path = $Path
             FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $TagName }
             PrettyFormat = '%s'
-            Merges = $true
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = $TagName }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
