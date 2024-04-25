@@ -31,6 +31,7 @@ function Generate-ReleaseNotes {
         }
         $releaseNotesContent | Out-File -FilePath $ReleaseNotesPath -Encoding utf8
         "Release notes generated at the path '$ReleaseNotesPath'" | Write-Verbose
+        $ReleaseNotesPath
     }catch {
         Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
     }
