@@ -32,7 +32,7 @@ $env:RELEASE_TAG_REF = git describe --tags --abbrev=0
 
 # Script: ci/Invoke-Generate.ps1
 $ReleaseNotesVariant = Get-ChildItem "../src/PSRepositoryReleaseManager/generate/variants" | % { $_.BaseName }
-"Release Notes Variants:" | Write-Verbose
+"Release notes variants:" | Write-Verbose
 $ReleaseNotesVariant | Write-Host
 
 foreach ($variant in $ReleaseNotesVariant) {
