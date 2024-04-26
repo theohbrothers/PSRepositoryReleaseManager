@@ -9,8 +9,8 @@ try {
     Push-Location $PSScriptRoot
 
     # Install test dependencies
-    # "Installing test dependencies" | Write-Verbose
-    # & "$PSScriptRoot\scripts\dep\Install-TestDependencies.ps1" > $null
+    "Installing test dependencies" | Write-Verbose
+    & "$PSScriptRoot\Install-TestDependencies.ps1" > $null
 
     # Run unit tests
     "Running unit tests" | Write-Verbose
