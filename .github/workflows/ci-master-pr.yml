@@ -22,7 +22,7 @@ jobs:
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
     - name: Test
       run: |
-        pwsh -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   test-powershell-macos:
     runs-on: macos-latest
@@ -35,7 +35,7 @@ jobs:
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
     - name: Test
       run: |
-        pwsh -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   test-powershell-windows:
     runs-on: windows-latest
@@ -48,7 +48,7 @@ jobs:
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
     - name: Test
       run: |
-        pwsh -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   test-powershell-5-1-windows-2019:
     runs-on: windows-2019
@@ -61,7 +61,7 @@ jobs:
         powershell -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
     - name: Test
       run: |
-        powershell -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'
+        powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   ##########
   # Docker #
@@ -81,7 +81,7 @@ jobs:
     - name: Test
       run: |
         git config --global --add safe.directory '*'
-        pwsh -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   test-powershell-7-3:
     runs-on: ubuntu-latest
@@ -97,7 +97,7 @@ jobs:
     - name: Test
       run: |
         git config --global --add safe.directory '*'
-        pwsh -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   test-powershell-7-4:
     runs-on: ubuntu-latest
@@ -113,4 +113,4 @@ jobs:
     - name: Test
       run: |
         git config --global --add safe.directory '*'
-        pwsh -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
