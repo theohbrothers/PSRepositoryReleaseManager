@@ -78,9 +78,11 @@ jobs:
     - name: Powershell version
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Ignore git permissions
+      run: |
+        git config --global --add safe.directory "$( pwd )"
     - name: Test
       run: |
-        git config --global --add safe.directory '*'
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   test-powershell-7-3:
@@ -94,9 +96,11 @@ jobs:
     - name: Powershell version
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Ignore git permissions
+      run: |
+        git config --global --add safe.directory "$( pwd )"
     - name: Test
       run: |
-        git config --global --add safe.directory '*'
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   test-powershell-7-4:
@@ -110,7 +114,9 @@ jobs:
     - name: Powershell version
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Ignore git permissions
+      run: |
+        git config --global --add safe.directory "$( pwd )"
     - name: Test
       run: |
-        git config --global --add safe.directory '*'
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
