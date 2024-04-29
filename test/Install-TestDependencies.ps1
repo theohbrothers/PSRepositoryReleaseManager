@@ -16,7 +16,7 @@ try {
         Install-Module -Name 'Pester' -Repository 'PSGallery' -MinimumVersion $pesterMinimumVersion -MaximumVersion $pesterMaximumVersion -Scope CurrentUser -Force
     }
     Get-Module Pester -ListAvailable | Out-String | Write-Verbose
-    Import-Module -Name 'Pester' -RequiredVersion '4.10.1' -Force   # Force import to ensure environment uses the correct version of Pester
+    Import-Module -Name 'Pester' -MinimumVersion $pesterMinimumVersion -MaximumVersion $pesterMaximumVersion -Force   # Force import to ensure environment uses the correct version of Pester
 
 }catch {
     throw
