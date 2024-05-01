@@ -22,10 +22,10 @@ stages:
 - stage: release
   displayName: Release
   jobs:
-  - job: windows_pwsh
+  - job: windows_powershell_core
     displayName: '[Windows] PowerShell Core'
     pool:
-      vmImage: windows-2019
+      vmImage: windows-latest
     steps:
     - checkout: self
       submodules: recursive
