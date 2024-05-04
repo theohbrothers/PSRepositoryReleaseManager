@@ -15,7 +15,9 @@ param(
     [Parameter(Mandatory=$false)]
     [ValidateNotNullOrEmpty()]
     [string]$ReleaseNotesPath
-    <#
+
+    <# Examples
+
     # Maximum defaults
     ./Invoke-Generate.ps1 -ReleaseTagRef v1.0.12
 
@@ -31,6 +33,7 @@ param(
     # No defaults
     ./Invoke-Generate.ps1 -ProjectDirectory '/path/to/repository' -ReleaseTagRef v1.0.12 -ReleaseNotesVariant 'Changes-HashSubject-NoMerges' -ReleaseNotesPath '/path/to/repository/.release-notes.md'
     #>
+
 )
 
 $ErrorActionPreference = 'Stop'
