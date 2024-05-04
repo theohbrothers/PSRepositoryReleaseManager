@@ -1,5 +1,37 @@
 [CmdletBinding()]
-param()
+param(
+    [Parameter(Mandatory=$false)]
+    [ValidateScript({Test-Path -Path $_ -PathType Container})]
+    [string]$ProjectDirectory
+    ,
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ReleaseTagRef
+    ,
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ReleaseNotesVariant
+    ,
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ReleaseNotesPath
+    <#
+    # Maximum defaults
+    ./Invoke-Generate.ps1 -ReleaseTagRef v1.0.12
+
+    # Default -ReleaseNotesVariant and -ReleaseNotesPath
+    ./Invoke-Generate.ps1 -ProjectDirectory '/path/to/repository' -ReleaseTagRef v1.0.12
+
+    # Default -ReleaseNotesPath
+    ./Invoke-Generate.ps1 -ProjectDirectory '/path/to/repository' -ReleaseTagRef v1.0.12 -ReleaseNotesVariant 'Changes-HashSubject-NoMerges'
+
+    # Custom -ReleaseNotesPath relative to -ProjectDirectory
+    ./Invoke-Generate.ps1 -ProjectDirectory '/path/to/repository' -ReleaseTagRef v1.0.12 -ReleaseNotesVariant 'Changes-HashSubject-NoMerges' -ReleaseNotesPath 'my-custom-release-notes.md'
+
+    # No defaults
+    ./Invoke-Generate.ps1 -ProjectDirectory '/path/to/repository' -ReleaseTagRef v1.0.12 -ReleaseNotesVariant 'Changes-HashSubject-NoMerges' -ReleaseNotesPath '/path/to/repository/.release-notes.md'
+    #>
+)
 
 $ErrorActionPreference = 'Stop'
 $ErrorView = 'NormalView'
@@ -11,22 +43,26 @@ try {
     Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
     # Generate release notes
-    $private:superProjectDir = git rev-parse --show-superproject-working-tree
-    if ($private:superProjectDir) {
-        "Using superproject path '$private:ProjectDir'" | Write-Verbose
-        $private:ProjectDir = $private:superProjectDir
+    if ($private:ProjectDirectory) {
+        $private:ProjectDir = $private:ProjectDirectory
     }else {
-        $private:ProjectDir = git rev-parse --show-toplevel
-        "Superproject does not exist. Using project path '$private:ProjectDir'" | Write-Verbose
+        $private:superProjectDir = git rev-parse --show-superproject-working-tree
+        if ($private:superProjectDir) {
+            "Using superproject path '$private:ProjectDir'" | Write-Verbose
+            $private:ProjectDir = $private:superProjectDir
+        }else {
+            $private:ProjectDir = git rev-parse --show-toplevel
+            "Superproject does not exist. Using project path '$private:ProjectDir'" | Write-Verbose
+        }
     }
     $private:generateArgs = @{
         Path = $private:ProjectDir
-        TagName = $env:RELEASE_TAG_REF
-        Variant = if ($env:RELEASE_NOTES_VARIANT) { $env:RELEASE_NOTES_VARIANT } else { 'VersionDate-HashSubject-NoMerges' }
-        ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) {
-                               "Using specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
-                               if ([System.IO.Path]::IsPathRooted($env:RELEASE_NOTES_PATH)) { $env:RELEASE_NOTES_PATH }
-                               else { "$private:ProjectDir/$env:RELEASE_NOTES_PATH" }
+        TagName = $private:ReleaseTagRef
+        Variant = if ($private:ReleaseNotesVariant) { $private:ReleaseNotesVariant } else { 'VersionDate-HashSubject-NoMerges' }
+        ReleaseNotesPath = if ($private:ReleaseNotesPath) {
+                               "Using specified release notes path '$private:ReleaseNotesPath'" | Write-Verbose
+                               if ([System.IO.Path]::IsPathRooted($private:ReleaseNotesPath)) { $private:ReleaseNotesPath }
+                               else { "$private:ProjectDir/$private:ReleaseNotesPath" }
                            }else {
                                $private:defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
                                "Using the default release notes path '$private:defaultReleaseNotesPath'" | Write-Verbose

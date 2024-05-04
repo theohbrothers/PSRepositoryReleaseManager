@@ -66,7 +66,7 @@ Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](http
 
 #### Generating release notes
 
-The entrypoint script [`Invoke-Generate.ps1`](src/scripts/dev/Invoke-Generate.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
+The entrypoint script [`Invoke-Generate.ps1`](src/scripts/ci/Invoke-Generate.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository and the variant of release notes to generate.
 
 ##### Variants
 
