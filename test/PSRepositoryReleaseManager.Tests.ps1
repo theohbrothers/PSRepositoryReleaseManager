@@ -40,7 +40,11 @@ foreach ($variant in $ReleaseNotesVariant) {
     $env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/test/.release-notes.$variant.md"
 
     $cmd = "../src/scripts/ci/Invoke-Generate.ps1"
-    $cmdArgs=@{}
+    $cmdArgs=@{
+        ReleaseTagRef = $env:RELEASE_TAG_REF
+        ReleaseNotesVariant = $env:RELEASE_NOTES_VARIANT
+        ReleaseNotesPath = $env:RELEASE_NOTES_PATH
+    }
     $iterations = 1
     & $functionTestScriptBlock
 }

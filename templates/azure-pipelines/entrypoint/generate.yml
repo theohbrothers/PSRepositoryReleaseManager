@@ -1,6 +1,6 @@
 parameters:
-  NOTES_PATH: ''
   VARIANT: ''
+  NOTES_PATH: ''
 
 steps:
 - pwsh: |
@@ -17,9 +17,12 @@ steps:
     "Repository: '$env:RELEASE_REPOSITORY'" | Write-Host
     "Tag ref: '$env:RELEASE_TAG_REF'" | Write-Host
     $VerbosePreference = 'Continue'
-    .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1
+    $private:generateArgs = @{ ReleaseTagRef = $env:RELEASE_TAG_REF }
+    if ($env:RELEASE_NOTES_VARIANT) { $private:generateArgs['ReleaseNotesVariant'] = $env:RELEASE_NOTES_VARIANT }
+    if ($env:RELEASE_NOTES_PATH) { $private:generateArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
+    .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1 @private:generateArgs
   displayName: Generate release notes
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
   env:
-    RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
     RELEASE_NOTES_VARIANT: ${{ parameters['VARIANT'] }}
+    RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
