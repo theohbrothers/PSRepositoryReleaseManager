@@ -1,5 +1,46 @@
-[CmdletBinding()]
-param()
+[CmdletBinding(DefaultParameterSetName='Path')]
+param(
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Namespace
+    ,
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Repository
+    ,
+    [Parameter(Mandatory=$true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ApiKey
+    ,
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$TagName
+    ,
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Name
+    ,
+    [Parameter(ParameterSetName='Path', Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
+    [string]$ReleaseNotesPath
+    ,
+    [Parameter(ParameterSetName='Content', Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$ReleaseNotesContent
+    ,
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [bool]$Draft
+    ,
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [bool]$Prerelease
+    ,
+    [Parameter(Mandatory=$false)]
+    [ValidateNotNullOrEmpty()]
+    [string]$Asset
+)
 
 $ErrorActionPreference = 'Stop'
 $ErrorView = 'NormalView'
@@ -15,22 +56,20 @@ try {
     $private:superProjectDir = git rev-parse --show-superproject-working-tree
     if (!$private:superProjectDir) { throw "The superproject root directory cannot be determined." }
     $private:createReleaseArgs = @{
-        Namespace = $env:RELEASE_NAMESPACE
-        Repository = $env:RELEASE_REPOSITORY
-        ApiKey = $env:GITHUB_API_TOKEN
-        TagName = $env:RELEASE_TAG_REF
-        TargetCommitish = git --git-dir "$($private:superProjectDir)/.git" rev-parse $env:RELEASE_TAG_REF
-        Name = if ($env:RELEASE_NAME) { $env:RELEASE_NAME } else { $env:RELEASE_TAG_REF }
-        Draft = if ($env:RELEASE_DRAFT) { [System.Convert]::ToBoolean($env:RELEASE_DRAFT) } else { $false }
-        Prerelease = if ($env:RELEASE_PRERELEASE) { [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) } else { $false }
+        Namespace = $Namespace
+        Repository = $Repository
+        ApiKey = $ApiKey
+        TagName = $TagName
+        TargetCommitish = git --git-dir "$($private:superProjectDir)/.git" rev-parse $TagName
+        Name = if ($Name) { $Name } else { $TagName }
     }
-    if ($env:RELEASE_NOTES_PATH) {
-        "Sourcing from specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
-        $private:createReleaseArgs['ReleaseNotesPath'] = if ([System.IO.Path]::IsPathRooted($env:RELEASE_NOTES_PATH)) { $env:RELEASE_NOTES_PATH }
-                                                         else { "$private:superProjectDir/$env:RELEASE_NOTES_PATH" }
-    }elseif ($env:RELEASE_NOTES_CONTENT) {
+    if ($ReleaseNotesPath) {
+        "Sourcing from specified release notes path '$ReleaseNotesPath'" | Write-Verbose
+        $private:createReleaseArgs['ReleaseNotesPath'] = if ([System.IO.Path]::IsPathRooted($ReleaseNotesPath)) { $ReleaseNotesPath }
+                                                         else { "$private:superProjectDir/$ReleaseNotesPath" }
+    }elseif ($ReleaseNotesContent) {
         "Using specified release notes content" | Write-Verbose
-        $private:createReleaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT
+        $private:createReleaseArgs['ReleaseNotesContent'] = $ReleaseNotesContent
     }else {
         $private:defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
         if (Test-Path -Path $private:defaultReleaseNotesPath -PathType Leaf) {
@@ -40,13 +79,15 @@ try {
             "Default release notes not found at the path '$private:defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
         }
     }
+    if ($Draft) { $private:createReleaseArgs['Draft'] = $Draft } else { $false }
+    if ($Prerelease) { $private:createReleaseArgs['Prerelease'] = $Prerelease } else { $false }
     $response = Create-GitHubRelease @private:createReleaseArgs
     $responseContent = $response.Content | ConvertFrom-Json
 
     # Upload release assets
-    if ($env:RELEASE_ASSETS) {
+    if ($Asset) {
         try {
-            $private:releaseAssetsArr = $env:RELEASE_ASSETS -Split "`n" | % { $_.Trim() } | ? { $_ }
+            $private:releaseAssetsArr = $Asset -Split "`n" | % { $_.Trim() } | ? { $_ }
             "Release assets (Specified):" | Write-Verbose
             $private:releaseAssetsArr | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
             Push-Location $private:superProjectDir
@@ -62,7 +103,7 @@ try {
         $private:uploadReleaseAssetsArgs = @{
             UploadUrl = $responseContent.upload_url
             Asset = $private:assets
-            ApiKey = $env:GITHUB_API_TOKEN
+            ApiKey = $ApiKey
         }
         Upload-GitHubReleaseAsset @private:uploadReleaseAssetsArgs
     }
