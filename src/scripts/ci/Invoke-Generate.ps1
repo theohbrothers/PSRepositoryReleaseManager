@@ -51,8 +51,8 @@ try {
     }else {
         $private:superProjectDir = git rev-parse --show-superproject-working-tree
         if ($private:superProjectDir) {
-            "Using superproject path '$private:ProjectDir'" | Write-Verbose
             $private:ProjectDir = $private:superProjectDir
+            "Using superproject path '$private:ProjectDir'" | Write-Verbose
         }else {
             $private:ProjectDir = git rev-parse --show-toplevel
             "Superproject does not exist. Using project path '$private:ProjectDir'" | Write-Verbose
