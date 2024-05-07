@@ -88,7 +88,7 @@ git tag v1.0.12-beta.1
 
 #### Releases
 
-The entrypoint script [`Invoke-Release.ps1`](src/scripts/dev/Invoke-Release.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Fill in all relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
+The entrypoint script [`Invoke-Release.ps1`](src/scripts/ci/Invoke-Release.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Simply specify the relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
 
 ### Continuous Integration
 
