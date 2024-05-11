@@ -15,7 +15,7 @@ try {
     # Run unit tests
     "Running unit tests" | Write-Verbose
     $testFailed = $false
-    $unitResult = Invoke-Pester -Script "$PSScriptRoot\..\src\PSRepositoryReleaseManager" -PassThru
+    $unitResult = Invoke-Pester -Script "$PSScriptRoot\..\src\PSRepositoryReleaseManager" -Tag 'Unit' -PassThru
     if ($unitResult.FailedCount -gt 0) {
         "$($unitResult.FailedCount) tests failed." | Write-Warning
         $testFailed = $true
@@ -23,8 +23,9 @@ try {
 
     # Run integration tests
     "Running integration tests" | Write-Verbose
-    $integratedFailedCount = & "$PSScriptRoot\PSRepositoryReleaseManager.Tests.ps1"
-    if ($integratedFailedCount -gt 0) {
+    $integratedResult = Invoke-Pester -Script "$PSScriptRoot\..\src\PSRepositoryReleaseManager" -Tag 'Integration' -PassThru
+    if ($integratedResult.FailedCount -gt 0) {
+        "$($integratedResult.FailedCount) tests failed." | Write-Warning
         $testFailed = $true
     }
 
