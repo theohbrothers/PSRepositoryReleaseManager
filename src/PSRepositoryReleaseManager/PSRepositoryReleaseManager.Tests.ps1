@@ -1,7 +1,6 @@
 Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
     BeforeAll {
         $ErrorView = 'NormalView'
-        $VerbosePreference = 'Continue'
         $env:RELEASE_TAG_REF = git describe --tags --abbrev=0
     }
     BeforeEach {
