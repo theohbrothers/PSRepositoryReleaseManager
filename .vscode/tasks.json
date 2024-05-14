@@ -1,0 +1,51 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "PROJECT_DIRECTORY",
+            "description": "PROJECT_DIRECTORY?",
+            "type": "promptString",
+            "default": "${workspaceFolder}",
+        },
+        {
+            "id": "RELEASE_TAG_REF",
+            "description": "RELEASE_TAG_REF?",
+            "type": "promptString",
+            "default": "xxx",
+        },
+        {
+            "id": "RELEASE_NOTES_VARIANT",
+            "description": "RELEASE_NOTES_VARIANT?",
+            "type": "promptString",
+            "default": "VersionDate-HashSubject-NoMerges",
+        },
+        {
+            "id": "RELEASE_NOTES_PATH",
+            "description": "RELEASE_NOTES_PATH?",
+            "type": "promptString",
+            "default": "${workspaceFolder}/.release-notes.md",
+        },
+        {
+            "id": "GITHUB_API_TOKEN",
+            "description": "GITHUB_API_TOKEN?",
+            "type": "promptString",
+            "default": "xxx",
+        },
+    ],
+    "tasks": [
+        {
+            "label": "Invoke-Generate.ps1 (pwsh)",
+            "type": "shell",
+            "command": "PROJECT_DIRECTORY=${input:PROJECT_DIRECTORY} RELEASE_TAG_REF=${input:RELEASE_TAG_REF} RELEASE_NOTES_VARIANT=${input:RELEASE_NOTES_VARIANT} RELEASE_NOTES_PATH=${input:RELEASE_NOTES_PATH} pwsh -Command 'src/scripts/ci/Invoke-Generate.ps1 -ProjectDirectory $env:PROJECT_DIRECTORY -ReleaseTagRef $env:RELEASE_TAG_REF -ReleaseNotesVariant $env:RELEASE_NOTES_VARIANT -ReleaseNotesPath $env:RELEASE_NOTES_PATH'",
+            "group": "build"
+        },
+        {
+            "label": "Invoke-Generate.ps1 (powershell)",
+            "type": "shell",
+            "command": "PROJECT_DIRECTORY=${input:PROJECT_DIRECTORY} RELEASE_TAG_REF=${input:RELEASE_TAG_REF} RELEASE_NOTES_VARIANT=${input:RELEASE_NOTES_VARIANT} RELEASE_NOTES_PATH=${input:RELEASE_NOTES_PATH} powershell -Command 'src/scripts/ci/Invoke-Generate.ps1 -ProjectDirectory $env:PROJECT_DIRECTORY -ReleaseTagRef $env:RELEASE_TAG_REF -ReleaseNotesVariant $env:RELEASE_NOTES_VARIANT -ReleaseNotesPath $env:RELEASE_NOTES_PATH'",
+            "group": "build"
+        }
+    ]
+}
