@@ -147,16 +147,16 @@ Simply define necessary environment variables and/or parameter values prior to e
 $env:GITHUB_API_TOKEN='xxx'
 $env:RELEASE_TAG_REF='vx.x.x'
 
-# Common variables
-$env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)" # optional
-$env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.md" # optional
+# Generate and Release variables
+#$env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)" # optional
+#$env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.md" # optional
 
 # Generate (Generates release notes)
 #$env:RELEASE_NOTES_VARIANT='VersionDate-HashSubject-NoMerges' # optional
 $private:generateArgs = @{
-    ProjectDirectory = $env:PROJECT_DIRECTORY
     ReleaseTagRef = $env:RELEASE_TAG_REF
 }
+if ($env:PROJECT_DIRECTORY) { $private:generateArgs['ProjectDirectory'] = $env:PROJECT_DIRECTORY }
 if ($env:RELEASE_NOTES_VARIANT) { $private:generateArgs['ReleaseNotesVariant'] = $env:RELEASE_NOTES_VARIANT }
 if ($env:RELEASE_NOTES_PATH) { $private:generateArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
 ./path/to/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1 @private:generateArgs
@@ -170,11 +170,11 @@ $env:RELEASE_REPOSITORY = 'my-project' # required
 #$env:RELEASE_PRERELEASE = 'false' # optional
 #$env:RELEASE_ASSETS = @('path/to/asset1.tar.gz', 'path/to/asset2.gz', 'path/to/asset3.zip', 'path/to/assets/*.gz', 'path/to/assets/*.zip') # optional
 $private:releaseArgs = @{
-    ProjectDirectory = $env:PROJECT_DIRECTORY
     Namespace = $env:RELEASE_NAMESPACE
     Repository = $env:RELEASE_REPOSITORY
     ApiKey = $env:GITHUB_API_TOKEN
 }
+if ($env:PROJECT_DIRECTORY) { $private:generateArgs['ProjectDirectory'] = $env:PROJECT_DIRECTORY }
 if ($env:RELEASE_TAG_REF) { $private:releaseArgs['TagName'] = $env:RELEASE_TAG_REF }
 if ($env:RELEASE_NAME) { $private:releaseArgs['Name'] = $env:RELEASE_NAME }
 if ($env:RELEASE_NOTES_PATH) { $private:releaseArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
