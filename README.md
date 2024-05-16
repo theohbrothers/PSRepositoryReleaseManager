@@ -151,7 +151,7 @@ $env:RELEASE_TAG_REF='vx.x.x'
 #$env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.md" # optional
 
 # Generate (Generates release notes)
-#$env:RELEASE_NOTES_VARIANT='Changes-HashSubject-NoMerges' # optional
+#$env:RELEASE_NOTES_VARIANT='VersionDate-HashSubject-NoMerges' # optional
 $private:generateArgs = @{
     #ProjectDirectory = "$(git rev-parse --show-toplevel)" # optional
     ReleaseTagRef = $env:RELEASE_TAG_REF
@@ -167,7 +167,7 @@ $env:RELEASE_REPOSITORY = 'my-project' # required
 #$env:RELEASE_NOTES_CONTENT = Get-Content $env:RELEASE_NOTES_PATH -Raw # optional
 #$env:RELEASE_DRAFT = 'false' # optional
 #$env:RELEASE_PRERELEASE = 'false' # optional
-#$env:RELEASE_ASSETS = @('path/to/asset1.tar.gz', 'path/to/asset2.gz', 'path/to/asset3.zip', 'path/to/asset*.gz', 'path/to/asset*.zip') # optional
+#$env:RELEASE_ASSETS = @('path/to/asset1.tar.gz', 'path/to/asset2.gz', 'path/to/asset3.zip', 'path/to/assets/*.gz', 'path/to/assets/*.zip') # optional
 $private:releaseArgs = @{
     Namespace = $env:RELEASE_NAMESPACE
     Repository = $env:RELEASE_REPOSITORY
