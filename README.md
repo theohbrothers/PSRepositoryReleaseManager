@@ -9,22 +9,31 @@ A project for managing repository releases, such as [GitHub releases](https://do
 
 This project provides CI templates, scripts, and cmdlets that other projects can utilize for generating release notes and creating releases.
 
-### Main project structure
+## Setup
 
-`PSRepositoryReleaseManager` requires main projects to adopt the following directory structure:
+`PSRepositoryReleaseManager` can be used as an [independent project](#independent-project), or as [a submodule](#submodule) for generating release notes and creating releases.
+
+### Independent project
+
+To use `PSRepositoryReleaseManager` as an independent project, simply clone a copy of the repository including its submodules to development or CI environment(s) prior to executing [generate and release steps](#usage).
+
+```shell
+# Clone the repository with its submodules
+git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules
+```
+
+### Submodule
+
+#### Main project structure
+
+To use `PSRepositoryReleaseManager` as a submodule, main projects are to adopt the following directory structure:
 
 ```shell
 /build/                                 # Directory containing build files
 /build/PSRepositoryReleaseManager/      # The root directory of PSRepositoryReleaseManager as a submodule
 ```
 
-## Configuration
-
-### Main project
-
-Configure the following components on your main project.
-
-#### Submodule
+#### Adding the submodule
 
 Add `PSRepositoryReleaseManager` as a submodule under the directory `build` in your main project:
 
@@ -50,7 +59,7 @@ Sample CI files can be found [here](docs/samples/ci).
 
 ### CI settings
 
-Configure the following CI settings for your project.
+Configure the following CI settings for your main project if `PSRepositoryReleaseManager` is to be used in a CI environment.
 
 #### Secrets
 
@@ -129,7 +138,7 @@ Upload-GitHubReleaseAsset [-UploadUrl] <string> [-Asset] <string[]> [-ApiKey] <s
 
 ##### Commands
 
-Simply define necessary environment variables and/or parameter values prior to executing the provided entrypoint scripts within your CI environment to perform their respective functions.
+Simply define necessary environment variables and/or parameter values prior to executing the provided entrypoint script(s) within your CI environment to perform their respective functions.
 
 ```powershell
 # CI global variables
@@ -171,6 +180,8 @@ if ($env:RELEASE_PRERELEASE) { $private:releaseArgs['Prerelease'] = [System.Conv
 if ($env:RELEASE_ASSETS) { $private:releaseArgs['Asset'] = $env:RELEASE_ASSETS }
 ./path/to/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1 @private:releaseArgs
 ```
+
+## Maintenance
 
 ### Managing the submodule
 
