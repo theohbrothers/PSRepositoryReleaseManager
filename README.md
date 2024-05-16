@@ -128,8 +128,8 @@ Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](htt
 ```powershell
 # Entrypoint scripts
 Invoke-Generate.ps1 [[-ProjectDirectory] <string>] [-ReleaseTagRef] <string> [[-ReleaseNotesVariant] <string>] [[-ReleaseNotesPath] <string>] [<CommonParameters>]
-Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-TagName <string>] [-Name <string>] [-ReleaseNotesPath <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
-Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-TagName <string>] [-Name <string>] [-ReleaseNotesContent <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
+Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-ProjectDirectory <string>] [-TagName <string>] [-Name <string>] [-ReleaseNotesPath <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
+Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-ProjectDirectory <string>] [-TagName <string>] [-Name <string>] [-ReleaseNotesContent <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
 
 # Cmdlets
 Generate-ReleaseNotes [-Path] <string> [-TagName] <string> [-Variant] {Changes-HashSubject-Merges | Changes-HashSubject-NoMerges | Changes-HashSubject | VersionDate-HashSubject-Merges | VersionDate-HashSubject-NoMerges | VersionDate-HashSubject | VersionDate-Subject-Merges | VersionDate-Subject-NoMerges | VersionDate-Subject} [-ReleaseNotesPath] <string> [<CommonParameters>]
@@ -148,12 +148,13 @@ $env:GITHUB_API_TOKEN='xxx'
 $env:RELEASE_TAG_REF='vx.x.x'
 
 # Common variables
-#$env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.md" # optional
+$env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)" # optional
+$env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.md" # optional
 
 # Generate (Generates release notes)
 #$env:RELEASE_NOTES_VARIANT='VersionDate-HashSubject-NoMerges' # optional
 $private:generateArgs = @{
-    #ProjectDirectory = "$(git rev-parse --show-toplevel)" # optional
+    ProjectDirectory = $env:PROJECT_DIRECTORY
     ReleaseTagRef = $env:RELEASE_TAG_REF
 }
 if ($env:RELEASE_NOTES_VARIANT) { $private:generateArgs['ReleaseNotesVariant'] = $env:RELEASE_NOTES_VARIANT }
@@ -169,6 +170,7 @@ $env:RELEASE_REPOSITORY = 'my-project' # required
 #$env:RELEASE_PRERELEASE = 'false' # optional
 #$env:RELEASE_ASSETS = @('path/to/asset1.tar.gz', 'path/to/asset2.gz', 'path/to/asset3.zip', 'path/to/assets/*.gz', 'path/to/assets/*.zip') # optional
 $private:releaseArgs = @{
+    ProjectDirectory = $env:PROJECT_DIRECTORY
     Namespace = $env:RELEASE_NAMESPACE
     Repository = $env:RELEASE_REPOSITORY
     ApiKey = $env:GITHUB_API_TOKEN

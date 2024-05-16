@@ -1,5 +1,9 @@
 [CmdletBinding(DefaultParameterSetName='Path')]
 param(
+    [Parameter(Mandatory=$false)]
+    [ValidateScript({Test-Path -Path $_ -PathType Container})]
+    [string]$ProjectDirectory
+    ,
     [Parameter(Mandatory=$true)]
     [ValidateNotNullOrEmpty()]
     [string]$Namespace
@@ -53,20 +57,30 @@ try {
     Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
     # Create GitHub release
-    $private:superProjectDir = git rev-parse --show-superproject-working-tree
-    if (!$private:superProjectDir) { throw "The superproject root directory cannot be determined." }
+    if ($private:ProjectDirectory) {
+        $private:ProjectDir = $private:ProjectDirectory
+    }else {
+        $private:superProjectDir = git rev-parse --show-superproject-working-tree
+        if ($private:superProjectDir) {
+            $private:ProjectDir = $private:superProjectDir
+            "Using superproject path '$private:ProjectDir'" | Write-Verbose
+        }else {
+            $private:ProjectDir = git rev-parse --show-toplevel
+            "Superproject does not exist. Using project path '$private:ProjectDir'" | Write-Verbose
+        }
+    }
     $private:createReleaseArgs = @{
         Namespace = $Namespace
         Repository = $Repository
         ApiKey = $ApiKey
         TagName = $TagName
-        TargetCommitish = git --git-dir "$($private:superProjectDir)/.git" rev-parse $TagName
+        TargetCommitish = git --git-dir "$($private:ProjectDir)/.git" rev-parse $TagName
         Name = if ($Name) { $Name } else { $TagName }
     }
     if ($ReleaseNotesPath) {
         "Sourcing from specified release notes path '$ReleaseNotesPath'" | Write-Verbose
         $private:createReleaseArgs['ReleaseNotesPath'] = if ([System.IO.Path]::IsPathRooted($ReleaseNotesPath)) { $ReleaseNotesPath }
-                                                         else { "$private:superProjectDir/$ReleaseNotesPath" }
+                                                         else { "$private:ProjectDir/$ReleaseNotesPath" }
     }elseif ($ReleaseNotesContent) {
         "Using specified release notes content" | Write-Verbose
         $private:createReleaseArgs['ReleaseNotesContent'] = $ReleaseNotesContent
@@ -90,7 +104,7 @@ try {
             $private:releaseAssetsArr = $Asset -Split "`n" | % { $_.Trim() } | ? { $_ }
             "Release assets (Specified):" | Write-Verbose
             $private:releaseAssetsArr | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
-            Push-Location $private:superProjectDir
+            Push-Location $private:ProjectDir
             $private:assets = $private:releaseAssetsArr | % { Resolve-Path -Path $_ }
             if (!$private:assets) { throw "No assets of the specified release assets file pattern could be found." }
         }catch {
