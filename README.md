@@ -77,6 +77,8 @@ Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](http
 
 The entrypoint script [`Invoke-Generate.ps1`](src/scripts/ci/Invoke-Generate.ps1) is used to generate release notes based off local repositories. To generate one, specify the path to the local repository, the release tag ref, the release notes variant, and the release notes path.
 
+The project also includes [`.vscode/tasks.json`](.vscode/tasks.json) which allows invocation of `Invoke-Generate.ps1` via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt.
+
 ##### Variants
 
 The names of all release notes variants that can be generated can be found in the module's [`generate/variants`](src/PSRepositoryReleaseManager/generate/variants) directory and goes by the convention `<VariantName>.ps1`.
