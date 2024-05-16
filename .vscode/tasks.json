@@ -13,12 +13,23 @@
             "id": "RELEASE_TAG_REF",
             "description": "RELEASE_TAG_REF?",
             "type": "promptString",
-            "default": "xxx",
+            "default": "vx.x.x",
         },
         {
             "id": "RELEASE_NOTES_VARIANT",
             "description": "RELEASE_NOTES_VARIANT?",
-            "type": "promptString",
+            "type": "pickString",
+            "options": [
+                "Changes-HashSubject-Merges",
+                "Changes-HashSubject-NoMerges",
+                "Changes-HashSubject",
+                "VersionDate-HashSubject-Merges",
+                "VersionDate-HashSubject-NoMerges",
+                "VersionDate-HashSubject",
+                "VersionDate-Subject-Merges",
+                "VersionDate-Subject-NoMerges",
+                "VersionDate-Subject",
+              ],
             "default": "VersionDate-HashSubject-NoMerges",
         },
         {
@@ -32,6 +43,7 @@
             "description": "GITHUB_API_TOKEN?",
             "type": "promptString",
             "default": "xxx",
+            "password": true,
         },
     ],
     "tasks": [
