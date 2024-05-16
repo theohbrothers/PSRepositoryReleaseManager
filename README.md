@@ -7,7 +7,7 @@ A project for managing repository releases, such as [GitHub releases](https://do
 
 ## Introduction
 
-This project provides CI templates and scripts that other projects can utilize for managing releases.
+This project provides CI templates, scripts, and cmdlets that other projects can utilize for generating release notes and creating releases.
 
 ### Main project structure
 
@@ -86,27 +86,91 @@ git tag v1.0.12-alpha
 git tag v1.0.12-beta.1
 ```
 
-#### Releases
+#### Creating releases
 
 The entrypoint script [`Invoke-Release.ps1`](src/scripts/ci/Invoke-Release.ps1) can be used to create or simulate the creation of releases for GitHub repositories. Simply specify the relevant values pertaining to the release, and if desired, the path to the file containing the release notes to include with it.
 
-### Continuous Integration
+### Continuous Integration (CI)
 
-The included CI files use a very similar set of [entrypoint scripts](src/scripts/ci) to the development versions to run the very same steps of generating release notes and creating releases.
+The project provides a set of [entrypoint scripts](src/scripts/ci) for executing the very same steps for generating release notes and creating releases in CI environments.
 
-#### Generating release notes
+#### via Templates
+
+##### Generating release notes
 
 To generate release notes, reference the appropriate `generate.yml` entrypoint CI template provided by this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.generate.yml#L4-#L7).
 
 Generation of release notes is presently *limited* to the module's [valid tags pattern](#valid-tags).
 
-#### Releases
+##### Creating releases
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
 To create releases, reference the appropriate `release.yml` entrypoint CI template provided by this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.release.yml#L4-#L20).
 
 Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
+
+#### via Entrypoint scripts
+
+##### Parameters
+
+```powershell
+# Entrypoint scripts
+Invoke-Generate.ps1 [[-ProjectDirectory] <string>] [-ReleaseTagRef] <string> [[-ReleaseNotesVariant] <string>] [[-ReleaseNotesPath] <string>] [<CommonParameters>]
+Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-TagName <string>] [-Name <string>] [-ReleaseNotesPath <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
+Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-TagName <string>] [-Name <string>] [-ReleaseNotesContent <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
+
+# Cmdlets
+Generate-ReleaseNotes [-Path] <string> [-TagName] <string> [-Variant] {Changes-HashSubject-Merges | Changes-HashSubject-NoMerges | Changes-HashSubject | VersionDate-HashSubject-Merges | VersionDate-HashSubject-NoMerges | VersionDate-HashSubject | VersionDate-Subject-Merges | VersionDate-Subject-NoMerges | VersionDate-Subject} [-ReleaseNotesPath] <string> [<CommonParameters>]
+Create-GitHubRelease -Namespace <string> -Repository <string> -ApiKey <string> [-TagName <string>] [-TargetCommitish <string>] [-Name <string>] [-ReleaseNotesPath <string>] [-Draft <bool>] [-Prerelease <bool>] [<CommonParameters>]
+Create-GitHubRelease -Namespace <string> -Repository <string> -ApiKey <string> [-TagName <string>] [-TargetCommitish <string>] [-Name <string>] [-ReleaseNotesContent <string>] [-Draft <bool>] [-Prerelease <bool>] [<CommonParameters>]
+Upload-GitHubReleaseAsset [-UploadUrl] <string> [-Asset] <string[]> [-ApiKey] <string> [<CommonParameters>]
+```
+
+##### Commands
+
+Simply define necessary environment variables and/or parameter values prior to executing the provided entrypoint scripts within your CI environment to perform their respective functions.
+
+```powershell
+# CI global variables
+$env:GITHUB_API_TOKEN='xxx'
+$env:RELEASE_TAG_REF='vx.x.x'
+
+# Common variables
+#$env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.md" # optional
+
+# Generate (Generates release notes)
+#$env:RELEASE_NOTES_VARIANT='Changes-HashSubject-NoMerges' # optional
+$private:generateArgs = @{
+    #ProjectDirectory = "$(git rev-parse --show-toplevel)" # optional
+    ReleaseTagRef = $env:RELEASE_TAG_REF
+}
+if ($env:RELEASE_NOTES_VARIANT) { $private:generateArgs['ReleaseNotesVariant'] = $env:RELEASE_NOTES_VARIANT }
+if ($env:RELEASE_NOTES_PATH) { $private:generateArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
+./path/to/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1 @private:generateArgs
+
+# Release (Creates GitHub release)
+$env:RELEASE_NAMESPACE = 'mygithubnamespace' # required
+$env:RELEASE_REPOSITORY = 'my-project' # required
+#$env:RELEASE_NAME = 'My release name' # optional
+#$env:RELEASE_NOTES_CONTENT = Get-Content $env:RELEASE_NOTES_PATH -Raw # optional
+#$env:RELEASE_DRAFT = 'false' # optional
+#$env:RELEASE_PRERELEASE = 'false' # optional
+#$env:RELEASE_ASSETS = @('path/to/asset1.tar.gz', 'path/to/asset2.gz', 'path/to/asset3.zip', 'path/to/asset*.gz', 'path/to/asset*.zip') # optional
+$private:releaseArgs = @{
+    Namespace = $env:RELEASE_NAMESPACE
+    Repository = $env:RELEASE_REPOSITORY
+    ApiKey = $env:GITHUB_API_TOKEN
+}
+if ($env:RELEASE_TAG_REF) { $private:releaseArgs['TagName'] = $env:RELEASE_TAG_REF }
+if ($env:RELEASE_NAME) { $private:releaseArgs['Name'] = $env:RELEASE_NAME }
+if ($env:RELEASE_NOTES_PATH) { $private:releaseArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
+elseif ($env:RELEASE_NOTES_CONTENT) { $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT }
+if ($env:RELEASE_DRAFT) { $private:releaseArgs['Draft'] = [System.Convert]::ToBoolean($env:RELEASE_DRAFT) }
+if ($env:RELEASE_PRERELEASE) { $private:releaseArgs['Prerelease'] = [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) }
+if ($env:RELEASE_ASSETS) { $private:releaseArgs['Asset'] = $env:RELEASE_ASSETS }
+./path/to/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1 @private:releaseArgs
+```
 
 ### Managing the submodule
 
