@@ -28,7 +28,7 @@ steps:
     if ($env:RELEASE_TAG_REF) { $private:releaseArgs['TagName'] = $env:RELEASE_TAG_REF }
     if ($env:RELEASE_NAME) { $private:releaseArgs['Name'] = $env:RELEASE_NAME }
     if ($env:RELEASE_NOTES_PATH) { $private:releaseArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
-    if ($env:RELEASE_NOTES_CONTENT) { $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT }
+    elseif ($env:RELEASE_NOTES_CONTENT) { $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT }
     if ($env:RELEASE_DRAFT) { $private:releaseArgs['Draft'] = [System.Convert]::ToBoolean($env:RELEASE_DRAFT) }
     if ($env:RELEASE_PRERELEASE) { $private:releaseArgs['Prerelease'] = [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) }
     if ($env:RELEASE_ASSETS) { $private:releaseArgs['Asset'] = $env:RELEASE_ASSETS }
