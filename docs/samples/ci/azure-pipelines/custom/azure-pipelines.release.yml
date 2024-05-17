@@ -5,11 +5,11 @@ steps:
   # parameters:
   #   NAME: My release name
   #   NOTES_PATH: path/to/my-release-notes.md
-  #   NOTES_CONTENT: |
-  #     My
-  #     multi-line
-  #     release
-  #     notes
+  #   # NOTES_CONTENT: |
+  #   #   My
+  #   #   multi-line
+  #   #   release
+  #   #   notes
   #   DRAFT: false
   #   PRERELEASE: false
   #   ASSETS: |
