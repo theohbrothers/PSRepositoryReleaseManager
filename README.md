@@ -144,8 +144,8 @@ Simply define necessary environment variables and/or parameter values prior to e
 
 ```powershell
 # CI global variables
-$env:GITHUB_API_TOKEN = 'xxx'
-$env:RELEASE_TAG_REF = 'vx.x.x'
+$env:GITHUB_API_TOKEN = 'xxx' # required for Release
+$env:RELEASE_TAG_REF = 'vx.x.x' # required for Generate and Release
 
 # Generate and Release variables
 #$env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)" # optional
