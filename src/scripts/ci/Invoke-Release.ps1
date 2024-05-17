@@ -1,4 +1,4 @@
-[CmdletBinding(DefaultParameterSetName='Path')]
+[CmdletBinding()]
 param()
 
 $ErrorActionPreference = 'Stop'
