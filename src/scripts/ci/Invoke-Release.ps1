@@ -1,50 +1,5 @@
 [CmdletBinding(DefaultParameterSetName='Path')]
-param(
-    [Parameter(Mandatory=$false)]
-    [ValidateScript({Test-Path -Path $_ -PathType Container})]
-    [string]$ProjectDirectory
-    ,
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
-    [string]$Namespace
-    ,
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
-    [string]$Repository
-    ,
-    [Parameter(Mandatory=$true)]
-    [ValidateNotNullOrEmpty()]
-    [string]$ApiKey
-    ,
-    [Parameter(Mandatory=$false)]
-    [ValidateNotNullOrEmpty()]
-    [string]$TagName
-    ,
-    [Parameter(Mandatory=$false)]
-    [ValidateNotNullOrEmpty()]
-    [string]$Name
-    ,
-    [Parameter(ParameterSetName='Path', Mandatory=$false)]
-    [ValidateNotNullOrEmpty()]
-    [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
-    [string]$ReleaseNotesPath
-    ,
-    [Parameter(ParameterSetName='Content', Mandatory=$false)]
-    [ValidateNotNullOrEmpty()]
-    [string]$ReleaseNotesContent
-    ,
-    [Parameter(Mandatory=$false)]
-    [ValidateNotNullOrEmpty()]
-    [bool]$Draft
-    ,
-    [Parameter(Mandatory=$false)]
-    [ValidateNotNullOrEmpty()]
-    [bool]$Prerelease
-    ,
-    [Parameter(Mandatory=$false)]
-    [ValidateNotNullOrEmpty()]
-    [string]$Asset
-)
+param()
 
 $ErrorActionPreference = 'Stop'
 $ErrorView = 'NormalView'
@@ -57,33 +12,32 @@ try {
     Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force -Verbose
 
     # Create GitHub release
-    if ($private:ProjectDirectory) {
-        $private:ProjectDir = $private:ProjectDirectory
+    if ($env:PROJECT_DIRECTORY) {
+        $private:ProjectDir = $env:PROJECT_DIRECTORY
     }else {
         $private:superProjectDir = git rev-parse --show-superproject-working-tree
         if ($private:superProjectDir) {
             $private:ProjectDir = $private:superProjectDir
             "Using superproject path '$private:ProjectDir'" | Write-Verbose
         }else {
-            $private:ProjectDir = git rev-parse --show-toplevel
-            "Superproject does not exist. Using project path '$private:ProjectDir'" | Write-Verbose
+            throw "`$env:PROJECT_DIRECTORY is undefined or superproject directory cannot be determined." | Write-Verbose
         }
     }
     $private:createReleaseArgs = @{
-        Namespace = $Namespace
-        Repository = $Repository
-        ApiKey = $ApiKey
-        TagName = $TagName
-        TargetCommitish = git --git-dir "$($private:ProjectDir)/.git" rev-parse $TagName
-        Name = if ($Name) { $Name } else { $TagName }
+        Namespace = $env:RELEASE_NAMESPACE
+        Repository = $env:RELEASE_REPOSITORY
+        ApiKey = $env:GITHUB_API_TOKEN
+        TagName = $env:RELEASE_TAG_REF
+        TargetCommitish = git --git-dir "$($private:ProjectDir)/.git" rev-parse $env:RELEASE_TAG_REF
+        Name = if ($env:RELEASE_NAME) { $env:RELEASE_NAME } else { $env:RELEASE_TAG_REF }
     }
-    if ($ReleaseNotesPath) {
-        "Sourcing from specified release notes path '$ReleaseNotesPath'" | Write-Verbose
-        $private:createReleaseArgs['ReleaseNotesPath'] = if ([System.IO.Path]::IsPathRooted($ReleaseNotesPath)) { $ReleaseNotesPath }
-                                                         else { "$private:ProjectDir/$ReleaseNotesPath" }
-    }elseif ($ReleaseNotesContent) {
+    if ($env:RELEASE_NOTES_PATH) {
+        "Sourcing from specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
+        $private:createReleaseArgs['ReleaseNotesPath'] = if ([System.IO.Path]::IsPathRooted($env:RELEASE_NOTES_PATH)) { $env:RELEASE_NOTES_PATH }
+                                                         else { "$private:ProjectDir/$env:RELEASE_NOTES_PATH" }
+    }elseif ($env:RELEASE_NOTES_CONTENT) {
         "Using specified release notes content" | Write-Verbose
-        $private:createReleaseArgs['ReleaseNotesContent'] = $ReleaseNotesContent
+        $private:createReleaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT
     }else {
         $private:defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
         if (Test-Path -Path $private:defaultReleaseNotesPath -PathType Leaf) {
@@ -93,15 +47,15 @@ try {
             "Default release notes not found at the path '$private:defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
         }
     }
-    if ($Draft) { $private:createReleaseArgs['Draft'] = $Draft } else { $false }
-    if ($Prerelease) { $private:createReleaseArgs['Prerelease'] = $Prerelease } else { $false }
+    if ($env:RELEASE_DRAFT) { $private:createReleaseArgs['Draft'] = [System.Convert]::ToBoolean($env:RELEASE_DRAFT) } else { $false }
+    if ($env:RELEASE_PRERELEASE) { $private:createReleaseArgs['Prerelease'] = [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) } else { $false }
     $response = Create-GitHubRelease @private:createReleaseArgs
     $responseContent = $response.Content | ConvertFrom-Json
 
     # Upload release assets
-    if ($Asset) {
+    if ($env:RELEASE_ASSETS) {
         try {
-            $private:releaseAssetsArr = $Asset -Split "`n" | % { $_.Trim() } | ? { $_ }
+            $private:releaseAssetsArr = $env:RELEASE_ASSETS -Split "`n" | % { $_.Trim() } | ? { $_ }
             "Release assets (Specified):" | Write-Verbose
             $private:releaseAssetsArr | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Verbose
             Push-Location $private:ProjectDir
@@ -117,7 +71,7 @@ try {
         $private:uploadReleaseAssetsArgs = @{
             UploadUrl = $responseContent.upload_url
             Asset = $private:assets
-            ApiKey = $ApiKey
+            ApiKey = $env:GITHUB_API_TOKEN
         }
         Upload-GitHubReleaseAsset @private:uploadReleaseAssetsArgs
     }

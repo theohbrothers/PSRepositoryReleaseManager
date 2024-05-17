@@ -121,62 +121,55 @@ To create releases, reference the appropriate `release.yml` entrypoint CI templa
 
 Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
-#### via Entrypoint scripts
+#### via Entrypoint script(s)
 
-##### Parameters
+##### Environment variables
 
-```powershell
-# Entrypoint scripts
-Invoke-Generate.ps1 [[-ProjectDirectory] <string>] [-ReleaseTagRef] <string> [[-ReleaseNotesVariant] <string>] [[-ReleaseNotesPath] <string>] [<CommonParameters>]
-Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-ProjectDirectory <string>] [-TagName <string>] [-Name <string>] [-ReleaseNotesPath <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
-Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-ProjectDirectory <string>] [-TagName <string>] [-Name <string>] [-ReleaseNotesContent <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
-```
+###### Generate and Release
+
+| Name | Value | Mandatory | Type |
+|:-:|:-:|:-:|:-:|
+| `PROJECT_DIRECTORY` | `/path/to/repository` | true | string |
+| `RELEASE_TAG_REF` | `vx.x.x` | true | string |
+
+###### Generate
+
+| Name | Value | Mandatory | Type |
+|:-:|:-:|:-:|:-:|
+| `RELEASE_NOTES_VARIANT` | `VersionDate-HashSubject-NoMerges` | false | string |
+| `RELEASE_NOTES_PATH` | `/path/to/repository/.release-notes.md` (full)<br>`.release-notes.md` (relative) | false | string |
+
+###### Release
+
+| Name | <center>Value</center> | Mandatory | Type |
+|:-:|:-|:-:|:-:|
+| `RELEASE_NAMESPACE` | <center>`mygithubnamespace`</center> | true | string |
+| `RELEASE_REPOSITORY` | <center>`my-project`</center> | true | string |
+| `GITHUB_API_TOKEN` | <center>`xxx`</center> | true | string |
+| `RELEASE_NAME` | <center>`My release name`</center> | false | string |
+| `RELEASE_NOTES_CONTENT` | <pre><code>My<br>multi-line<br>release<br>notes</code></pre> | false | string |
+| `RELEASE_DRAFT` | <center>`true` / `false`</center> | false | string |
+| `RELEASE_PRERELEASE` | <center>`true` / `false`</center> | false | string |
+| `RELEASE_ASSETS` | <pre><code>path/to/asset1.tar.gz<br>path/to/asset2.gz<br>path/to/asset3.zip<br>path/to/assets/*.gz<br>path/to/assets/*.zip</code></pre> | false | string |
 
 ##### Commands
 
-Simply define necessary environment variables and/or parameter values prior to executing the provided entrypoint script(s) within your CI environment to perform their respective functions.
+Simply populate applicable environment variables values prior to executing provided entrypoint script(s) within the CI environment to perform their respective functions.
 
-```powershell
-# CI global variables
-$env:GITHUB_API_TOKEN = 'xxx' # required for Release
-$env:RELEASE_TAG_REF = 'vx.x.x' # required for Generate and Release
+```shell
+# Clone project
+git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules ../PSRepositoryReleaseManager
 
-# Generate and Release variables
-#$env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)" # optional
-#$env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.md" # optional
+# Process applicable environment variables (e.g.)
+export PROJECT_DIRECTORY=$(git rev-parse --show-toplevel)
+export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
+export RELEASE_REPOSITORY=$(basename "$(git rev-parse --show-toplevel)")
 
 # Generate (Generates release notes)
-#$env:RELEASE_NOTES_VARIANT='VersionDate-HashSubject-NoMerges' # optional
-$private:generateArgs = @{
-    ReleaseTagRef = $env:RELEASE_TAG_REF
-}
-if ($env:PROJECT_DIRECTORY) { $private:generateArgs['ProjectDirectory'] = $env:PROJECT_DIRECTORY }
-if ($env:RELEASE_NOTES_VARIANT) { $private:generateArgs['ReleaseNotesVariant'] = $env:RELEASE_NOTES_VARIANT }
-if ($env:RELEASE_NOTES_PATH) { $private:generateArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
-./path/to/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1 @private:generateArgs
+pwsh -c './../PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
 
 # Release (Creates GitHub release)
-$env:RELEASE_NAMESPACE = 'mygithubnamespace' # required
-$env:RELEASE_REPOSITORY = 'my-project' # required
-#$env:RELEASE_NAME = 'My release name' # optional
-#$env:RELEASE_NOTES_CONTENT = Get-Content $env:RELEASE_NOTES_PATH -Raw # optional
-#$env:RELEASE_DRAFT = 'false' # optional
-#$env:RELEASE_PRERELEASE = 'false' # optional
-#$env:RELEASE_ASSETS = @('path/to/asset1.tar.gz', 'path/to/asset2.gz', 'path/to/asset3.zip', 'path/to/assets/*.gz', 'path/to/assets/*.zip') # optional
-$private:releaseArgs = @{
-    Namespace = $env:RELEASE_NAMESPACE
-    Repository = $env:RELEASE_REPOSITORY
-    ApiKey = $env:GITHUB_API_TOKEN
-}
-if ($env:PROJECT_DIRECTORY) { $private:generateArgs['ProjectDirectory'] = $env:PROJECT_DIRECTORY }
-if ($env:RELEASE_TAG_REF) { $private:releaseArgs['TagName'] = $env:RELEASE_TAG_REF }
-if ($env:RELEASE_NAME) { $private:releaseArgs['Name'] = $env:RELEASE_NAME }
-if ($env:RELEASE_NOTES_PATH) { $private:releaseArgs['ReleaseNotesPath'] = $env:RELEASE_NOTES_PATH }
-elseif ($env:RELEASE_NOTES_CONTENT) { $private:releaseArgs['ReleaseNotesContent'] = $env:RELEASE_NOTES_CONTENT }
-if ($env:RELEASE_DRAFT) { $private:releaseArgs['Draft'] = [System.Convert]::ToBoolean($env:RELEASE_DRAFT) }
-if ($env:RELEASE_PRERELEASE) { $private:releaseArgs['Prerelease'] = [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) }
-if ($env:RELEASE_ASSETS) { $private:releaseArgs['Asset'] = $env:RELEASE_ASSETS }
-./path/to/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1 @private:releaseArgs
+pwsh -c './../PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
 ```
 
 ## Maintenance
