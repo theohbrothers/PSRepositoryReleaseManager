@@ -130,12 +130,6 @@ Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](htt
 Invoke-Generate.ps1 [[-ProjectDirectory] <string>] [-ReleaseTagRef] <string> [[-ReleaseNotesVariant] <string>] [[-ReleaseNotesPath] <string>] [<CommonParameters>]
 Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-ProjectDirectory <string>] [-TagName <string>] [-Name <string>] [-ReleaseNotesPath <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
 Invoke-Release.ps1 -Namespace <string> -Repository <string> -ApiKey <string> [-ProjectDirectory <string>] [-TagName <string>] [-Name <string>] [-ReleaseNotesContent <string>] [-Draft <bool>] [-Prerelease <bool>] [-Asset <string>] [<CommonParameters>]
-
-# Cmdlets
-Generate-ReleaseNotes [-Path] <string> [-TagName] <string> [-Variant] {Changes-HashSubject-Merges | Changes-HashSubject-NoMerges | Changes-HashSubject | VersionDate-HashSubject-Merges | VersionDate-HashSubject-NoMerges | VersionDate-HashSubject | VersionDate-Subject-Merges | VersionDate-Subject-NoMerges | VersionDate-Subject} [-ReleaseNotesPath] <string> [<CommonParameters>]
-Create-GitHubRelease -Namespace <string> -Repository <string> -ApiKey <string> [-TagName <string>] [-TargetCommitish <string>] [-Name <string>] [-ReleaseNotesPath <string>] [-Draft <bool>] [-Prerelease <bool>] [<CommonParameters>]
-Create-GitHubRelease -Namespace <string> -Repository <string> -ApiKey <string> [-TagName <string>] [-TargetCommitish <string>] [-Name <string>] [-ReleaseNotesContent <string>] [-Draft <bool>] [-Prerelease <bool>] [<CommonParameters>]
-Upload-GitHubReleaseAsset [-UploadUrl] <string> [-Asset] <string[]> [-ApiKey] <string> [<CommonParameters>]
 ```
 
 ##### Commands
