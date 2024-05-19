@@ -4,7 +4,7 @@ steps:
 - template: templates/azure-pipelines/entrypoint/release.yml@PSRepositoryReleaseManager
   # parameters:
   #   RELEASE_NAME: My release name
-  #   RELEASE_NOTES_PATH: /path/to/.release-notes.md
+  #   RELEASE_NOTES_PATH: .release-notes.md
   #   # RELEASE_NOTES_CONTENT: |
   #   #   My
   #   #
