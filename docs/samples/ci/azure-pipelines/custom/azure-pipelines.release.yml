@@ -3,17 +3,17 @@ steps:
   submodules: recursive
 - template: templates/azure-pipelines/entrypoint/release.yml@PSRepositoryReleaseManager
   # parameters:
-  #   NAME: My release name
-  #   NOTES_PATH: /path/to/.release-notes.md
-  #   # NOTES_CONTENT: |
+  #   RELEASE_NAME: My release name
+  #   RELEASE_NOTES_PATH: /path/to/.release-notes.md
+  #   # RELEASE_NOTES_CONTENT: |
   #   #   My
   #   #
   #   #   multi-line
   #   #   release
   #   #   notes
-  #   DRAFT: false
-  #   PRERELEASE: false
-  #   ASSETS: |
+  #   RELEASE_DRAFT: false
+  #   RELEASE_PRERELEASE: false
+  #   RELEASE_ASSETS: |
   #     path/to/asset1.tar.gz
   #     path/to/asset2.gz
   #     path/to/asset3.zip

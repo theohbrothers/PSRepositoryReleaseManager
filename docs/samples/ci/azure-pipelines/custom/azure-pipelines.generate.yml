@@ -3,5 +3,5 @@ steps:
   submodules: recursive
 - template: templates/azure-pipelines/entrypoint/generate.yml@PSRepositoryReleaseManager
   # parameters:
-  #   NOTES_PATH: path/to/my-release-notes.md
-  #   VARIANT: VersionDate-HashSubject-NoMerges
+  #   RELEASE_NOTES_VARIANT: VersionDate-HashSubject-NoMerges
+  #   RELEASE_NOTES_PATH: path/to/my-release-notes.md

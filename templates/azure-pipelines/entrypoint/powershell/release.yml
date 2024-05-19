@@ -1,10 +1,10 @@
 parameters:
-  NAME: ''
-  NOTES_PATH: ''
-  NOTES_CONTENT: ''
-  DRAFT: ''
-  PRERELEASE: ''
-  ASSETS: ''
+  RELEASE_NAME: ''
+  RELEASE_NOTES_PATH: ''
+  RELEASE_NOTES_CONTENT: ''
+  RELEASE_DRAFT: ''
+  RELEASE_PRERELEASE: ''
+  RELEASE_ASSETS: ''
 
 steps:
 - powershell: |
@@ -26,9 +26,9 @@ steps:
   condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
   env:
     GITHUB_API_TOKEN: $(GITHUB_API_TOKEN)
-    RELEASE_NAME: ${{ parameters['NAME'] }}
-    RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
-    RELEASE_NOTES_CONTENT: ${{ parameters['NOTES_CONTENT'] }}
-    RELEASE_DRAFT: ${{ parameters['DRAFT'] }}
-    RELEASE_PRERELEASE: ${{ parameters['PRERELEASE'] }}
-    RELEASE_ASSETS: ${{ parameters['ASSETS'] }}
+    RELEASE_NAME: ${{ parameters['RELEASE_NAME'] }}
+    RELEASE_NOTES_PATH: ${{ parameters['RELEASE_NOTES_PATH'] }}
+    RELEASE_NOTES_CONTENT: ${{ parameters['RELEASE_NOTES_CONTENT'] }}
+    RELEASE_DRAFT: ${{ parameters['RELEASE_DRAFT'] }}
+    RELEASE_PRERELEASE: ${{ parameters['RELEASE_PRERELEASE'] }}
+    RELEASE_ASSETS: ${{ parameters['RELEASE_ASSETS'] }}
