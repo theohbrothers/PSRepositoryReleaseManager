@@ -117,7 +117,7 @@ Generation of release notes is presently *limited* to the module's [valid tags p
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
-To create releases, reference the appropriate `release.yml` entrypoint CI template provided by this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.release.yml#L4-#L20).
+To create releases, reference the appropriate `release.yml` entrypoint CI template provided by this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.release.yml#L4-#L21).
 
 Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
@@ -127,30 +127,30 @@ Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](htt
 
 ###### Generate and Release
 
-| Name | Value | Mandatory | Type |
+| Name | Example value | Mandatory | Type |
 |:-:|:-:|:-:|:-:|
-| `PROJECT_DIRECTORY` | `/path/to/repository` | true | string |
-| `RELEASE_TAG_REF` | `vx.x.x` | true | string |
+| `PROJECT_DIRECTORY` | `/path/to/my-project` | true | string |
+| `RELEASE_TAG_REF` | `vx.x.x` / `branch` / `HEAD` / `remote/branch` / commit-hash | true | string |
 
 ###### Generate
 
-| Name | Value | Mandatory | Type |
+| Name | Example value | Mandatory | Type |
 |:-:|:-:|:-:|:-:|
-| `RELEASE_NOTES_VARIANT` | `VersionDate-HashSubject-NoMerges` | false | string |
-| `RELEASE_NOTES_PATH` | `/path/to/repository/.release-notes.md` (full)<br>`.release-notes.md` (relative) | false | string |
+| `RELEASE_NOTES_VARIANT` | `VersionDate-HashSubject-NoMerges` ([List of available variants](src/PSRepositoryReleaseManager/generate/variants)) | false | string |
+| `RELEASE_NOTES_PATH` | `/path/to/.release-notes.md` (full) /<br>`.release-notes.md` (relative) | false | string |
 
 ###### Release
 
-| Name | <center>Value</center> | Mandatory | Type |
-|:-:|:-|:-:|:-:|
-| `RELEASE_NAMESPACE` | <center>`mygithubnamespace`</center> | true | string |
-| `RELEASE_REPOSITORY` | <center>`my-project`</center> | true | string |
-| `GITHUB_API_TOKEN` | <center>`xxx`</center> | true | string |
-| `RELEASE_NAME` | <center>`My release name`</center> | false | string |
-| `RELEASE_NOTES_CONTENT` | <pre><code>My<br>multi-line<br>release<br>notes</code></pre> | false | string |
-| `RELEASE_DRAFT` | <center>`true` / `false`</center> | false | string |
-| `RELEASE_PRERELEASE` | <center>`true` / `false`</center> | false | string |
-| `RELEASE_ASSETS` | <pre><code>path/to/asset1.tar.gz<br>path/to/asset2.gz<br>path/to/asset3.zip<br>path/to/assets/*.gz<br>path/to/assets/*.zip</code></pre> | false | string |
+| Name | Example value | Mandatory | Type |
+|:-:|-|:-:|:-:|
+| `RELEASE_NAMESPACE` | `mygithubnamespace` | true | string |
+| `RELEASE_REPOSITORY` | `my-project` | true | string |
+| `GITHUB_API_TOKEN` | `xxx` | true | string |
+| `RELEASE_NAME` | `My release name` | false | string |
+| `RELEASE_NOTES_CONTENT` | `My`<br><br>`multi-line`<br>`release`<br>`notes` | false | string ([multiline](https://en.wikipedia.org/wiki/Here_document)) |
+| `RELEASE_DRAFT` | `true` / `false` | false | string |
+| `RELEASE_PRERELEASE` | `true` / `false` | false | string |
+| `RELEASE_ASSETS` | `path/to/asset1.tar.gz`<br>`path/to/asset2.gz`<br>`path/to/asset3.zip`<br>`path/to/assets/*.gz`<br>`path/to/assets/*.zip` | false | string ([multiline](https://en.wikipedia.org/wiki/Here_document)) |
 
 ##### Commands
 
