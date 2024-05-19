@@ -85,7 +85,7 @@ The names of all release notes variants that can be generated can be found in th
 
 ##### Valid tags
 
-At present, generation of release notes is only possible for tags of the format [`MAJOR.MINOR.PATCH`](src/PSRepositoryReleaseManager/Private/Get-RepositoryReleasePrevious.ps1#L17), prepended with a lowercase `v`:
+At present, generation of release notes is only possible for tags of the format `MAJOR.MINOR.PATCH`, prepended with a lowercase `v`:
 
 ```shell
 # Valid tags
