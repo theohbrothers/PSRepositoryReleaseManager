@@ -20,11 +20,11 @@ function VersionDate-Subject-Merges {
         }
         $funcArgs = @{
             Path = $Path
-            FirstRef = if ($previousRelease) { @($previousRelease)[0] } else { $TagName }
+            FirstRef = $TagName
             PrettyFormat = '%s'
             Merges = $true
         }
-        if ($previousRelease) { $funcArgs['SecondRef'] = $TagName }
+        if ($previousRelease) { $funcArgs['SecondRef'] = @($previousRelease)[0] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
         $releaseBody = & {
 @"

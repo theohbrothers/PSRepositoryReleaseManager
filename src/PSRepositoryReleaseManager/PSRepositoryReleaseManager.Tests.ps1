@@ -1,7 +1,7 @@
 Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
     BeforeAll {
         $ErrorView = 'NormalView'
-        $env:RELEASE_TAG_REF = git describe --tags --abbrev=0
+        $env:RELEASE_TAG_REF = 'HEAD'
         $env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)"
     }
     BeforeEach {
