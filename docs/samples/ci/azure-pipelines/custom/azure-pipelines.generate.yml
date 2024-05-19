@@ -4,4 +4,4 @@ steps:
 - template: templates/azure-pipelines/entrypoint/generate.yml@PSRepositoryReleaseManager
   # parameters:
   #   RELEASE_NOTES_VARIANT: VersionDate-HashSubject-NoMerges
-  #   RELEASE_NOTES_PATH: path/to/my-release-notes.md
+  #   RELEASE_NOTES_PATH: .release-notes.md
