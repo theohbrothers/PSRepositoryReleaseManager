@@ -12,51 +12,39 @@ function Get-RepositoryReleasePrevious {
 
     try {
         Push-Location $Path
-        "Retrieving info on release tags" | Write-Verbose
-        $releaseTagsInfo = (git --no-pager log --date-order --tags --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
+        # Validate specified ref is an existing ref
+        "Validating ref '$Ref'" | Write-Verbose
+        git rev-parse "$Ref" | Write-Verbose
+        if ($LASTEXITCODE) {
+            throw "An error occurred."
+        }
+        "Verifying if ref '$Ref' is a tag" | Write-Verbose
+        $isRefTag = $null
+        git show-ref --verify "refs/tags/$Ref" | Write-Verbose
+        if (!$LASTEXITCODE) {
+            $isRefTag = $true
+        }
+        # Retrieve previous release tags of the specified ref within the same git tree
+        "Retrieving info on previous release tags" | Write-Verbose
+        $tagsPreviousInfo = (git --no-pager log "$Ref" --date-order --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
             if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,|$)') {
                 $_
             }
         }
-        if (!$releaseTagsInfo) {
-            throw "No release tags exist in the repository '$($Path)'."
+        "Previous release tags info:" | Write-Verbose
+        $tagsPreviousInfo | Write-Verbose
+        if ($isRefTag -And @($tagsPreviousInfo).Count -eq 1) {
+            "No previous tags for ref '$ref' exists in the repository '$($Path)'." | Write-Verbose
+            return
         }
-        "Release tags info:" | Write-Verbose
-        $releaseTagsInfo | Write-Verbose
-
-        if ($Ref) {
-            $refSHA = git rev-parse $Ref
-            if ($LASTEXITCODE) {
-                throw "An error occurred."
-            }
-            "Found SHA: $refSHA" | Write-Verbose
-        }
-        if (@($releaseTagsInfo).Count -eq 1) {
-            throw "Only one release tag exists in the repository '$($Path)'."
-        }
-
-        $releasePreviousCommitSHA = if ($Ref) {
-            "Searching for the previous release relative from the ref '$($Ref)'" | Write-Verbose
-            $cnt = 0;
-            foreach ($r in $releaseTagsInfo) {
-                if ($r -match "^$refSHA\s+") {
-                    break
-                }
-                $cnt++
-            }
-            if ($releaseTagsInfo.Count -eq $cnt) {
-                throw "The specified ref '$($Ref)' is not a valid release."
-            }
-            if (@($releaseTagsInfo).Count -eq ($cnt+1)) {
-                throw "No previous release exists relative from the ref '$($Ref)'"
-            }
-            ($releaseTagsInfo[$cnt+1] -split "\s")[0]
-        }else {
-            ($releaseTagsInfo[1] -split "\s")[0]
-        }
-        "Previous release commit SHA: $releasePreviousCommitSHA" | Write-Verbose
+        $tagPreviousCommitSHA = if ($isRefTag) { # If specified ref is a tag, the previous tag is on the following line
+                                    (@($tagsPreviousInfo)[1] -split "\s")[0]
+                                }else {
+                                    (@($tagsPreviousInfo)[0] -split "\s")[0]
+                                }
+        "Previous release commit SHA: $tagPreviousCommitSHA" | Write-Verbose
         "Retrieving previous release tag(s)" | Write-Verbose
-        git tag --points-at $releasePreviousCommitSHA | Sort-Object -Descending     # Returns an array of tags if they point to the same commit
+        git tag --points-at "$tagPreviousCommitSHA" | Sort-Object -Descending     # Returns an array of tags if they point to the same commit
     }catch {
         Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
     }finally {

@@ -25,20 +25,23 @@ function Get-RepositoryCommitHistory {
     )
 
     try {
-        "Verifying refs" | Write-Verbose
         Push-Location $Path
-        $FirstRef,$SecondRef | % {
-            git rev-parse $_ > $null
+        "Validating FirstRef '$FirstRef'" | Write-Verbose
+        git rev-parse $FirstRef > $null
+        if ($LASTEXITCODE) {
+            throw "An error occurred."
+        }
+        if ($SecondRef) {
+            "Validating SecondRef '$SecondRef'" | Write-Verbose
+            git rev-parse $SecondRef > $null
             if ($LASTEXITCODE) {
                 throw "An error occurred."
             }
         }
-        "First ref: '$($FirstRef)':" | Write-Verbose
         if ($SecondRef) {
-            "Second ref: '$SecondRef':" | Write-Verbose
             $commitSHARange = "$($FirstRef)...$($SecondRef)"
         }else {
-            "Second ref unspecifed. Full history of First ref will be retrieved."  | Write-Verbose
+            "SecondRef unspecifed. The full commit history from FirstRef '$FirstRef' will be retrieved."  | Write-Verbose
             $commitSHARange = $FirstRef
         }
         $gitArgs = @(
