@@ -1,6 +1,6 @@
 parameters:
-  VARIANT: ''
-  NOTES_PATH: ''
+  RELEASE_NOTES_VARIANT: ''
+  RELEASE_NOTES_PATH: ''
 
 steps:
 - pwsh: |
@@ -20,5 +20,5 @@ steps:
     .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1
   displayName: Generate release notes
   env:
-    RELEASE_NOTES_VARIANT: ${{ parameters['VARIANT'] }}
-    RELEASE_NOTES_PATH: ${{ parameters['NOTES_PATH'] }}
+    RELEASE_NOTES_VARIANT: ${{ parameters['RELEASE_NOTES_VARIANT'] }}
+    RELEASE_NOTES_PATH: ${{ parameters['RELEASE_NOTES_PATH'] }}
