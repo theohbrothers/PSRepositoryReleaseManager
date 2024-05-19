@@ -4,6 +4,9 @@ param()
 <# Examples
 
 # Maximum defaults
+./Invoke-Generate.ps1
+
+# Default project directory, release notes variant, and release notes path
 $env:RELEASE_TAG_REF = 'v1.0.12'
 ./Invoke-Generate.ps1
 
@@ -57,7 +60,12 @@ try {
     }
     $private:generateArgs = @{
         Path = $private:ProjectDir
-        TagName = $env:RELEASE_TAG_REF
+        TagName = if ($env:RELEASE_TAG_REF) {
+                      $env:RELEASE_TAG_REF
+                  }else {
+                      "`$env:RELEASE_TAG_REF is null or undefined. Using the default ref 'HEAD'" | Write-Verbose
+                      'HEAD'
+                  }
         Variant = if ($env:RELEASE_NOTES_VARIANT) { $env:RELEASE_NOTES_VARIANT } else { 'VersionDate-HashSubject-NoMerges' }
         ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) {
                                "Using specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
