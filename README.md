@@ -130,7 +130,7 @@ Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](htt
 | Name | Example value | Mandatory | Type |
 |:-:|:-:|:-:|:-:|
 | `PROJECT_DIRECTORY` | `/path/to/my-project` | true | string |
-| `RELEASE_TAG_REF` | `vx.x.x` / `branch` / `HEAD` / `remote/branch` / commit-hash | true | string |
+| `RELEASE_TAG_REF` | `vx.x.x` / `branch` / `HEAD` / `remote/branch` / commit-hash | false (Generate), true (Release) | string |
 
 ###### Generate
 

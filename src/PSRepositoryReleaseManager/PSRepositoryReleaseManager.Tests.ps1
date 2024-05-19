@@ -9,6 +9,13 @@ Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
         $env:RELEASE_NOTES_VARIANT = $null
         $env:RELEASE_NOTES_PATH = $null
     }
+    It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY" {
+        $env:RELEASE_TAG_REF = $null
+
+        $stdout = ../src/scripts/ci/Invoke-Generate.ps1
+        "Generate notes content:" | Write-Verbose
+        Get-Content -Path "$stdout" | Out-String -Stream | % { $_.Trim() } | ? { $_ } | Write-Host
+    }
     It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY `$env:RELEASE_TAG_REF (HEAD)" {
         $env:RELEASE_TAG_REF = 'HEAD'
 
