@@ -54,7 +54,7 @@ function Get-RepositoryCommitHistory {
         )
         $_commitHistory = git $gitArgs | Out-String
         "Changelog:" | Write-Verbose
-        $_commitHistory | Write-Verbose
+        $_commitHistory | Out-String -Stream | Write-Verbose
         $_commitHistory
     }catch {
         Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
