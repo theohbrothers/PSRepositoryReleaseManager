@@ -13,7 +13,7 @@
             "id": "RELEASE_TAG_REF",
             "description": "RELEASE_TAG_REF?",
             "type": "promptString",
-            "default": "vx.x.x",
+            "default": "vx.x.x | branch | HEAD | remote/branch | commit-hash",
         },
         {
             "id": "RELEASE_NOTES_VARIANT",
