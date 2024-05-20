@@ -58,7 +58,7 @@ function VersionDate-HashSubject-NoMerges-Categorized {
             }
         )
         $commitHistoryUncategorized = $commitHistoryTrimmed | % {
-            if (!($_ -match "^[0-9a-f]+ (\s*\w+\s*\(\s*[a-zA-Z0-9_-]+\s*\)\s*:)(.+)")) {
+            if (!($_ -match "^[0-9a-f]+ (\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)")) {
                 $_
             }
         }
@@ -69,7 +69,7 @@ function VersionDate-HashSubject-NoMerges-Categorized {
             foreach ($c in $commitCategory) {
                 $isTitleOutputted = $false
                 $commitHistoryTrimmed | % {
-                    if ($_ -match "^[0-9a-f]+ (\s*$($c['Name'])\s*\(\s*[a-zA-Z0-9_-]+\s*\)\s*:)(.+)") {
+                    if ($_ -match "^[0-9a-f]+ (\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)") {
                         if (!$isTitleOutputted) {
 @"
 
