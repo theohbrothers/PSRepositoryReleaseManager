@@ -136,7 +136,7 @@ Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](htt
 
 | Name | Example value | Mandatory | Type |
 |:-:|:-:|:-:|:-:|
-| `RELEASE_NOTES_VARIANT` | `VersionDate-HashSubject-NoMerges` ([List of available variants](src/PSRepositoryReleaseManager/generate/variants)) | false | string |
+| `RELEASE_NOTES_VARIANT` | `VersionDate-HashSubjectAuthor-NoMerges-Categorized` ([List of available variants](src/PSRepositoryReleaseManager/generate/variants)) | false | string |
 | `RELEASE_NOTES_PATH` | `/path/to/.release-notes.md` (full) /<br>`.release-notes.md` (relative) | false | string |
 
 ###### Release
