@@ -12,14 +12,17 @@ function Generate-ReleaseNotes {
         ,
         [Parameter(Mandatory=$true)]
         [ValidateSet(
+            "Changes-HashSubjectAuthor-NoMerges-Categorized",
             "Changes-HashSubject-Merges",
             "Changes-HashSubject-NoMerges-Categorized",
             "Changes-HashSubject-NoMerges",
             "Changes-HashSubject",
+            "VersionDate-HashSubjectAuthor-NoMerges-Categorized",
             "VersionDate-HashSubject-Merges",
             "VersionDate-HashSubject-NoMerges-Categorized",
             "VersionDate-HashSubject-NoMerges",
             "VersionDate-HashSubject",
+            "VersionDate-SubjectAuthor-NoMerges-Categorized",
             "VersionDate-Subject-Merges",
             "VersionDate-Subject-NoMerges-Categorized",
             "VersionDate-Subject-NoMerges",
