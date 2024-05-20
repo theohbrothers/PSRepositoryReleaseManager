@@ -11,7 +11,20 @@ function Generate-ReleaseNotes {
         [string]$TagName
         ,
         [Parameter(Mandatory=$true)]
-        [ValidateSet("Changes-HashSubject-Merges", "Changes-HashSubject-NoMerges", "Changes-HashSubject", "VersionDate-HashSubject-Merges", "VersionDate-HashSubject-NoMerges", "VersionDate-HashSubject", "VersionDate-Subject-Merges", "VersionDate-Subject-NoMerges", "VersionDate-Subject")]
+        [ValidateSet(
+            "Changes-HashSubject-Merges",
+            "Changes-HashSubject-NoMerges-Categorized",
+            "Changes-HashSubject-NoMerges",
+            "Changes-HashSubject",
+            "VersionDate-HashSubject-Merges",
+            "VersionDate-HashSubject-NoMerges-Categorized",
+            "VersionDate-HashSubject-NoMerges",
+            "VersionDate-HashSubject",
+            "VersionDate-Subject-Merges",
+            "VersionDate-Subject-NoMerges-Categorized",
+            "VersionDate-Subject-NoMerges",
+            "VersionDate-Subject"
+        )]
         [string]$Variant
         ,
         [Parameter(Mandatory=$true)]
