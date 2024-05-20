@@ -65,7 +65,7 @@ Configure the following CI settings for your main project if `PSRepositoryReleas
 
 ##### GitHub API token
 
-**Note:** This step is only necessary for [creating releases](#releases-1) on CI environments.
+**Note:** This step is only necessary for [creating releases](#creating-releases-1) on CI environments.
 
 Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token), ensuring it has write permissions to the repository.
 
