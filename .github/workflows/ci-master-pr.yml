@@ -181,3 +181,56 @@ jobs:
     - name: Test
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
+
+  generate-and-release:
+    needs:
+      - test-powershell-core-linux
+      - test-powershell-core-macos
+      - test-powershell-core-windows
+      - test-powershell-5-1-windows-2022
+      - test-powershell-5-1-windows-2019
+      - test-powershell-6-1-container
+      - test-powershell-6-2-container
+      - test-powershell-7-0-container
+      - test-powershell-7-1-container
+      - test-powershell-7-2-container
+      - test-powershell-7-3-container
+      - test-powershell-7-4-container
+    runs-on: ubuntu-latest
+    container:
+      image: theohbrothers/docker-powershell:7.2-ubuntu-22.04-git
+    steps:
+    - uses: actions/checkout@v1
+    - name: Powershell version
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Ignore git permissions
+      run: |
+        git config --global --add safe.directory "$( pwd )"
+    - name: Generate release notes
+      run: |
+        # Process applicable environment variables
+        export PROJECT_DIRECTORY=$( git rev-parse --show-toplevel )
+        export RELEASE_TAG_REF=$( echo "$GITHUB_REF" | sed -rn 's/^refs\/tags\/(.*)/\1/p' )
+
+        # Generate (Generates release notes)
+        pwsh -c '$VerbosePreference = "Continue"; ./src/scripts/ci/Invoke-Generate.ps1'
+        cat .release-notes.md
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-notes
+        path: .release-notes.md
+    - name: Create release
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        # Process applicable environment variables
+        export PROJECT_DIRECTORY=$( git rev-parse --show-toplevel )
+        export RELEASE_TAG_REF=$( echo "$GITHUB_REF" | sed -rn 's/^refs\/tags\/(.*)/\1/p' )
+        export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
+        export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
+
+        # Release (Creates GitHub release)
+        pwsh -c '$VerbosePreference = "Continue"; ./src/scripts/ci/Invoke-Release.ps1'
+      env:
+        GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
