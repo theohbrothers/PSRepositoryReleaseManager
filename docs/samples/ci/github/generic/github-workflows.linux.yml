@@ -31,9 +31,6 @@ jobs:
     - name: Powershell version
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
-    - name: Ignore git permissions
-      run: |
-        git config --global --add safe.directory "$( pwd )"
     - name: Generate release notes
       run: |
         # Clone project
