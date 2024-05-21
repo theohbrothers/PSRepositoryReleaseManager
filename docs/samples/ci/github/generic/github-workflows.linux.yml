@@ -1,0 +1,65 @@
+name: ci-master-pr
+
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - '**'
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  test-job-1:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+  test-job-2:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+  release:
+    needs:
+      - test-job-1
+      - test-job-2
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Powershell version
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Ignore git permissions
+      run: |
+        git config --global --add safe.directory "$( pwd )"
+    - name: Generate release notes
+      run: |
+        # Clone project
+        git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules --depth 1 --shallow-submodules --branch 'vx.x.x' # Specify tag ref to checkout to
+
+        # Process applicable environment variables
+        export PROJECT_DIRECTORY=$( git rev-parse --show-toplevel )
+        export RELEASE_TAG_REF=$( echo "$GITHUB_REF" | sed -rn 's/^refs\/tags\/(.*)/\1/p' )
+
+        # Generate (Generates release notes)
+        pwsh -c '$VerbosePreference = "Continue"; ./PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-notes
+        path: PSRepositoryReleaseManager/.release-notes.md
+    - name: Create release
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        # Process applicable environment variables
+        export PROJECT_DIRECTORY=$( git rev-parse --show-toplevel )
+        export RELEASE_TAG_REF=$( echo "$GITHUB_REF" | sed -rn 's/^refs\/tags\/(.*)/\1/p' )
+        export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
+        export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
+
+        # Release (Creates GitHub release)
+        pwsh -c '$VerbosePreference = "Continue"; ./PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
+      env:
+        GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
