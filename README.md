@@ -158,18 +158,18 @@ Simply populate applicable environment variables values prior to executing provi
 
 ```shell
 # Clone project
-git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules ../PSRepositoryReleaseManager
+git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules
 
 # Process applicable environment variables (e.g.)
-export PROJECT_DIRECTORY=$(git rev-parse --show-toplevel)
+export PROJECT_DIRECTORY=$( git rev-parse --show-toplevel )
 export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
-export RELEASE_REPOSITORY=$(basename "$(git rev-parse --show-toplevel)")
+export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
 
 # Generate (Generates release notes)
-pwsh -c './../PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
+pwsh -c './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
 
 # Release (Creates GitHub release)
-pwsh -c './../PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
+pwsh -c './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
 ```
 
 ## Maintenance
