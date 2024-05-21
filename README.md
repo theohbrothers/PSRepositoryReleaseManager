@@ -160,8 +160,9 @@ Simply populate applicable environment variables values prior to executing provi
 # Clone project
 git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules
 
-# Process applicable environment variables (e.g.)
+# Process applicable environment variables
 export PROJECT_DIRECTORY=$( git rev-parse --show-toplevel )
+export RELEASE_TAG_REF=$( echo "$GITHUB_REF" | sed -rn 's/^refs\/tags\/(.*)/\1/p' )
 export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
 export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
 
