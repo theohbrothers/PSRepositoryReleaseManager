@@ -33,7 +33,7 @@ jobs:
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
     - name: Generate release notes
       run: |
-        # Clone project
+        # Clone PSRepositoryReleaseManager
         git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules --depth 1 --shallow-submodules --branch 'vx.x.x' # Specify tag ref to checkout to
 
         # Process applicable environment variables
