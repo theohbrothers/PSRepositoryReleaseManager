@@ -148,7 +148,7 @@ To generate release notes and create releases, simply clone a specified *version
 
 ```shell
 # Clone PSRepositoryReleaseManager
-git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules --branch 'vx.x.x' # Specify tag ref to checkout to
+git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules --depth 1 --shallow-submodules --branch 'vx.x.x' # Specify tag ref to checkout to
 
 # Process applicable environment variables
 export PROJECT_DIRECTORY=$( git rev-parse --show-toplevel )
