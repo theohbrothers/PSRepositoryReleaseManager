@@ -182,7 +182,7 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  generate-and-release:
+  release:
     needs:
       - test-powershell-core-linux
       - test-powershell-core-macos
