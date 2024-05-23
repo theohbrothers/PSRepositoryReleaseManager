@@ -37,10 +37,10 @@ $env:RELEASE_NOTES_PATH = '/path/to/.release-notes.md'
 
 #>
 
+Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $ErrorView = 'NormalView'
 $VerbosePreference = 'Continue'
-Set-StrictMode -Version Latest
 
 try {
     Push-Location $PSScriptRoot
