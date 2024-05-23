@@ -44,7 +44,7 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  test-powershell-5-1-windows-2022:
+  test-powershell-5_1-windows-2022:
     runs-on: windows-2022
     steps:
     - uses: actions/checkout@v1
@@ -55,7 +55,7 @@ jobs:
       run: |
         powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  test-powershell-5-1-windows-2019:
+  test-powershell-5_1-windows-2019:
     runs-on: windows-2019
     steps:
     - uses: actions/checkout@v1
@@ -70,7 +70,7 @@ jobs:
   # Docker #
   ##########
   # Get powershell tags: https://mcr.microsoft.com/v2/powershell/tags/list
-  test-powershell-6-1-container:
+  test-powershell-6_1-container:
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:6.1.3-ubuntu-18.04-git
@@ -86,7 +86,7 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  test-powershell-6-2-container:
+  test-powershell-6_2-container:
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:6.2.4-ubuntu-18.04-git
@@ -102,7 +102,7 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  test-powershell-7-0-container:
+  test-powershell-7_0-container:
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:7.0.3-ubuntu-18.04-git
@@ -118,7 +118,7 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  test-powershell-7-1-container:
+  test-powershell-7_1-container:
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:7.1.5-ubuntu-20.04-git
@@ -134,7 +134,7 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  test-powershell-7-2-container:
+  test-powershell-7_2-container:
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:7.2-ubuntu-22.04-git
@@ -150,7 +150,7 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  test-powershell-7-3-container:
+  test-powershell-7_3-container:
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:7.3-ubuntu-22.04-git
@@ -166,7 +166,7 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  test-powershell-7-4-container:
+  test-powershell-7_4-container:
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:7.4-ubuntu-22.04-git
@@ -187,15 +187,15 @@ jobs:
       - test-powershell-core-linux
       - test-powershell-core-macos
       - test-powershell-core-windows
-      - test-powershell-5-1-windows-2022
-      - test-powershell-5-1-windows-2019
-      - test-powershell-6-1-container
-      - test-powershell-6-2-container
-      - test-powershell-7-0-container
-      - test-powershell-7-1-container
-      - test-powershell-7-2-container
-      - test-powershell-7-3-container
-      - test-powershell-7-4-container
+      - test-powershell-5_1-windows-2022
+      - test-powershell-5_1-windows-2019
+      - test-powershell-6_1-container
+      - test-powershell-6_2-container
+      - test-powershell-7_0-container
+      - test-powershell-7_1-container
+      - test-powershell-7_2-container
+      - test-powershell-7_3-container
+      - test-powershell-7_4-container
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:7.2-ubuntu-22.04-git
