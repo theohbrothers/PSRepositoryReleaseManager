@@ -171,7 +171,7 @@ Sample CI files demonstrating this approach can be found [here](docs/samples/ci/
 
 ##### Generating release notes
 
-To generate release notes, reference the appropriate `generate.yml` entrypoint CI template provided by this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.generate.yml#L4-#L7).
+To generate release notes, reference the appropriate `generate.yml` entrypoint CI template provided by this project from your CI file. The **generate** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.generate-params.yml#L4-#L7).
 
 Generation of release notes is presently *limited* to the module's [valid tags pattern](#valid-tags).
 
@@ -179,7 +179,7 @@ Generation of release notes is presently *limited* to the module's [valid tags p
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs.
 
-To create releases, reference the appropriate `release.yml` entrypoint CI template provided by this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.release.yml#L4-#L21).
+To create releases, reference the appropriate `release.yml` entrypoint CI template provided by this project from your CI file. The **release** step can also be customized through provided [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.release-params.yml#L4-#L21).
 
 Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
