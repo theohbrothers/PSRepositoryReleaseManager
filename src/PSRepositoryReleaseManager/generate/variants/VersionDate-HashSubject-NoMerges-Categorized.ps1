@@ -54,7 +54,7 @@ function VersionDate-HashSubject-NoMerges-Categorized {
             }
             @{
                 Name = 'Chore'
-                Title = 'Chores'
+                Title = 'Maintenance'
             }
         )
         $commitHistoryUncategorized = $commitHistoryTrimmed | % {
