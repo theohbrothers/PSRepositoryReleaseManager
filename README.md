@@ -3,7 +3,7 @@
 [badge-version-github-tag-img]: https://img.shields.io/github/v/tag/theohbrothers/PSRepositoryReleaseManager?style=flat-square
 [badge-version-github-tag-src]: https://github.com/theohbrothers/PSRepositoryReleaseManager/releases
 
-A project for managing repository releases, such as [GitHub releases](https://docs.github.com/en/github/administering-a-repository/releasing-projects-on-github/about-releases).
+A project for generating release notes and creating releases, such as [GitHub releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).
 
 ## Introduction
 
