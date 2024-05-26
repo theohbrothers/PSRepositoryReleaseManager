@@ -32,11 +32,11 @@ function VersionDate-HashSubject-Merges {
 ## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
 
 "@
-$commitHistoryCollection | % {
+            $commitHistoryCollection | % {
 @"
 * $_
 "@
-}
+            }
         }
         $releaseBody
     }catch {

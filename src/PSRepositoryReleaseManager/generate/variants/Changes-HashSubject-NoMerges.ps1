@@ -32,11 +32,11 @@ function Changes-HashSubject-NoMerges {
 ## Changes
 
 "@
-$commitHistoryCollection | % {
+            $commitHistoryCollection | % {
 @"
 * $_
 "@
-}
+            }
         }
         $releaseBody
     }catch {
