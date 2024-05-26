@@ -69,7 +69,7 @@ Sample CI files can be found [here](docs/samples/ci).
 
 **Note:** This step is only necessary for [creating releases](#creating-releases-1) on CI environments.
 
-Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token), ensuring it has write permissions to the repository.
+Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens), ensuring it has write permissions to the repository.
 
 In the case where GitHub Actions is used for releases, the job token [`GITHUB_TOKEN`](docs/samples/ci/github/generic/github-workflows.linux-container.yml#L67) may be used for creating releases should it have write permissions to the repository.
 
