@@ -108,13 +108,13 @@
         {
             "label": "Invoke-Generate.ps1 (pwsh)",
             "type": "shell",
-            "command": "PROJECT_DIRECTORY=${input:PROJECT_DIRECTORY} RELEASE_TAG_REF=${input:RELEASE_TAG_REF} RELEASE_NOTES_VARIANT=${input:RELEASE_NOTES_VARIANT} RELEASE_NOTES_PATH=${input:RELEASE_NOTES_PATH} pwsh -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
+            "command": "PROJECT_DIRECTORY=\"${input:PROJECT_DIRECTORY}\" RELEASE_TAG_REF=\"${input:RELEASE_TAG_REF}\" RELEASE_NOTES_VARIANT=\"${input:RELEASE_NOTES_VARIANT}\" RELEASE_NOTES_PATH=\"${input:RELEASE_NOTES_PATH}\" pwsh -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
             "group": "build"
         },
         {
             "label": "Invoke-Generate.ps1 (powershell)",
             "type": "shell",
-            "command": "PROJECT_DIRECTORY=${input:PROJECT_DIRECTORY} RELEASE_TAG_REF=${input:RELEASE_TAG_REF} RELEASE_NOTES_VARIANT=${input:RELEASE_NOTES_VARIANT} RELEASE_NOTES_PATH=${input:RELEASE_NOTES_PATH} powershell -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
+            "command": "PROJECT_DIRECTORY=\"${input:PROJECT_DIRECTORY}\" RELEASE_TAG_REF=\"${input:RELEASE_TAG_REF}\" RELEASE_NOTES_VARIANT=\"${input:RELEASE_NOTES_VARIANT}\" RELEASE_NOTES_PATH=\"${input:RELEASE_NOTES_PATH}\" powershell -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
             "group": "build"
         },
         {
