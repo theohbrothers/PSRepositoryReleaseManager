@@ -32,11 +32,11 @@ function VersionDate-Subject-NoMerges {
 ## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
 
 "@
-$commitHistoryCollection | % {
+            $commitHistoryCollection | % {
 @"
 * $_
 "@
-}
+            }
         }
         $releaseBody
     }catch {

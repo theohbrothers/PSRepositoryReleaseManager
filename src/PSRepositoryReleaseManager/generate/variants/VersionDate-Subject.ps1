@@ -31,11 +31,11 @@ function VersionDate-Subject {
 ## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
 
 "@
-$commitHistoryCollection | % {
+            $commitHistoryCollection | % {
 @"
 * $_
 "@
-}
+            }
         }
         $releaseBody
     }catch {

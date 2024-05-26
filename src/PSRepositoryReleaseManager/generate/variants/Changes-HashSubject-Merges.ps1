@@ -32,11 +32,11 @@ function Changes-HashSubject-Merges {
 ## Changes
 
 "@
-$commitHistoryCollection | % {
+            $commitHistoryCollection | % {
 @"
 * $_
 "@
-}
+            }
         }
         $releaseBody
     }catch {

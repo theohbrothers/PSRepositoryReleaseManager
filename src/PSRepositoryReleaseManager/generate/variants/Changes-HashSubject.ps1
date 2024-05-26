@@ -31,11 +31,11 @@ function Changes-HashSubject {
 ## Changes
 
 "@
-$commitHistoryCollection | % {
+            $commitHistoryCollection | % {
 @"
 * $_
 "@
-}
+            }
         }
         $releaseBody
     }catch {
