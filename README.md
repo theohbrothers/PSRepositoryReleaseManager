@@ -107,7 +107,7 @@ git tag v1.0.12-beta.1
 
 The entrypoint script [`Invoke-Release.ps1`](src/scripts/ci/Invoke-Release.ps1) can be used to create releases for GitHub repositories. To do so, simply define applicable [environment variables](#environment-variables) before executing the entrypoint script.
 
-The project includes [`.vscode/tasks.json`](.vscode/tasks.json) which allows execution of `Invoke-Release.ps1` via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt.
+The project includes [`.vscode/tasks.json`](.vscode/tasks.json) which allows execution of `Invoke-Release.ps1` via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt. Note that due to the inability to enter multiline strings in build tasks, the options `RELEASE_NOTES_CONTENT` and `RELEASE_ASSETS` are presently unavailable and limited in usability respectively.
 
 ### Continuous Integration (CI)
 
