@@ -26,7 +26,7 @@ function VersionDate-Subject-NoMerges-Categorized {
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = @($previousRelease)[0] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
-        $commitHistoryCollection = $commitHistory -split "`n"
+        $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
         $commitCategory = @(
             @{
                 Name = 'Feature'

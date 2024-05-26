@@ -25,12 +25,13 @@ function Changes-HashSubject {
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = @($previousRelease)[0] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
+        $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
         $releaseBody = & {
 @"
 ## Changes
 
 "@
-$commitHistory -split "`n" | % { $_.Trim() } | ? { $_ } | % {
+$commitHistoryCollection | % {
 @"
 * $_
 "@
