@@ -26,7 +26,7 @@ function Changes-HashSubjectAuthor-NoMerges-Categorized {
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = @($previousRelease)[0] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
-        $commitHistoryTrimmed = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
+        $commitHistoryCollection = $commitHistory -split "`n"
         $commitCategory = @(
             @{
                 Name = 'Feature'
@@ -57,7 +57,7 @@ function Changes-HashSubjectAuthor-NoMerges-Categorized {
                 Title = 'Maintenance'
             }
         )
-        $commitHistoryUncategorized = $commitHistoryTrimmed | % {
+        $commitHistoryUncategorized = $commitHistoryCollection | % {
             if (!($_ -match "^[0-9a-f]+ (\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)")) {
                 $_
             }
@@ -68,7 +68,7 @@ function Changes-HashSubjectAuthor-NoMerges-Categorized {
 "@
             foreach ($c in $commitCategory) {
                 $isTitleOutputted = $false
-                $commitHistoryTrimmed | % {
+                $commitHistoryCollection | % {
                     if ($_ -match "^[0-9a-f]+ (\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)") {
                         if (!$isTitleOutputted) {
 @"
