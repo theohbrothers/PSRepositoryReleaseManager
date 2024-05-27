@@ -76,6 +76,16 @@ function VersionDate-HashSubjectAuthor-NoMerges-CategorizedSorted {
                 }
             }
         }
+        $commitHistoryUncategorizedCustomCollection = $commitHistoryUncategorizedCollection | % {
+            $matchInfo = $_ | Select-String -Pattern "(^[0-9a-f]+) (.+) (- `.+`)$"
+            if ($matchInfo) {
+                [PSCustomObject]@{
+                    Ref = $matchInfo.Matches.Groups[1].Value
+                    Subject = $matchInfo.Matches.Groups[2].Value
+                    Author = $matchInfo.Matches.Groups[3].Value
+                }
+            }
+        }
         $releaseBody = & {
 @"
 ## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
@@ -98,15 +108,15 @@ function VersionDate-HashSubjectAuthor-NoMerges-CategorizedSorted {
                     }
                 }
             }
-            if ($commitHistoryUncategorizedCollection) {
+            if ($commitHistoryUncategorizedCustomCollection) {
 @"
 
 ### Others
 
 "@
-                $commitHistoryUncategorizedCollection | % {
+                $commitHistoryUncategorizedCustomCollection | Sort-Object -Property Subject | % {
 @"
-* $_
+* $($_.Ref) $($_.Subject) $($_.Author)
 "@
                 }
             }
