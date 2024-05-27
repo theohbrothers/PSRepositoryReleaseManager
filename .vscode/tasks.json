@@ -42,7 +42,7 @@
                 "VersionDate-SubjectAuthor-NoMerges-Categorized",
                 "VersionDate-SubjectAuthor-NoMerges-CategorizedSorted",
               ],
-            "default": "VersionDate-HashSubjectAuthor-NoMerges-Categorized",
+            "default": "VersionDate-HashSubject-NoMerges-CategorizedSorted",
         },
         {
             "id": "RELEASE_NOTES_PATH",

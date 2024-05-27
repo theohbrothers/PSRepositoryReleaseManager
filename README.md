@@ -128,7 +128,7 @@ The following are environment variables supported by the provided [entrypoint sc
 
 | Name | Example value | Mandatory | Type |
 |:-:|:-:|:-:|:-:|
-| `RELEASE_NOTES_VARIANT` | `VersionDate-HashSubjectAuthor-NoMerges-Categorized` ([List of available variants](src/PSRepositoryReleaseManager/generate/variants)) | false | string |
+| `RELEASE_NOTES_VARIANT` | `VersionDate-HashSubject-NoMerges-CategorizedSorted` ([List of available variants](src/PSRepositoryReleaseManager/generate/variants)) | false | string |
 | `RELEASE_NOTES_PATH` | `.release-notes.md` (relative) /<br>`/path/to/.release-notes.md` (full) | false | string |
 
 ###### Release
