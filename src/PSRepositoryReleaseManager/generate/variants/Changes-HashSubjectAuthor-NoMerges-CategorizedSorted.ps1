@@ -57,12 +57,16 @@ function Changes-HashSubjectAuthor-NoMerges-CategorizedSorted {
                 Title = 'Maintenance'
             }
         )
-        $commitHistoryUncategorized = $commitHistoryCollection | % {
-            if (!($_ -match "^[0-9a-f]+ (\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)")) {
-                $_
+        $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
+        $commitHistoryUncategorizedCollection = New-Object System.Collections.ArrayList
+        $commitHistoryCollection | % {
+            if (($_ -match "^[0-9a-f]+ (\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)")) {
+                $commitHistoryCategorizedCollection.Add($_) > $null
+            }else {
+                $commitHistoryUncategorizedCollection.Add($_) > $null
             }
         }
-        $commitHistoryCategorizedCollection = $commitHistoryCollection | % {
+        $commitHistoryCategorizedCustomCollection = $commitHistoryCategorizedCollection | % {
             $matchInfo = $_ | Select-String -Pattern "(^[0-9a-f]+) (.+) (- `.+`)$"
             if ($matchInfo) {
                 [PSCustomObject]@{
@@ -78,7 +82,7 @@ function Changes-HashSubjectAuthor-NoMerges-CategorizedSorted {
 "@
             foreach ($c in $commitCategory) {
                 $isTitleOutputted = $false
-                $commitHistoryCategorizedCollection | Sort-Object -Property Subject | % {
+                $commitHistoryCategorizedCustomCollection | Sort-Object -Property Subject | % {
                     if ("$($_.Ref) $($_.Subject) $($_.Author)" -match "^[0-9a-f]+ (\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)") {
                         if (!$isTitleOutputted) {
 @"
@@ -94,13 +98,13 @@ function Changes-HashSubjectAuthor-NoMerges-CategorizedSorted {
                     }
                 }
             }
-            if ($commitHistoryUncategorized) {
+            if ($commitHistoryUncategorizedCollection) {
 @"
 
 ### Others
 
 "@
-                $commitHistoryUncategorized | % {
+                $commitHistoryUncategorizedCollection | % {
 @"
 * $_
 "@
