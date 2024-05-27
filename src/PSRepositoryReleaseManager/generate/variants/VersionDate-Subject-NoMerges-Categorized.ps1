@@ -57,9 +57,13 @@ function VersionDate-Subject-NoMerges-Categorized {
                 Title = 'Maintenance'
             }
         )
-        $commitHistoryUncategorized = $commitHistoryCollection | % {
-            if (!($_ -match "^(\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)")) {
-                $_
+        $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
+        $commitHistoryUncategorizedCollection = New-Object System.Collections.ArrayList
+        $commitHistoryCollection | % {
+            if (($_ -match "^(\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)")) {
+                $commitHistoryCategorizedCollection.Add($_) > $null
+            }else {
+                $commitHistoryUncategorizedCollection.Add($_) > $null
             }
         }
         $releaseBody = & {
@@ -84,13 +88,13 @@ function VersionDate-Subject-NoMerges-Categorized {
                     }
                 }
             }
-            if ($commitHistoryUncategorized) {
+            if ($commitHistoryUncategorizedCollection) {
 @"
 
 ### Others
 
 "@
-                $commitHistoryUncategorized | % {
+                $commitHistoryUncategorizedCollection | % {
 @"
 * $_
 "@
