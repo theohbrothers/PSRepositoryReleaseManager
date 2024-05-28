@@ -60,7 +60,7 @@ function VersionDate-HashSubject-NoMerges-CategorizedSorted {
         $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryUncategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryCollection | % {
-            if (($_ -match "^[0-9a-f]+ (\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)")) {
+            if ($_ -match "^[0-9a-f]+ (\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)") {
                 $commitHistoryCategorizedCollection.Add($_) > $null
             }else {
                 $commitHistoryUncategorizedCollection.Add($_) > $null
