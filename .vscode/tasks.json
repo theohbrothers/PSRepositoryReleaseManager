@@ -114,25 +114,25 @@
         {
             "label": "Invoke-Generate.ps1 (pwsh)",
             "type": "shell",
-            "command": "PROJECT_DIRECTORY=\"${input:PROJECT_DIRECTORY}\" RELEASE_TAG_REF=\"${input:RELEASE_TAG_REF}\" RELEASE_NOTES_VARIANT=\"${input:RELEASE_NOTES_VARIANT}\" RELEASE_NOTES_PATH=\"${input:RELEASE_NOTES_PATH}\" pwsh -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
+            "command": "PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NOTES_VARIANT='${input:RELEASE_NOTES_VARIANT}' RELEASE_NOTES_PATH='${input:RELEASE_NOTES_PATH}' pwsh -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
             "group": "build"
         },
         {
             "label": "Invoke-Generate.ps1 (powershell)",
             "type": "shell",
-            "command": "PROJECT_DIRECTORY=\"${input:PROJECT_DIRECTORY}\" RELEASE_TAG_REF=\"${input:RELEASE_TAG_REF}\" RELEASE_NOTES_VARIANT=\"${input:RELEASE_NOTES_VARIANT}\" RELEASE_NOTES_PATH=\"${input:RELEASE_NOTES_PATH}\" powershell -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
+            "command": "PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NOTES_VARIANT='${input:RELEASE_NOTES_VARIANT}' RELEASE_NOTES_PATH='${input:RELEASE_NOTES_PATH}' powershell -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
             "group": "build"
         },
         {
             "label": "Invoke-Release.ps1 (pwsh)",
             "type": "shell",
-            "command": "GITHUB_API_TOKEN=\"${input:GITHUB_API_TOKEN}\" PROJECT_DIRECTORY=\"${input:PROJECT_DIRECTORY}\" RELEASE_TAG_REF=\"${input:RELEASE_TAG_REF}\" RELEASE_NAMESPACE=\"${input:RELEASE_NAMESPACE}\" RELEASE_REPOSITORY=\"${input:RELEASE_REPOSITORY}\" RELEASE_NAME=\"${input:RELEASE_NAME}\" RELEASE_DRAFT=\"${input:RELEASE_DRAFT}\" RELEASE_PRERELEASE=\"${input:RELEASE_PRERELEASE}\" RELEASE_ASSETS=\"${input:RELEASE_ASSETS}\" pwsh -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Release.ps1'",
+            "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' pwsh -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Release.ps1'",
             "group": "build"
         },
         {
             "label": "Invoke-Release.ps1 (powershell)",
             "type": "shell",
-            "command": "GITHUB_API_TOKEN=\"${input:GITHUB_API_TOKEN}\" PROJECT_DIRECTORY=\"${input:PROJECT_DIRECTORY}\" RELEASE_TAG_REF=\"${input:RELEASE_TAG_REF}\" RELEASE_NAMESPACE=\"${input:RELEASE_NAMESPACE}\" RELEASE_REPOSITORY=\"${input:RELEASE_REPOSITORY}\" RELEASE_NAME=\"${input:RELEASE_NAME}\" RELEASE_DRAFT=\"${input:RELEASE_DRAFT}\" RELEASE_PRERELEASE=\"${input:RELEASE_PRERELEASE}\" RELEASE_ASSETS=\"${input:RELEASE_ASSETS}\" powershell -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Release.ps1'",
+            "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' powershell -c '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Release.ps1'",
             "group": "build"
         }
     ]
