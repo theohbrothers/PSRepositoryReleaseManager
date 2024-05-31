@@ -27,7 +27,7 @@ function VersionDate-Subject-NoMerges-CategorizedSorted {
         if ($previousRelease) { $funcArgs['SecondRef'] = @($previousRelease)[0] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
         $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
-        $commitCategory = @(
+        $commitHistoryCategory = @(
             @{
                 Name = 'Feature'
                 Title = 'Features'
@@ -86,17 +86,17 @@ function VersionDate-Subject-NoMerges-CategorizedSorted {
 @"
 ## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
 "@
-            foreach ($c in $commitCategory) {
-                $isTitleOutputted = $false
+            foreach ($c in $commitHistoryCategory) {
+                $iscommitHistoryCategoryTitleOutputted = $false
                 $commitHistoryCategorizedCustomCollection | Sort-Object -Property Subject | % {
                     if ("$($_.Subject)" -match "^(\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)") {
-                        if (!$isTitleOutputted) {
+                        if (!$iscommitHistoryCategoryTitleOutputted) {
 @"
 
 ### $($c['Title'])
 
 "@
-                            $isTitleOutputted = $true
+                            $iscommitHistoryCategoryTitleOutputted = $true
                         }
 @"
 * $($_.Subject)
