@@ -27,7 +27,7 @@ function Changes-HashSubject-NoMerges-Categorized {
         if ($previousRelease) { $funcArgs['SecondRef'] = @($previousRelease)[0] }
         $commitHistory = Get-RepositoryCommitHistory @funcArgs
         $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
-        $commitCategory = @(
+        $commitHistoryCategory = @(
             @{
                 Name = 'Feature'
                 Title = 'Features'
@@ -70,17 +70,17 @@ function Changes-HashSubject-NoMerges-Categorized {
 @"
 ## Changes
 "@
-            foreach ($c in $commitCategory) {
-                $isTitleOutputted = $false
+            foreach ($c in $commitHistoryCategory) {
+                $iscommitHistoryCategoryTitleOutputted = $false
                 $commitHistoryCollection | % {
                     if ($_ -match "^[0-9a-f]+ (\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)") {
-                        if (!$isTitleOutputted) {
+                        if (!$iscommitHistoryCategoryTitleOutputted) {
 @"
 
 ### $($c['Title'])
 
 "@
-                            $isTitleOutputted = $true
+                            $iscommitHistoryCategoryTitleOutputted = $true
                         }
 @"
 * $_
