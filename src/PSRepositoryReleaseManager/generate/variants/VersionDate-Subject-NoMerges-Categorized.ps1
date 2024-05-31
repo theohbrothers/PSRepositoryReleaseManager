@@ -54,7 +54,7 @@ function VersionDate-Subject-NoMerges-Categorized {
             }
             @{
                 Name = 'Chore'
-                Title = 'Maintenance'
+                Title = 'Chore'
             }
         )
         $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList

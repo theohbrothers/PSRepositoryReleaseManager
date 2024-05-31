@@ -54,7 +54,7 @@ function VersionDate-HashSubject-NoMerges-CategorizedSorted {
             }
             @{
                 Name = 'Chore'
-                Title = 'Maintenance'
+                Title = 'Chore'
             }
         )
         $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
