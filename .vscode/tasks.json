@@ -73,7 +73,7 @@
             "id": "RELEASE_NAME",
             "description": "RELEASE_NAME?",
             "type": "promptString",
-            "default": "vx.x.x | My release name",
+            "default": "My release name | vx.x.x",
         },
         // {
         //     "id": "RELEASE_NOTES_CONTENT",
