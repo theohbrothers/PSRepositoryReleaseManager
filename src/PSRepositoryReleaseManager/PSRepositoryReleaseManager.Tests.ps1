@@ -60,17 +60,17 @@ Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
         "Generate notes content:" | Write-Verbose
         Get-Content -Path "$stdout" | Write-Host
     }
-    It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY `$env:RELEASE_TAG_REF='HEAD' `$env:RELEASE_NOTES_PATH='/path/to/.release-notes.md'" {
+    It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY `$env:RELEASE_TAG_REF='HEAD' `$env:RELEASE_NOTES_PATH='.release-notes.md'" {
         $env:RELEASE_TAG_REF = 'HEAD'
-        $env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.fullpath.md"
+        $env:RELEASE_NOTES_PATH = ".release-notes.relativepath.md"
 
         $stdout = ../src/scripts/ci/Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
         Get-Content -Path "$stdout" | Write-Host
     }
-    It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY `$env:RELEASE_TAG_REF='HEAD' `$env:RELEASE_NOTES_PATH='.release-notes.md'" {
+    It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY `$env:RELEASE_TAG_REF='HEAD' `$env:RELEASE_NOTES_PATH='/path/to/.release-notes.md'" {
         $env:RELEASE_TAG_REF = 'HEAD'
-        $env:RELEASE_NOTES_PATH = ".release-notes.relativepath.md"
+        $env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.fullpath.md"
 
         $stdout = ../src/scripts/ci/Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
