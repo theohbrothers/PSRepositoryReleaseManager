@@ -55,7 +55,7 @@ try {
             $private:ProjectDir = $private:superProjectDir
             "Using superproject directory '$private:ProjectDir'" | Write-Verbose
         }else {
-            throw "`$env:PROJECT_DIRECTORY is undefined or superproject directory cannot be determined." | Write-Verbose
+            throw "`$env:PROJECT_DIRECTORY is undefined or superproject directory cannot be determined."
         }
     }
     $private:generateArgs = @{
