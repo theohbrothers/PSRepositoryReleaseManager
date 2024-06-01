@@ -3,7 +3,6 @@ param()
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$ErrorView = 'NormalView'
 
 try {
     Push-Location $PSScriptRoot
