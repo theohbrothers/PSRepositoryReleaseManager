@@ -12,12 +12,13 @@ try {
 
     # Create GitHub release
     if ($env:PROJECT_DIRECTORY) {
+        "Using specified project directory '$env:PROJECT_DIRECTORY'" | Write-Verbose
         $private:ProjectDir = $env:PROJECT_DIRECTORY
     }else {
         $private:superProjectDir = git rev-parse --show-superproject-working-tree
         if ($private:superProjectDir) {
             $private:ProjectDir = $private:superProjectDir
-            "Using superproject path '$private:ProjectDir'" | Write-Verbose
+            "Using superproject directory '$private:ProjectDir'" | Write-Verbose
         }else {
             throw "`$env:PROJECT_DIRECTORY is undefined or superproject directory cannot be determined." | Write-Verbose
         }
@@ -40,7 +41,7 @@ try {
     }else {
         $private:defaultReleaseNotesPath = "$(git rev-parse --show-toplevel)/.release-notes.md"
         if (Test-Path -Path $private:defaultReleaseNotesPath -PathType Leaf) {
-            "Sourcing from the default release notes path '$private:defaultReleaseNotesPath'" | Write-Verbose
+            "Sourcing from default release notes path '$private:defaultReleaseNotesPath'" | Write-Verbose
             $private:createReleaseArgs['ReleaseNotesPath'] = $private:defaultReleaseNotesPath
         }else {
             "Default release notes not found at the path '$private:defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
