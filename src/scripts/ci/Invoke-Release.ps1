@@ -29,7 +29,13 @@ try {
         ApiKey = $env:GITHUB_API_TOKEN
         TagName = $env:RELEASE_TAG_REF
         TargetCommitish = git --git-dir "$($private:ProjectDir)/.git" rev-parse $env:RELEASE_TAG_REF
-        Name = if ($env:RELEASE_NAME) { $env:RELEASE_NAME } else { $env:RELEASE_TAG_REF }
+        Name = if ($env:RELEASE_NAME) {
+                    "Using specified release name '$env:RELEASE_NAME'" | Write-Verbose
+                    $env:RELEASE_NAME
+               }else {
+                    "Using specified ref '$env:RELEASE_TAG_REF' as the release name" | Write-Verbose
+                    $env:RELEASE_TAG_REF
+               }
     }
     if ($env:RELEASE_NOTES_PATH) {
         "Sourcing from specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
