@@ -57,6 +57,9 @@ function VersionDate-SubjectAuthor-NoMerges-CategorizedSorted {
                 Title = 'Chore'
             }
         )
+        $commitHistoryCategoryNone = @{
+            Title = 'Others'
+        }
         $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryUncategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryCollection | % {
@@ -109,7 +112,7 @@ function VersionDate-SubjectAuthor-NoMerges-CategorizedSorted {
             if ($commitHistoryUncategorizedCustomCollection) {
 @"
 
-### Others
+### $($commitHistoryCategoryNone['Title'])
 
 "@
                 $commitHistoryUncategorizedCustomCollection | Sort-Object -Property Subject | % {
