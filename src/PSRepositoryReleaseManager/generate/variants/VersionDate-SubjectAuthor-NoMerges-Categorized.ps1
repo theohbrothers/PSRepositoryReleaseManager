@@ -57,6 +57,9 @@ function VersionDate-SubjectAuthor-NoMerges-Categorized {
                 Title = 'Chore'
             }
         )
+        $commitHistoryCategoryNone = @{
+            Title = 'Others'
+        }
         $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryUncategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryCollection | % {
@@ -91,7 +94,7 @@ function VersionDate-SubjectAuthor-NoMerges-Categorized {
             if ($commitHistoryUncategorizedCollection) {
 @"
 
-### Others
+### $($commitHistoryCategoryNone['Title'])
 
 "@
                 $commitHistoryUncategorizedCollection | % {
