@@ -7,7 +7,7 @@ A project for generating release notes and creating releases, such as [GitHub re
 
 ## Introduction
 
-This project provides entrypoint scripts, CI templates, and PowerShell cmdlets that other projects can utilize for generating release notes and creating releases.
+This project provides entrypoint scripts, CI remote templates, and PowerShell cmdlets that other projects can utilize for generating release notes and creating releases.
 
 ## Setup
 
@@ -169,7 +169,7 @@ pwsh -c './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
 
 Sample CI files demonstrating use of this approach can be found [here](docs/samples/ci/github/generic).
 
-#### via Submodule and CI templates
+#### via Submodule and CI remote templates
 
 ##### Generating release notes
 
@@ -215,4 +215,4 @@ git commit -am 'Bump PSRepositoryReleaseManager to vx.x.x'
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- If using the project [via Submodule and CI templates](#via-submodule-and-ci-templates), ensure your main project's CI file(s) is configured to use a [tag ref](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L19) of `PSRepositoryReleaseManager` for its CI remote templates, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
+- If using the project [via Submodule and CI remote templates](#via-submodule-and-ci-remote-templates), ensure your main project's CI file(s) is configured to use a [tag ref](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L19) of `PSRepositoryReleaseManager` for its CI remote templates, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
