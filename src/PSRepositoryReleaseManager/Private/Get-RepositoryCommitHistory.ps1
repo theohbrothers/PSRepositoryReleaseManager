@@ -52,7 +52,7 @@ function Get-RepositoryCommitHistory {
             if ($Merges) { '--merges' }
             elseif ($NoMerges) { '--no-merges' }
         )
-        $_commitHistory = git $gitArgs | Out-String
+        $_commitHistory = git $gitArgs
         "Changelog:" | Write-Verbose
         $_commitHistory | Write-Verbose
         $_commitHistory
