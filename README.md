@@ -167,10 +167,10 @@ export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
 export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
 
 # Generate (Generates release notes)
-pwsh -c './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
+pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
 
 # Release (Creates GitHub release)
-pwsh -c './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
+pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
 ```
 
 **Note:** Ensure the environment variable [`GITHUB_API_TOKEN`](#github-api-token) is defined prior to creating releases.
