@@ -53,15 +53,19 @@ git --git-dir build/PSRepositoryReleaseManager/.git checkout vx.x.x
 git commit -am 'Add submodule PSRepositoryReleaseManager vx.x.x'
 ```
 
-#### CI remote templates
+## Configuration
 
-Decide on which CI provider to use in your main project based on those supported by this project. Then setup the CI file(s) for your main project, referencing relevant CI remote template(s) of this project from your main project's CI file(s).
+### CI remote templates
+
+**Note:** This section only applies if using the project as a [submodule](#submodule).
+
+Decide on which CI provider to use in your main project based on those supported by this project. Then setup the CI file(s) for your main project, referencing relevant [CI remote template(s)](templates) of this project from your main project's CI file(s).
 
 Sample CI files can be found [here](docs/samples/ci).
 
 ### CI settings
 
- Configure the following CI settings for your main project if `PSRepositoryReleaseManager` is to be used in a CI environment, whether it be as an independent project or a submodule.
+Configure the following CI settings for your main project if `PSRepositoryReleaseManager` is to be used in a CI environment, whether it be as an independent project or a submodule.
 
 #### Secrets
 
@@ -108,6 +112,10 @@ git tag v1.0.12-beta.1
 The entrypoint script [`Invoke-Release.ps1`](src/scripts/ci/Invoke-Release.ps1) can be used to create releases for GitHub repositories. To do so, simply define applicable [environment variables](#environment-variables) before executing the entrypoint script.
 
 The project includes [`.vscode/tasks.json`](.vscode/tasks.json) which allows execution of `Invoke-Release.ps1` via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt. Note that due to the inability to enter multiline strings in build tasks, the options `RELEASE_NOTES_CONTENT` and `RELEASE_ASSETS` are presently unavailable and limited in usability respectively.
+
+##### Valid tags
+
+Creation of releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
 ### Continuous Integration (CI)
 
@@ -175,15 +183,11 @@ Sample CI files demonstrating use of this approach can be found [here](docs/samp
 
 To generate release notes, reference the appropriate [`generate.yml`](templates/azure-pipelines/entrypoint) entrypoint CI remote template provided by this project from your main project's CI file. The `generate.yml` templates also support the following [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.generate-params.yml#L4-#L7) for customizing the generation of release notes.
 
-Generation of release notes is presently *limited* to the module's [valid tags pattern](#valid-tags).
-
 ##### Creating releases
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs, and that the environment variable [`GITHUB_API_TOKEN`](#github-api-token) is defined prior to creating releases.
 
 To create releases, reference the appropriate [`release.yml`](templates/azure-pipelines/entrypoint) entrypoint CI remote template provided by this project from your main project's CI file. The `release.yml` templates also support the following [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.release-params.yml#L4-#L21) for customizing the creation of releases.
-
-Releases supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
 ## Maintenance
 
@@ -215,4 +219,4 @@ git commit -am 'Bump PSRepositoryReleaseManager to vx.x.x'
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- If using the project [via Submodule and CI remote templates](#via-submodule-and-ci-remote-templates), ensure your main project's CI file(s) is configured to use a [tag ref](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L19) of `PSRepositoryReleaseManager` for its CI remote templates, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
+- If using the project as a [Submodule with CI remote templates](#submodule), ensure your main project's CI file(s) is configured to use a [tag ref](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L19) of `PSRepositoryReleaseManager` for its CI remote templates, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
