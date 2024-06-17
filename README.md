@@ -1,7 +1,7 @@
-# PSRepositoryReleaseManager [![badge-version-github-tag-img][]][badge-version-github-tag-src]
+# PSRepositoryReleaseManager
 
-[badge-version-github-tag-img]: https://img.shields.io/github/v/tag/theohbrothers/PSRepositoryReleaseManager?style=flat-square
-[badge-version-github-tag-src]: https://github.com/theohbrothers/PSRepositoryReleaseManager/releases
+[![github-workflows](https://img.shields.io/github/actions/workflow/status/theohbrothers/PSRepositoryReleaseManager/ci-master-pr.yml?label=ci-master-pr&logo=github&style=flat-square)](https://github.com/theohbrothers/PSRepositoryReleaseManager/actions/workflows/ci-master-pr.yml)
+[![github-release](https://img.shields.io/github/v/release/theohbrothers/PSRepositoryReleaseManager?style=flat-square)](https://github.com/theohbrothers/PSRepositoryReleaseManager/releases)
 
 A project for generating release notes and creating releases, such as [GitHub releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).
 
