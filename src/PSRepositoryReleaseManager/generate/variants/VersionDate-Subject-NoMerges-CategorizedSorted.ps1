@@ -29,6 +29,10 @@ function VersionDate-Subject-NoMerges-CategorizedSorted {
         $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
         $commitHistoryCategory = @(
             @{
+                Name = 'Breaking'
+                Title = 'Breaking'
+            }
+            @{
                 Name = 'Feature'
                 Title = 'Features'
             }
@@ -37,8 +41,16 @@ function VersionDate-Subject-NoMerges-CategorizedSorted {
                 Title = 'Enhancements'
             }
             @{
+                Name = 'Change'
+                Title = 'Change'
+            }
+            @{
                 Name = 'Refactor'
                 Title = 'Refactors'
+            }
+            @{
+                Name = 'CI'
+                Title = 'CI'
             }
             @{
                 Name = 'Test'
@@ -47,6 +59,10 @@ function VersionDate-Subject-NoMerges-CategorizedSorted {
             @{
                 Name = 'Fix'
                 Title = 'Fixes'
+            }
+            @{
+                Name = 'Style'
+                Title = 'Style'
             }
             @{
                 Name = 'Docs'
