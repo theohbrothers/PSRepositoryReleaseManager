@@ -219,4 +219,4 @@ git commit -am 'Bump PSRepositoryReleaseManager to vx.x.x'
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- If using the project as a [Submodule with CI remote templates](#submodule), ensure your main project's CI file(s) is configured to use a [tag ref](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L19) of `PSRepositoryReleaseManager` for its CI remote templates, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
+- If using the project as a [Submodule with CI remote templates](#submodule), ensure your main project's CI file(s) is configured to use the [CI remote templates](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L15-19) of `PSRepositoryReleaseManager`, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
