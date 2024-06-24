@@ -75,7 +75,7 @@ Configure the following CI settings for your main project if `PSRepositoryReleas
 
 Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens), ensuring it has write permissions to the repository.
 
-In the case where GitHub Actions is used for releases, the job token [`GITHUB_TOKEN`](docs/samples/ci/github/generic/github-workflows.linux-container.yml#L67) may be used for creating releases should it have write permissions to the repository.
+In the case where GitHub Actions is used for releases, the job token [`GITHUB_TOKEN`](docs/samples/ci/github/generic/github-workflows.linux-container.yml#L59) may be used for creating releases should it have write permissions to the repository.
 
 ## Usage
 
@@ -219,4 +219,4 @@ git commit -am 'Bump PSRepositoryReleaseManager to vx.x.x'
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- If using the project as a [Submodule with CI remote templates](#submodule), ensure your main project's CI file(s) is configured to use the [CI remote templates](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L15-19) of `PSRepositoryReleaseManager`, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
+- If using the project as a [Submodule with CI remote templates](#submodule), ensure your main project's CI file(s) is configured to use the [CI remote templates](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L15-#L19) of `PSRepositoryReleaseManager`, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
