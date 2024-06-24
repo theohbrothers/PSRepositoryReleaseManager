@@ -17,8 +17,15 @@ steps:
     "Repository: '$env:RELEASE_REPOSITORY'" | Write-Host
     "Tag ref: '$env:RELEASE_TAG_REF'" | Write-Host
     $VerbosePreference = 'Continue'
-    .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1
+    $releaseNotesPath = .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1
+    Get-Content -Path $releaseNotesPath
+    ### Begin CI-specific code: Set job-scoped variables
+    echo "##vso[task.setvariable variable=RELEASE_NOTES_PATH_RESOLVED]${releaseNotesPath}"
+    ### End of CI-specific code
   displayName: Generate release notes
   env:
     RELEASE_NOTES_VARIANT: ${{ parameters['RELEASE_NOTES_VARIANT'] }}
     RELEASE_NOTES_PATH: ${{ parameters['RELEASE_NOTES_PATH'] }}
+- publish: '$(RELEASE_NOTES_PATH_RESOLVED)'
+  displayName: Upload artifacts
+  artifact: release-notes
