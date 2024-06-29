@@ -85,9 +85,9 @@ The project provides a set of [entrypoint scripts](src/scripts/ci) for generatin
 
 #### Generating release notes
 
-The entrypoint script [`Invoke-Generate.ps1`](src/scripts/ci/Invoke-Generate.ps1) is used to generate release notes for any local git repository. To do so, simply define applicable [environment variables](#environment-variables) before executing the entrypoint script.
+The function `Generate-ReleaseNotes` is used to generate release notes for any local git repository. To do so, simply call the function using parameters, or declare environment variables before calling the function. Parameters override environment variables.
 
-The project includes [`.vscode/tasks.json`](.vscode/tasks.json) which allows execution of `Invoke-Generate.ps1` via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt.
+The project includes [`.vscode/tasks.json`](.vscode/tasks.json) which allows execution of `Generate-ReleaseNotes` via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt.
 
 ##### Variants
 
@@ -167,7 +167,7 @@ export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
 export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
 
 # Generate (Generates release notes)
-pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
+pwsh -NoLogo -NonInteractive -NoProfile -Command 'Import-Module ./PSRepositoryReleaseManager/src/PSRepositoryReleaseManager; Generate-ReleaseNotes'
 
 # Release (Creates GitHub release)
 pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
