@@ -41,7 +41,7 @@ function Get-RepositoryCommitHistory {
         if ($SecondRef) {
             $commitSHARange = "$($FirstRef)...$($SecondRef)"
         }else {
-            "SecondRef unspecifed. The full commit history from FirstRef '$FirstRef' will be retrieved."  | Write-Verbose
+            "SecondRef unspecified. The full commit history for FirstRef '$FirstRef' will be retrieved." | Write-Verbose
             $commitSHARange = $FirstRef
         }
         $gitArgs = @(
