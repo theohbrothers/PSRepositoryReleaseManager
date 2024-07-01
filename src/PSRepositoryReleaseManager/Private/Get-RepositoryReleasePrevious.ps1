@@ -20,7 +20,7 @@ function Get-RepositoryReleasePrevious {
         }
         "Verifying if ref '$Ref' is a tag" | Write-Verbose
         $isRefTag = $null
-        git show-ref --verify "refs/tags/$Ref" | Write-Verbose
+        git show-ref --verify "refs/tags/$Ref" 2> $null | Write-Verbose
         if (!$LASTEXITCODE) {
             $isRefTag = $true
         }
