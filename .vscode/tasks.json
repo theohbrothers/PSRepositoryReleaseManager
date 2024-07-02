@@ -132,6 +132,18 @@
             "type": "shell",
             "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Release.ps1'",
             "group": "build"
-        }
+        },
+        {
+            "label": "Test PSRepositoryReleaseManager (pwsh)",
+            "type": "shell",
+            "command": "pwsh -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'",
+            "group": "build"
+        },
+        {
+            "label": "Test PSRepositoryReleaseManager (powershell)",
+            "type": "shell",
+            "command": "powershell -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'",
+            "group": "build"
+        },
     ]
 }
