@@ -1,42 +1,6 @@
 [CmdletBinding()]
 param()
 
-<# Examples
-
-# Maximum defaults
-./Invoke-Generate.ps1
-
-# Default project directory, release notes variant, and release notes path
-$env:RELEASE_TAG_REF = 'v1.0.12'
-./Invoke-Generate.ps1
-
-# Default release notes variant and release notes path
-$env:PROJECT_DIRECTORY = '/path/to/my-project'
-$env:RELEASE_TAG_REF = 'v1.0.12'
-./Invoke-Generate.ps1
-
-# Default release notes path
-$env:PROJECT_DIRECTORY = '/path/to/my-project'
-$env:RELEASE_TAG_REF = 'v1.0.12'
-$env:RELEASE_NOTES_VARIANT = 'Changes-HashSubject-NoMerges'
-./Invoke-Generate.ps1
-
-# Custom -ReleaseNotesPath relative to -ProjectDirectory
-$env:PROJECT_DIRECTORY = '/path/to/my-project'
-$env:RELEASE_TAG_REF = 'v1.0.12'
-$env:RELEASE_NOTES_VARIANT = 'Changes-HashSubject-NoMerges'
-$env:RELEASE_NOTES_PATH = '.release-notes.md'
-./Invoke-Generate.ps1
-
-# No defaults
-$env:PROJECT_DIRECTORY = '/path/to/my-project'
-$env:RELEASE_TAG_REF = 'v1.0.12'
-$env:RELEASE_NOTES_VARIANT = 'Changes-HashSubject-NoMerges'
-$env:RELEASE_NOTES_PATH = '/path/to/.release-notes.md'
-./Invoke-Generate.ps1
-
-#>
-
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
