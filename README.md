@@ -77,6 +77,12 @@ Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](http
 
 In the case where GitHub Actions is used for releases, the job token [`GITHUB_TOKEN`](docs/samples/ci/github/generic/github-workflows.linux-container.yml#L59) may be used for creating releases should it have write permissions to the repository.
 
+#### Environment variables
+
+##### Project directory
+
+By default, the provided [entrypoint scripts](src/scripts/ci) use the superproject directory as the path for execution. To override the default location, set the *environment* variable `PROJECT_DIRECTORY` to contain a custom directory value before executing the entrypoint scripts.
+
 ## Usage
 
 The project provides a set of [entrypoint scripts](src/scripts/ci) for generating release notes and creating releases for other projects, designed to be used identically in both [development](#development) and [CI environments](#continuous-integration-ci).
@@ -129,7 +135,7 @@ The following are environment variables supported by the provided [entrypoint sc
 
 | Name | Example value | Mandatory | Type |
 |:-:|:-:|:-:|:-:|
-| `PROJECT_DIRECTORY` | `/path/to/my-project` | true | string |
+| [`PROJECT_DIRECTORY`](#project-directory) | `/path/to/my-project` | false | string |
 | `RELEASE_TAG_REF` | `vx.x.x` / `branch` / `HEAD` / `remote/branch` / commit-hash | false (Generate), true (Release) | string |
 
 ###### Generate
