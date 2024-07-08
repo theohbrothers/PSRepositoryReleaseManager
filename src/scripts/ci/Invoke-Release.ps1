@@ -5,6 +5,8 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 try {
+    $private:ProjectDir = git rev-parse --show-toplevel
+
     Push-Location $PSScriptRoot
     Import-Module "$(git rev-parse --show-toplevel)\lib\PSGitHubRestApi\src\PSGitHubRestApi\PSGitHubRestApi.psm1" -Force
     Import-Module "$(git rev-parse --show-toplevel)\src\PSRepositoryReleaseManager\PSRepositoryReleaseManager.psm1" -Force
@@ -19,7 +21,7 @@ try {
             $private:ProjectDir = $private:superProjectDir
             "Using superproject directory '$private:ProjectDir'" | Write-Verbose
         }else {
-            throw "`$env:PROJECT_DIRECTORY is undefined or superproject directory cannot be determined."
+            "Using default project directory '$private:ProjectDir'" | Write-Verbose
         }
     }
     $private:createReleaseArgs = @{

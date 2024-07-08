@@ -1,13 +1,21 @@
 Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
     BeforeAll {
         $ErrorView = 'NormalView'
-        $env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)"
     }
     BeforeEach {
+        $env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)"
     }
     AfterEach {
         $env:RELEASE_NOTES_VARIANT = $null
         $env:RELEASE_NOTES_PATH = $null
+    }
+    It "Runs Invoke-Generate.ps1" {
+        $env:PROJECT_DIRECTORY = $null
+        $env:RELEASE_TAG_REF = $null
+
+        $stdout = ../src/scripts/ci/Invoke-Generate.ps1
+        "Generate notes content:" | Write-Verbose
+        Get-Content -Path "$stdout" | Write-Host
     }
     It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY" {
         $env:RELEASE_TAG_REF = $null
