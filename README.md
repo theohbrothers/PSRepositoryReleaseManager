@@ -81,7 +81,7 @@ In the case where GitHub Actions is used for releases, the job token [`GITHUB_TO
 
 ##### Project directory
 
-By default, the provided [entrypoint scripts](src/scripts/ci) use the superproject directory as the path for execution. To override the default location, set the *environment* variable `PROJECT_DIRECTORY` to contain a custom directory value before executing the entrypoint scripts.
+By default, the provided [entrypoint scripts](src/scripts/ci) use an existing superproject's directory or else an existing project's directory as the path for generating release notes and creating releases. To override the default location, set the *environment* variable `PROJECT_DIRECTORY` to contain a custom directory value before executing the entrypoint scripts.
 
 ## Usage
 
