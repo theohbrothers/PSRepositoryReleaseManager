@@ -17,13 +17,10 @@ steps:
     $env:RELEASE_NAMESPACE = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
     $env:RELEASE_REPOSITORY = if ($matchInfo) { $matchInfo.Matches.Groups[2].Value } else { $null }
     ### End of CI-specific code
-    "Namespace: '$env:RELEASE_NAMESPACE'" | Write-Host
-    "Repository: '$env:RELEASE_REPOSITORY'" | Write-Host
-    "Tag ref: '$env:RELEASE_TAG_REF'" | Write-Host
     $VerbosePreference = 'Continue'
     .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Release.ps1 > $null
   displayName: Create GitHub release
-  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   env:
     GITHUB_API_TOKEN: $(GITHUB_API_TOKEN)
     RELEASE_NAME: ${{ parameters['RELEASE_NAME'] }}
