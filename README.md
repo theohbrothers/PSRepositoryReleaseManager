@@ -91,7 +91,7 @@ The project provides a set of [entrypoint scripts](src/scripts/ci) for generatin
 
 #### Generating release notes
 
-The entrypoint script [`Invoke-Generate.ps1`](src/scripts/ci/Invoke-Generate.ps1) is used to generate release notes for any local git repository. To do so, simply define applicable [environment variables](#environment-variables) before executing the entrypoint script.
+The entrypoint script [`Invoke-Generate.ps1`](src/scripts/ci/Invoke-Generate.ps1) is used to generate release notes for any local git repository. To do so, simply define applicable [environment variables](#environment-variables-1) before executing the entrypoint script.
 
 The project includes [`.vscode/tasks.json`](.vscode/tasks.json) which allows execution of `Invoke-Generate.ps1` via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt.
 
@@ -115,7 +115,7 @@ git tag v1.0.12-beta.1
 
 #### Creating releases
 
-The entrypoint script [`Invoke-Release.ps1`](src/scripts/ci/Invoke-Release.ps1) can be used to create releases for GitHub repositories. To do so, simply define applicable [environment variables](#environment-variables) before executing the entrypoint script.
+The entrypoint script [`Invoke-Release.ps1`](src/scripts/ci/Invoke-Release.ps1) can be used to create releases for GitHub repositories. To do so, simply define applicable [environment variables](#environment-variables-1) before executing the entrypoint script.
 
 The project includes [`.vscode/tasks.json`](.vscode/tasks.json) which allows execution of `Invoke-Release.ps1` via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt. Note that due to the inability to enter multiline strings in build tasks, the options `RELEASE_NOTES_CONTENT` and `RELEASE_ASSETS` are presently unavailable and limited in usability respectively.
 
@@ -160,14 +160,13 @@ The following are environment variables supported by the provided [entrypoint sc
 
 ##### Commands
 
-To generate release notes and create releases, simply clone a specified *version* of the project, and define applicable [environment variables](#environment-variables) before executing the project's provided entrypoint script(s) within the CI environment.
+To generate release notes and create releases, simply clone a specified *version* of the project, and define applicable [environment variables](#environment-variables-1) before executing the project's provided entrypoint script(s) within the CI environment.
 
 ```shell
 # Clone PSRepositoryReleaseManager
 git clone https://github.com/theohbrothers/PSRepositoryReleaseManager.git --recurse-submodules --branch 'vx.x.x' # Specify tag ref to checkout to
 
 # Process applicable environment variables
-export PROJECT_DIRECTORY=$( git rev-parse --show-toplevel )
 export RELEASE_TAG_REF=$( echo "$GITHUB_REF" | sed -rn 's/^refs\/tags\/(.*)/\1/p' )
 export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
 export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
