@@ -4,21 +4,19 @@ Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
     }
     BeforeEach {
         $env:PROJECT_DIRECTORY = $null
-    }
-    AfterEach {
+        $env:RELEASE_TAG_REF = $null
         $env:RELEASE_NOTES_VARIANT = $null
         $env:RELEASE_NOTES_PATH = $null
     }
+    AfterEach {
+    }
     It "Runs Invoke-Generate.ps1" {
-        $env:RELEASE_TAG_REF = $null
-
         $stdout = ../src/scripts/ci/Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
         Get-Content -Path "$stdout" | Write-Host
     }
     It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY" {
         $env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)"
-        $env:RELEASE_TAG_REF = $null
 
         $stdout = ../src/scripts/ci/Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
@@ -60,32 +58,28 @@ Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
         "Generate notes content:" | Write-Verbose
         Get-Content -Path "$stdout" | Write-Host
     }
-    It "Runs Invoke-Generate.ps1 with `$env:RELEASE_TAG_REF='HEAD' `$env:RELEASE_NOTES_VARIANT='Changes-HashSubject-NoMerges'" {
-        $env:RELEASE_TAG_REF = 'HEAD'
+    It "Runs Invoke-Generate.ps1 with `$env:RELEASE_NOTES_VARIANT='Changes-HashSubject-NoMerges'" {
         $env:RELEASE_NOTES_VARIANT = 'Changes-HashSubject-NoMerges'
 
         $stdout = ../src/scripts/ci/Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
         Get-Content -Path "$stdout" | Write-Host
     }
-    It "Runs Invoke-Generate.ps1 with `$env:RELEASE_TAG_REF='HEAD' `$env:RELEASE_NOTES_PATH='.release-notes.md'" {
-        $env:RELEASE_TAG_REF = 'HEAD'
+    It "Runs Invoke-Generate.ps1 with `$env:RELEASE_NOTES_PATH='.release-notes.md'" {
         $env:RELEASE_NOTES_PATH = ".release-notes.relativepath.md"
 
         $stdout = ../src/scripts/ci/Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
         Get-Content -Path "$stdout" | Write-Host
     }
-    It "Runs Invoke-Generate.ps1 with `$env:RELEASE_TAG_REF='HEAD' `$env:RELEASE_NOTES_PATH='/path/to/.release-notes.md'" {
-        $env:RELEASE_TAG_REF = 'HEAD'
+    It "Runs Invoke-Generate.ps1 with `$env:RELEASE_NOTES_PATH='/path/to/.release-notes.md'" {
         $env:RELEASE_NOTES_PATH = "$(git rev-parse --show-toplevel)/.release-notes.fullpath.md"
 
         $stdout = ../src/scripts/ci/Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
         Get-Content -Path "$stdout" | Write-Host
     }
-    It "Runs Invoke-Generate.ps1 with `$env:RELEASE_TAG_REF='HEAD' `$env:RELEASE_NOTES_VARIANT `$env:RELEASE_NOTES_PATH (all variants)" {
-        $env:RELEASE_TAG_REF = 'HEAD'
+    It "Runs Invoke-Generate.ps1 with `$env:RELEASE_NOTES_VARIANT `$env:RELEASE_NOTES_PATH (all variants)" {
         $ReleaseNotesVariant = Get-ChildItem "../src/PSRepositoryReleaseManager/generate/variants" | % { $_.BaseName }
         "Release notes variants:" | Write-Verbose
         $ReleaseNotesVariant | Write-Host
