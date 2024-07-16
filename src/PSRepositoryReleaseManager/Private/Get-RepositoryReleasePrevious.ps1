@@ -12,17 +12,19 @@ function Get-RepositoryReleasePrevious {
 
     try {
         Push-Location $Path
-        # Validate specified ref is an existing ref
-        "Validating ref '$Ref'" | Write-Verbose
-        git rev-parse "$Ref" | Write-Verbose
-        if ($LASTEXITCODE) {
-            throw "An error occurred."
-        }
-        "Verifying if ref '$Ref' is a tag" | Write-Verbose
-        $isRefTag = $null
-        git show-ref --verify "refs/tags/$Ref" 2> $null | Write-Verbose
-        if (!$LASTEXITCODE) {
-            $isRefTag = $true
+        $isRefTag = $false
+        if ($Ref) {
+            # Validate specified ref is an existing ref
+            "Validating ref '$Ref'" | Write-Verbose
+            git rev-parse "$Ref" | Write-Verbose
+            if ($LASTEXITCODE) {
+                throw "An error occurred."
+            }
+            "Verifying if ref '$Ref' is a tag" | Write-Verbose
+            git show-ref --verify "refs/tags/$Ref" 2> $null | Write-Verbose
+            if (!$LASTEXITCODE) {
+                $isRefTag = $true
+            }
         }
         # Retrieve previous release tags of the specified ref within the same git tree
         "Retrieving info on previous release tags" | Write-Verbose
@@ -34,7 +36,7 @@ function Get-RepositoryReleasePrevious {
         "Previous release tags info:" | Write-Verbose
         $tagsPreviousInfo | Write-Verbose
         if ($isRefTag -And @($tagsPreviousInfo).Count -eq 1) {
-            "No previous tags for ref '$ref' exists in the repository '$($Path)'." | Write-Verbose
+            "No previous tags for ref '$Ref' exists in the repository '$($Path)'." | Write-Verbose
             return
         }
         $tagPreviousCommitSHA = if ($isRefTag) { # If specified ref is a tag, the previous tag is on the following line
@@ -43,8 +45,10 @@ function Get-RepositoryReleasePrevious {
                                     (@($tagsPreviousInfo)[0] -split "\s")[0]
                                 }
         "Previous release commit SHA: $tagPreviousCommitSHA" | Write-Verbose
-        "Retrieving previous release tag(s)" | Write-Verbose
-        git tag --points-at "$tagPreviousCommitSHA" | Sort-Object -Descending     # Returns an array of tags if they point to the same commit
+        $tagsPrevious = git tag --points-at "$tagPreviousCommitSHA" | Sort-Object -Descending # Returns an array of tags if they point to the same commit
+        "Previous release tag(s):" | Write-Verbose
+        $tagsPrevious | Write-Verbose
+        $tagsPrevious
     }catch {
         Write-Error -Exception $_.Exception -Message $_.Exception.Message -Category $_.CategoryInfo.Category -TargetObject $_.TargetObject
     }finally {
