@@ -14,10 +14,6 @@ function Changes-HashSubject-Merges {
 
     try {
         $previousRelease = Get-RepositoryReleasePrevious -Path $Path -Ref $TagName -ErrorAction SilentlyContinue
-        if ($previousRelease) {
-            "Previous release:" | Write-Verbose
-            $previousRelease | Write-Verbose
-        }
         $funcArgs = @{
             Path = $Path
             FirstRef = $TagName
