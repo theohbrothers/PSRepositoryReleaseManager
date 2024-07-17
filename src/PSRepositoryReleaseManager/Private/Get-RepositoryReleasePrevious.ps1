@@ -29,7 +29,7 @@ function Get-RepositoryReleasePrevious {
         # Retrieve previous release tags of the specified ref within the same git tree
         "Retrieving info on previous release tags" | Write-Verbose
         $tagsPreviousInfo = (git --no-pager log "$Ref" --date-order --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
-            if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,|$)') {
+            if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,\s+|$)') {
                 $_
             }
         }
