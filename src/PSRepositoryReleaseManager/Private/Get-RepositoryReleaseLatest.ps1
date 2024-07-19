@@ -10,7 +10,7 @@ function Get-RepositoryReleaseLatest {
             "SemVer",
             "All"
         )]
-        [string]$TagType = 'All'
+        [string]$TagType
         ,
         [Parameter(Mandatory=$false)]
         [switch]$AllBranches
@@ -20,34 +20,32 @@ function Get-RepositoryReleaseLatest {
         Push-Location $Path
         "TagType: $TagType" | Write-Verbose
         "AllBranches: $AllBranches" | Write-Verbose
+        if (!$TagType) {
+            "Using default tag type 'All'" | Write-Verbose
+            $TagType = 'All'
+        }
         $gitArgs = @(
-            '--no-pager'
-            'log'
-            '--date-order'
-            '--simplify-by-decoration'
-            '--pretty="format:%H %D"'
             if ($AllBranches) { '--all' }
         )
         if ($TagType -eq 'SemVer') {
-            $tagsPattern = '\s+tag:\s+(v\d+\.\d+\.\d+)(,\s+|$)'
+            $tagPattern = 'v\d+\.\d+\.\d+'
         }elseif ($TagType -eq 'All') {
-            $tagsPattern = '\s+tag:\s+(.+?)(,\s+|$)'
+            $tagPattern = '.+?'
         }
-        "Retrieving info on release tags" | Write-Verbose
-        $tagsLatestInfo = (git $gitArgs) -split "`n" | % {
-            if ($_ -match $tagsPattern) {
+        $tagsLatestInfo = (git --no-pager log --date-order --simplify-by-decoration --pretty='format:%H %D' @gitArgs) -split "`n" | % {
+            if ($_ -match "\s+tag:\s+($tagPattern)(,\s+|$)") {
                 $_
             }
         }
         if (!$tagsLatestInfo) {
-            "No release tags exist in the repository '$($Path)'." | Write-Verbose
+            "No latest release tag(s) for the specified parameters can be found." | Write-Verbose
             return
         }
         "Latest release tags info:" | Write-Verbose
         $tagsLatestInfo | Write-Verbose
         $tagsLatestCommitSHA = (@($tagsLatestInfo)[0] -split "\s")[0]
         "Latest release commit SHA: $tagsLatestCommitSHA" | Write-Verbose
-        $tagsLatest = git tag --points-at $tagsLatestCommitSHA | Sort-Object -Descending # Returns an array of tags if they point to the same commit
+        $tagsLatest = git tag --points-at $tagsLatestCommitSHA | Sort-Object -Descending | ? { $_ -match $tagPattern } # Returns an array of tags if they point to the same commit
         "Latest release tag(s):" | Write-Verbose
         $tagsLatest | Write-Verbose
         $tagsLatest
