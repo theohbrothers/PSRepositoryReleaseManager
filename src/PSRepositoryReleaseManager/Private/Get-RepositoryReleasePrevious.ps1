@@ -49,15 +49,17 @@ function Get-RepositoryReleasePrevious {
         }elseif ($TagType -eq 'All') {
             $tagPattern = '.+?'
         }
-        $tagsPreviousInfo = (git --no-pager log "$Ref" --date-order --simplify-by-decoration --pretty='format:%H %D') -split "`n" | % {
+        $tagsPreviousInfo = (git --no-pager log "$Ref" --date-order --pretty='format:%H %D') -split "`n" | % {
             if ($_ -match "\s+tag:\s+($tagPattern)(,\s+|$)") {
                 $_
             }
         }
-        "Previous release tags info:" | Write-Verbose
-        $tagsPreviousInfo | Write-Verbose
-        if ($isRefTagged -And @($tagsPreviousInfo).Count -eq 1) {
-            "No previous tags for ref '$Ref' exists in the repository '$($Path)'." | Write-Verbose
+        if ($tagsPreviousInfo) {
+            "Previous release tags info:" | Write-Verbose
+            $tagsPreviousInfo | Write-Verbose
+        }
+        if (!$tagsPreviousInfo -Or ($isRefTagged -And @($tagsPreviousInfo).Count -eq 1)) {
+            "No previous release tag(s) for the specified parameters can be found." | Write-Verbose
             return
         }
         $tagPreviousCommitSHA = if ($isRefTagged -And ($tagsPreviousInfo[0] | Select-String -Pattern $commitSHA)) {
