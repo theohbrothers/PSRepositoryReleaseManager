@@ -32,7 +32,7 @@ function Get-RepositoryReleaseLatest {
         }elseif ($TagType -eq 'All') {
             $tagPattern = '.+?'
         }
-        $tagsLatestInfo = (git --no-pager log --date-order --simplify-by-decoration --pretty='format:%H %D' @gitArgs) -split "`n" | % {
+        $tagsLatestInfo = (git --no-pager log --date-order --pretty='format:%H %D' @gitArgs) -split "`n" | % {
             if ($_ -match "\s+tag:\s+($tagPattern)(,\s+|$)") {
                 $_
             }
