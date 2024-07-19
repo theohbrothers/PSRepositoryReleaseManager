@@ -101,17 +101,7 @@ The names of all available release notes variants that can be chosen from can be
 
 ##### Valid tags
 
-At present, generating of release notes is only possible for tags following the format `MAJOR.MINOR.PATCH`, prepended with a lowercase `v`:
-
-```shell
-# Valid tags
-git tag v0.12.1
-git tag v1.0.12
-
-# Invalid tags
-git tag v1.0.12-alpha
-git tag v1.0.12-beta.1
-```
+Generating of release notes supports all tag refs. Tags *need not* follow [Semantic Versioning](https://semver.org/) though the convention is recommended.
 
 #### Creating releases
 

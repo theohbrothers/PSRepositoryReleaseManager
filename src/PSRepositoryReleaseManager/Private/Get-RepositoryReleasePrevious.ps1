@@ -8,44 +8,65 @@ function Get-RepositoryReleasePrevious {
         [Parameter(Mandatory=$false)]
         [ValidateNotNullOrEmpty()]
         [string]$Ref
+        ,
+        [Parameter(Mandatory=$false)]
+        [ValidateSet(
+            "SemVer",
+            "All"
+        )]
+        [string]$TagType
     )
 
     try {
         Push-Location $Path
-        $isRefTag = $false
-        if ($Ref) {
-            # Validate specified ref is an existing ref
-            "Validating ref '$Ref'" | Write-Verbose
-            git rev-parse "$Ref" | Write-Verbose
-            if ($LASTEXITCODE) {
-                throw "An error occurred."
-            }
-            "Verifying if ref '$Ref' is a tag" | Write-Verbose
-            git show-ref --verify "refs/tags/$Ref" 2> $null | Write-Verbose
-            if (!$LASTEXITCODE) {
-                $isRefTag = $true
-            }
+        "Ref: $Ref" | Write-Verbose
+        "TagType: $TagType" | Write-Verbose
+        if (!$Ref) {
+            "Using default ref 'HEAD'" | Write-Verbose
+            $Ref = 'HEAD'
         }
+        if (!$TagType) {
+            "Using default tag type 'All'" | Write-Verbose
+            $TagType = 'All'
+        }
+        # Validate specified ref is an existing ref
+        "Validating ref '$Ref'" | Write-Verbose
+        $commitSHA = git rev-parse "$Ref"
+        $commitSHA | Write-Verbose
+        if ($LASTEXITCODE) {
+            throw "An error occurred."
+        }
+        $isRefTagged = if (git tag --points-at "$Ref") {
+                           "Ref '$Ref' is a tagged commit." | Write-Verbose
+                           $true
+                       }else {
+                           "Ref '$Ref' is not a tagged commit." | Write-Verbose
+                           $false
+                       }
         # Retrieve previous release tags of the specified ref within the same git tree
-        "Retrieving info on previous release tags" | Write-Verbose
-        $tagsPreviousInfo = (git --no-pager log "$Ref" --date-order --simplify-by-decoration --pretty="format:%H %D") -split "`n" | % {
-            if ($_ -match '\s+tag:\s+(v\d+\.\d+\.\d+)(,\s+|$)') {
+        if ($TagType -eq 'SemVer') {
+            $tagPattern = 'v\d+\.\d+\.\d+'
+        }elseif ($TagType -eq 'All') {
+            $tagPattern = '.+?'
+        }
+        $tagsPreviousInfo = (git --no-pager log "$Ref" --date-order --simplify-by-decoration --pretty='format:%H %D') -split "`n" | % {
+            if ($_ -match "\s+tag:\s+($tagPattern)(,\s+|$)") {
                 $_
             }
         }
         "Previous release tags info:" | Write-Verbose
         $tagsPreviousInfo | Write-Verbose
-        if ($isRefTag -And @($tagsPreviousInfo).Count -eq 1) {
+        if ($isRefTagged -And @($tagsPreviousInfo).Count -eq 1) {
             "No previous tags for ref '$Ref' exists in the repository '$($Path)'." | Write-Verbose
             return
         }
-        $tagPreviousCommitSHA = if ($isRefTag) { # If specified ref is a tag, the previous tag is on the following line
+        $tagPreviousCommitSHA = if ($isRefTagged -And ($tagsPreviousInfo[0] | Select-String -Pattern $commitSHA)) {
                                     (@($tagsPreviousInfo)[1] -split "\s")[0]
                                 }else {
                                     (@($tagsPreviousInfo)[0] -split "\s")[0]
                                 }
         "Previous release commit SHA: $tagPreviousCommitSHA" | Write-Verbose
-        $tagsPrevious = git tag --points-at "$tagPreviousCommitSHA" | Sort-Object -Descending # Returns an array of tags if they point to the same commit
+        $tagsPrevious = git tag --points-at "$tagPreviousCommitSHA" | Sort-Object -Descending | ? { $_ -match $tagPattern } # Returns an array of tags if they point to the same commit
         "Previous release tag(s):" | Write-Verbose
         $tagsPrevious | Write-Verbose
         $tagsPrevious
