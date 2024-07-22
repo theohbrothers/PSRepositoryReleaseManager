@@ -7,13 +7,13 @@
             "id": "PROJECT_DIRECTORY",
             "description": "PROJECT_DIRECTORY?",
             "type": "promptString",
-            "default": "${workspaceFolder}",
+            "default": "${workspaceFolder}"
         },
         {
             "id": "RELEASE_TAG_REF",
             "description": "RELEASE_TAG_REF?",
             "type": "promptString",
-            "default": "vx.x.x | branch | HEAD | remote/branch | commit-hash",
+            "default": "vx.x.x | branch | HEAD | remote/branch | commit-hash"
         },
         {
             "id": "RELEASE_NOTES_VARIANT",
@@ -40,40 +40,40 @@
                 "VersionDate-Subject-NoMerges",
                 "VersionDate-Subject",
                 "VersionDate-SubjectAuthor-NoMerges-Categorized",
-                "VersionDate-SubjectAuthor-NoMerges-CategorizedSorted",
+                "VersionDate-SubjectAuthor-NoMerges-CategorizedSorted"
             ],
-            "default": "VersionDate-HashSubject-NoMerges-CategorizedSorted",
+            "default": "VersionDate-HashSubject-NoMerges-CategorizedSorted"
         },
         {
             "id": "RELEASE_NOTES_PATH",
             "description": "RELEASE_NOTES_PATH?",
             "type": "promptString",
-            "default": "${workspaceFolder}/.release-notes.md",
+            "default": "${workspaceFolder}/.release-notes.md"
         },
         {
             "id": "GITHUB_API_TOKEN",
             "description": "GITHUB_API_TOKEN?",
             "type": "promptString",
             "default": "xxx",
-            "password": true,
+            "password": true
         },
         {
             "id": "RELEASE_NAMESPACE",
             "description": "RELEASE_NAMESPACE?",
             "type": "promptString",
-            "default": "mygithubnamespace",
+            "default": "mygithubnamespace"
         },
         {
             "id": "RELEASE_REPOSITORY",
             "description": "RELEASE_REPOSITORY?",
             "type": "promptString",
-            "default": "my-project",
+            "default": "my-project"
         },
         {
             "id": "RELEASE_NAME",
             "description": "RELEASE_NAME?",
             "type": "promptString",
-            "default": "My release name | vx.x.x",
+            "default": "My release name | vx.x.x"
         },
         // {
         //     "id": "RELEASE_NOTES_CONTENT",
@@ -87,9 +87,9 @@
             "type": "pickString",
             "options": [
                 "true",
-                "false",
+                "false"
             ],
-            "default": "false",
+            "default": "false"
         },
         {
             "id": "RELEASE_PRERELEASE",
@@ -97,38 +97,38 @@
             "type": "pickString",
             "options": [
                 "true",
-                "false",
+                "false"
             ],
-            "default": "false",
+            "default": "false"
         },
         {
             "id": "RELEASE_ASSETS",
             "description": "RELEASE_ASSETS?",
             "type": "promptString",
-            "default": "path/to/assets/*",
-        },
+            "default": "path/to/assets/*"
+        }
     ],
     "tasks": [
         {
-            "label": "Invoke-Generate.ps1 (pwsh)",
+            "label": "Generate release notes (pwsh)",
             "type": "shell",
             "command": "PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NOTES_VARIANT='${input:RELEASE_NOTES_VARIANT}' RELEASE_NOTES_PATH='${input:RELEASE_NOTES_PATH}' pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
             "group": "build"
         },
         {
-            "label": "Invoke-Generate.ps1 (powershell)",
+            "label": "Generate release notes (powershell)",
             "type": "shell",
             "command": "PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NOTES_VARIANT='${input:RELEASE_NOTES_VARIANT}' RELEASE_NOTES_PATH='${input:RELEASE_NOTES_PATH}' powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Generate.ps1'",
             "group": "build"
         },
         {
-            "label": "Invoke-Release.ps1 (pwsh)",
+            "label": "Create release (pwsh)",
             "type": "shell",
             "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Release.ps1'",
             "group": "build"
         },
         {
-            "label": "Invoke-Release.ps1 (powershell)",
+            "label": "Create release (powershell)",
             "type": "shell",
             "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./src/scripts/ci/Invoke-Release.ps1'",
             "group": "build"
@@ -144,6 +144,6 @@
             "type": "shell",
             "command": "powershell -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'",
             "group": "build"
-        },
+        }
     ]
 }
