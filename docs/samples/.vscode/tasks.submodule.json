@@ -110,7 +110,6 @@
         }
     ],
     "tasks": [
-        // PSRepositoryReleaseManager
         {
             "label": "[PSRepositoryReleaseManager] Generate release notes (pwsh)",
             "type": "shell",
