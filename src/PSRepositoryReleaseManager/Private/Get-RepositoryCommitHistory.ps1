@@ -21,7 +21,7 @@ function Get-RepositoryCommitHistory {
         [switch]$Merges
         ,
         [Parameter(Mandatory=$false)]
-        [string]$NoMerges
+        [switch]$NoMerges
     )
 
     try {
@@ -45,14 +45,11 @@ function Get-RepositoryCommitHistory {
             $commitSHARange = $FirstRef
         }
         $gitArgs = @(
-            '--no-pager'
-            'log'
-            "--pretty=format:$($PrettyFormat)"
-            $commitSHARange
+            if ($PrettyFormat) { "--pretty=format:$PrettyFormat" }
             if ($Merges) { '--merges' }
-            elseif ($NoMerges) { '--no-merges' }
+            if ($NoMerges) { '--no-merges' }
         )
-        $_commitHistory = git $gitArgs
+        $_commitHistory = git --no-pager log $commitSHARange @gitArgs
         "Changelog:" | Write-Verbose
         $_commitHistory | Write-Verbose
         $_commitHistory
