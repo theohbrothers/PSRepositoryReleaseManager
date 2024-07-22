@@ -93,7 +93,7 @@ The project provides a set of [entrypoint scripts](src/scripts/ci) for generatin
 
 The entrypoint script [`Invoke-Generate.ps1`](src/scripts/ci/Invoke-Generate.ps1) is used to generate release notes for any local git repository. To do so, simply define applicable [environment variables](#environment-variables-1) before executing the entrypoint script.
 
-The project includes [inbuilt](.vscode/tasks.json) and [samples](docs/samples/.vscode) of `.vscode/tasks.json` for generating release notes via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt.
+The project includes [inbuilt](.vscode/tasks.json) and [samples](docs/samples/.vscode) of `.vscode/tasks.json` for generating release notes via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute relevant build task(s) while entering custom or default values per variable prompt.
 
 ##### Variants
 
@@ -107,7 +107,7 @@ Generating of release notes supports all tag refs. Tags *need not* follow [Seman
 
 The entrypoint script [`Invoke-Release.ps1`](src/scripts/ci/Invoke-Release.ps1) can be used to create releases for GitHub repositories. To do so, simply define applicable [environment variables](#environment-variables-1) before executing the entrypoint script.
 
-The project includes [inbuilt](.vscode/tasks.json) and [samples](docs/samples/.vscode) of `.vscode/tasks.json` for creating releases via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute the relevant build task while entering custom or default values per variable prompt. Note that due to the inability to enter multiline strings in build tasks, the options `RELEASE_NOTES_CONTENT` and `RELEASE_ASSETS` are presently unavailable and limited in usability respectively.
+The project includes [inbuilt](.vscode/tasks.json) and [samples](docs/samples/.vscode) of `.vscode/tasks.json` for creating releases via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute relevant build task(s) while entering custom or default values per variable prompt. Note that due to the inability to enter multiline strings in build tasks, the options `RELEASE_NOTES_CONTENT` and `RELEASE_ASSETS` are presently unavailable and limited in usability respectively.
 
 ##### Valid tags
 
