@@ -75,7 +75,7 @@ function VersionDate-SubjectAuthor-NoMerges-CategorizedSorted {
         $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryUncategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryCollection | % {
-            if ($_ -match "^(\s*\w+\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)") {
+            if ($_ -match "^(\s*\w+\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
                 $commitHistoryCategorizedCollection.Add($_) > $null
             }else {
                 $commitHistoryUncategorizedCollection.Add($_) > $null
@@ -106,7 +106,7 @@ function VersionDate-SubjectAuthor-NoMerges-CategorizedSorted {
             foreach ($c in $commitHistoryCategory) {
                 $iscommitHistoryCategoryTitleOutputted = $false
                 $commitHistoryCategorizedCustomCollection | Sort-Object -Property Subject | % {
-                    if ("$($_.Subject) $($_.Author)" -match "^(\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_-]+\s*\)\s*)*:(.+)") {
+                    if ("$($_.Subject) $($_.Author)" -match "^(\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
                         if (!$iscommitHistoryCategoryTitleOutputted) {
 @"
 
