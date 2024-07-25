@@ -31,12 +31,12 @@ function Get-RepositoryReleasePrevious {
         }
         # Validate specified ref is an existing ref
         "Validating ref '$Ref'" | Write-Verbose
-        $commitSHA = git rev-parse "$Ref"
+        $commitSHA = git rev-parse $Ref
         $commitSHA | Write-Verbose
         if ($LASTEXITCODE) {
             throw "An error occurred."
         }
-        $isRefTagged = if (git tag --points-at "$Ref") {
+        $isRefTagged = if (git tag --points-at $Ref) {
                            "Ref '$Ref' is a tagged commit." | Write-Verbose
                            $true
                        }else {
@@ -49,7 +49,7 @@ function Get-RepositoryReleasePrevious {
         }elseif ($TagType -eq 'All') {
             $tagPattern = '.+?'
         }
-        $tagsPreviousInfo = (git --no-pager log "$Ref" --date-order --pretty='format:%H %D') -split "`n" | % {
+        $tagsPreviousInfo = (git --no-pager log $Ref --date-order --pretty='format:%H %D') -split "`n" | % {
             if ($_ -match "\s+tag:\s+($tagPattern)(,\s+|$)") {
                 $_
             }
