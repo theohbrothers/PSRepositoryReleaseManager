@@ -136,13 +136,13 @@
         {
             "label": "Test PSRepositoryReleaseManager (pwsh)",
             "type": "shell",
-            "command": "pwsh -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'",
+            "command": "pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./test/test.ps1'",
             "group": "build"
         },
         {
             "label": "Test PSRepositoryReleaseManager (powershell)",
             "type": "shell",
-            "command": "powershell -NoLogo -NonInteractive -NoProfile -Command './test/test.ps1'",
+            "command": "powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./test/test.ps1'",
             "group": "build"
         }
     ]
