@@ -45,7 +45,7 @@ function Get-RepositoryReleaseLatest {
         $tagsLatestInfo | Write-Verbose
         $tagsLatestCommitSHA = (@($tagsLatestInfo)[0] -split "\s")[0]
         "Latest release commit SHA: $tagsLatestCommitSHA" | Write-Verbose
-        $tagsLatest = git tag --points-at $tagsLatestCommitSHA | Sort-Object -Descending | ? { $_ -match $tagPattern } # Returns an array of tags if they point to the same commit
+        $tagsLatest = git tag --points-at $tagsLatestCommitSHA | ? { $_ -match $tagPattern } # Returns an array of tags if they point to the same commit
         "Latest release tag(s):" | Write-Verbose
         $tagsLatest | Write-Verbose
         $tagsLatest

@@ -68,7 +68,7 @@ function Get-RepositoryReleasePrevious {
                                     (@($tagsPreviousInfo)[0] -split "\s")[0]
                                 }
         "Previous release commit SHA: $tagPreviousCommitSHA" | Write-Verbose
-        $tagsPrevious = git tag --points-at "$tagPreviousCommitSHA" | Sort-Object -Descending | ? { $_ -match $tagPattern } # Returns an array of tags if they point to the same commit
+        $tagsPrevious = git tag --points-at "$tagPreviousCommitSHA" | ? { $_ -match $tagPattern } # Returns an array of tags if they point to the same commit
         "Previous release tag(s):" | Write-Verbose
         $tagsPrevious | Write-Verbose
         $tagsPrevious
