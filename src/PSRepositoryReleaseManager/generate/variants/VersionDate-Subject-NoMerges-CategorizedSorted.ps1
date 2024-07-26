@@ -25,48 +25,72 @@ function VersionDate-Subject-NoMerges-CategorizedSorted {
         $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
         $commitHistoryCategory = @(
             @{
-                Name = 'Breaking'
                 Title = 'Breaking'
+                Name = @(
+                    'Breaking'
+                    'breaking-change'
+                )
             }
             @{
-                Name = 'Feature'
                 Title = 'Features'
+                Name = @(
+                    'Feature'
+                    'feat'
+                )
             }
             @{
-                Name = 'Enhancement'
                 Title = 'Enhancements'
+                Name = @(
+                    'Enhancement'
+                )
             }
             @{
-                Name = 'Change'
                 Title = 'Change'
+                Name = @(
+                    'Change'
+                )
             }
             @{
-                Name = 'Refactor'
                 Title = 'Refactors'
+                Name = @(
+                    'Refactor'
+                )
             }
             @{
-                Name = 'CI'
                 Title = 'CI'
+                Name = @(
+                    'CI'
+                )
             }
             @{
-                Name = 'Test'
                 Title = 'Tests'
+                Name = @(
+                    'Test'
+                )
             }
             @{
-                Name = 'Fix'
                 Title = 'Fixes'
+                Name = @(
+                    'Fix'
+                )
             }
             @{
-                Name = 'Style'
                 Title = 'Style'
+                Name = @(
+                    'Style'
+                )
             }
             @{
-                Name = 'Docs'
                 Title = 'Documentation'
+                Name = @(
+                    'Docs'
+                )
             }
             @{
-                Name = 'Chore'
                 Title = 'Chore'
+                Name = @(
+                    'Chore'
+                )
             }
         )
         $commitHistoryCategoryNone = @{
@@ -75,7 +99,7 @@ function VersionDate-Subject-NoMerges-CategorizedSorted {
         $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryUncategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryCollection | % {
-            if ($_ -match "^(\s*\w+\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
+            if ($_ -match "^(\s*[a-zA-Z0-9_\-]+\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
                 $commitHistoryCategorizedCollection.Add($_) > $null
             }else {
                 $commitHistoryUncategorizedCollection.Add($_) > $null
@@ -104,18 +128,21 @@ function VersionDate-Subject-NoMerges-CategorizedSorted {
             foreach ($c in $commitHistoryCategory) {
                 $iscommitHistoryCategoryTitleOutputted = $false
                 $commitHistoryCategorizedCustomCollection | Sort-Object -Property Subject | % {
-                    if ("$($_.Subject)" -match "^(\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
-                        if (!$iscommitHistoryCategoryTitleOutputted) {
+                    foreach ($n in $c['Name']) {
+                        if ("$($_.Subject)" -match "^(\s*$n\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
+                            if (!$iscommitHistoryCategoryTitleOutputted) {
 @"
 
 ### $($c['Title'])
 
 "@
-                            $iscommitHistoryCategoryTitleOutputted = $true
-                        }
+                                $iscommitHistoryCategoryTitleOutputted = $true
+                            }
 @"
 * $($_.Subject)
 "@
+                            break
+                        }
                     }
                 }
             }
