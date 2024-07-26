@@ -129,7 +129,7 @@ function VersionDate-SubjectAuthor-NoMerges-CategorizedSorted {
 "@
             foreach ($c in $commitHistoryCategory) {
                 $iscommitHistoryCategoryTitleOutputted = $false
-                $commitHistoryCategorizedCustomCollection | Sort-Object -Property Subject | % {
+                $commitHistoryCategorizedCustomCollection | Sort-Object -Property Subject -CaseSensitive | % {
                     foreach ($n in $c['Name']) {
                         if ("$($_.Subject) $($_.Author)" -match "^(\s*$n\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
                             if (!$iscommitHistoryCategoryTitleOutputted) {
@@ -154,7 +154,7 @@ function VersionDate-SubjectAuthor-NoMerges-CategorizedSorted {
 ### $($commitHistoryCategoryNone['Title'])
 
 "@
-                $commitHistoryUncategorizedCustomCollection | Sort-Object -Property Subject | % {
+                $commitHistoryUncategorizedCustomCollection | Sort-Object -Property Subject -CaseSensitive | % {
 @"
 * $($_.Subject) $($_.Author)
 "@
