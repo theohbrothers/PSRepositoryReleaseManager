@@ -25,48 +25,72 @@ function Changes-HashSubjectAuthor-NoMerges-Categorized {
         $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
         $commitHistoryCategory = @(
             @{
-                Name = 'Breaking'
                 Title = 'Breaking'
+                Name = @(
+                    'Breaking'
+                    'breaking-change'
+                )
             }
             @{
-                Name = 'Feature'
                 Title = 'Features'
+                Name = @(
+                    'Feature'
+                    'feat'
+                )
             }
             @{
-                Name = 'Enhancement'
                 Title = 'Enhancements'
+                Name = @(
+                    'Enhancement'
+                )
             }
             @{
-                Name = 'Change'
                 Title = 'Change'
+                Name = @(
+                    'Change'
+                )
             }
             @{
-                Name = 'Refactor'
                 Title = 'Refactors'
+                Name = @(
+                    'Refactor'
+                )
             }
             @{
-                Name = 'CI'
                 Title = 'CI'
+                Name = @(
+                    'CI'
+                )
             }
             @{
-                Name = 'Test'
                 Title = 'Tests'
+                Name = @(
+                    'Test'
+                )
             }
             @{
-                Name = 'Fix'
                 Title = 'Fixes'
+                Name = @(
+                    'Fix'
+                )
             }
             @{
-                Name = 'Style'
                 Title = 'Style'
+                Name = @(
+                    'Style'
+                )
             }
             @{
-                Name = 'Docs'
                 Title = 'Documentation'
+                Name = @(
+                    'Docs'
+                )
             }
             @{
-                Name = 'Chore'
                 Title = 'Chore'
+                Name = @(
+                    'Chore'
+                )
             }
         )
         $commitHistoryCategoryNone = @{
@@ -75,7 +99,7 @@ function Changes-HashSubjectAuthor-NoMerges-Categorized {
         $commitHistoryCategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryUncategorizedCollection = New-Object System.Collections.ArrayList
         $commitHistoryCollection | % {
-            if ($_ -match "^[0-9a-f]+ (\s*\w+\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
+            if ($_ -match "^[0-9a-f]+ (\s*[a-zA-Z0-9_\-]+\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
                 $commitHistoryCategorizedCollection.Add($_) > $null
             }else {
                 $commitHistoryUncategorizedCollection.Add($_) > $null
@@ -88,18 +112,21 @@ function Changes-HashSubjectAuthor-NoMerges-Categorized {
             foreach ($c in $commitHistoryCategory) {
                 $iscommitHistoryCategoryTitleOutputted = $false
                 $commitHistoryCollection | % {
-                    if ($_ -match "^[0-9a-f]+ (\s*$($c['Name'])\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
-                        if (!$iscommitHistoryCategoryTitleOutputted) {
+                    foreach ($n in $c['Name']) {
+                        if ($_ -match "^[0-9a-f]+ (\s*$n\s*)(\(\s*[a-zA-Z0-9_\-\/]+\s*\)\s*)*:(.+)") {
+                            if (!$iscommitHistoryCategoryTitleOutputted) {
 @"
 
 ### $($c['Title'])
 
 "@
-                            $iscommitHistoryCategoryTitleOutputted = $true
-                        }
+                                $iscommitHistoryCategoryTitleOutputted = $true
+                            }
 @"
 * $_
 "@
+                            break
+                        }
                     }
                 }
             }
