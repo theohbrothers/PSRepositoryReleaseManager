@@ -45,6 +45,13 @@ function Changes-HashSubject-NoMerges-Categorized {
                 )
             }
             @{
+                Title = 'Performance'
+                Name = @(
+                    'Performance'
+                    'perf'
+                )
+            }
+            @{
                 Title = 'Change'
                 Name = @(
                     'Change'
@@ -54,6 +61,12 @@ function Changes-HashSubject-NoMerges-Categorized {
                 Title = 'Refactors'
                 Name = @(
                     'Refactor'
+                )
+            }
+            @{
+                Title = 'Build'
+                Name = @(
+                    'Build'
                 )
             }
             @{

@@ -45,6 +45,13 @@ function Changes-HashSubjectAuthor-NoMerges-CategorizedSorted {
                 )
             }
             @{
+                Title = 'Performance'
+                Name = @(
+                    'Performance'
+                    'perf'
+                )
+            }
+            @{
                 Title = 'Change'
                 Name = @(
                     'Change'
@@ -54,6 +61,12 @@ function Changes-HashSubjectAuthor-NoMerges-CategorizedSorted {
                 Title = 'Refactors'
                 Name = @(
                     'Refactor'
+                )
+            }
+            @{
+                Title = 'Build'
+                Name = @(
+                    'Build'
                 )
             }
             @{
