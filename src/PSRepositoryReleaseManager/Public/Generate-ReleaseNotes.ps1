@@ -8,7 +8,7 @@ function Generate-ReleaseNotes {
         ,
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
-        [string]$TagName
+        [string]$Ref
         ,
         [Parameter(Mandatory=$true)]
         [ValidateSet(
@@ -44,7 +44,7 @@ function Generate-ReleaseNotes {
     try {
         $private:generateArgs = @{
             Path = $Path
-            TagName = $TagName
+            Ref = $Ref
         }
         "Generating release notes of variant '$($Variant)'" | Write-Verbose
         $releaseNotesContent = & $Variant @private:generateArgs -ErrorAction Stop
