@@ -7,16 +7,16 @@ function VersionDate-SubjectAuthor-NoMerges-CategorizedSorted {
         ,
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
-        [string]$TagName
+        [string]$Ref
     )
 
     $ErrorActionPreference = 'Stop'
 
     try {
-        $previousRelease = Get-RepositoryReleasePrevious -Path $Path -Ref $TagName -ErrorAction SilentlyContinue
+        $previousRelease = Get-RepositoryReleasePrevious -Path $Path -Ref $Ref -ErrorAction SilentlyContinue
         $funcArgs = @{
             Path = $Path
-            FirstRef = $TagName
+            FirstRef = $Ref
             PrettyFormat = '%s - `%aN`'
             NoMerges = $true
         }
@@ -138,7 +138,7 @@ function VersionDate-SubjectAuthor-NoMerges-CategorizedSorted {
         }
         $releaseBody = & {
 @"
-## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
+## $Ref ($(Get-Date -UFormat '%Y-%m-%d'))
 "@
             foreach ($c in $commitHistoryCategory) {
                 $iscommitHistoryCategoryTitleOutputted = $false

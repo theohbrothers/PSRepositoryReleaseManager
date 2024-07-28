@@ -7,16 +7,16 @@ function VersionDate-HashSubject {
         ,
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
-        [string]$TagName
+        [string]$Ref
     )
 
     $ErrorActionPreference = 'Stop'
 
     try {
-        $previousRelease = Get-RepositoryReleasePrevious -Path $Path -Ref $TagName -ErrorAction SilentlyContinue
+        $previousRelease = Get-RepositoryReleasePrevious -Path $Path -Ref $Ref -ErrorAction SilentlyContinue
         $funcArgs = @{
             Path = $Path
-            FirstRef = $TagName
+            FirstRef = $Ref
             PrettyFormat = '%h %s'
         }
         if ($previousRelease) { $funcArgs['SecondRef'] = @($previousRelease)[0] }
@@ -24,7 +24,7 @@ function VersionDate-HashSubject {
         $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
         $releaseBody = & {
 @"
-## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
+## $Ref ($(Get-Date -UFormat '%Y-%m-%d'))
 
 "@
             $commitHistoryCollection | % {

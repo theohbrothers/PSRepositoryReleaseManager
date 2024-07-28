@@ -7,16 +7,16 @@ function VersionDate-Subject-NoMerges {
         ,
         [Parameter(Mandatory=$true)]
         [ValidateNotNullOrEmpty()]
-        [string]$TagName
+        [string]$Ref
     )
 
     $ErrorActionPreference = 'Stop'
 
     try {
-        $previousRelease = Get-RepositoryReleasePrevious -Path $Path -Ref $TagName -ErrorAction SilentlyContinue
+        $previousRelease = Get-RepositoryReleasePrevious -Path $Path -Ref $Ref -ErrorAction SilentlyContinue
         $funcArgs = @{
             Path = $Path
-            FirstRef = $TagName
+            FirstRef = $Ref
             PrettyFormat = '%s'
             NoMerges = $true
         }
@@ -25,7 +25,7 @@ function VersionDate-Subject-NoMerges {
         $commitHistoryCollection = $commitHistory -split "`n" | % { $_.Trim() } | ? { $_ }
         $releaseBody = & {
 @"
-## $TagName ($(Get-Date -UFormat '%Y-%m-%d'))
+## $Ref ($(Get-Date -UFormat '%Y-%m-%d'))
 
 "@
             $commitHistoryCollection | % {

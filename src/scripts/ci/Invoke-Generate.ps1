@@ -25,7 +25,7 @@ try {
     }
     $private:generateArgs = @{
         Path = $private:ProjectDir
-        TagName = if ($env:RELEASE_TAG_REF) {
+        Ref = if ($env:RELEASE_TAG_REF) {
                         "Using specified ref '$env:RELEASE_TAG_REF'" | Write-Verbose
                         $env:RELEASE_TAG_REF
                   }else {
