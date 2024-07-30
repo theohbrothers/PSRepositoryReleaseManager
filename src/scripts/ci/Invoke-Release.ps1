@@ -31,7 +31,7 @@ try {
         TagName = $env:RELEASE_TAG_REF
         TargetCommitish = if (Test-Path -Path $private:ProjectDir -PathType Container) {
                               Push-Location $private:ProjectDir
-                              git rev-parse "$env:RELEASE_TAG_REF"
+                              git rev-parse $env:RELEASE_TAG_REF
                               Pop-Location
                           }
         Name = if ($env:RELEASE_NAME) {
