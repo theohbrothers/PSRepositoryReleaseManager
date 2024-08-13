@@ -2,7 +2,6 @@ function Generate-ReleaseNotes {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
         [ValidateScript({Test-Path -Path $_ -PathType Container})]
         [string]$Path
         ,
