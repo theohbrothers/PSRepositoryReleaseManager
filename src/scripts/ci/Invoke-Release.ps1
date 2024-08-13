@@ -58,8 +58,8 @@ try {
             "Default release notes not found at the path '$private:defaultReleaseNotesPath'. No release notes will be included with the release." | Write-Verbose
         }
     }
-    $private:createReleaseArgs['Draft'] = if ($env:RELEASE_DRAFT) { [System.Convert]::ToBoolean($env:RELEASE_DRAFT) } else { $false }
-    $private:createReleaseArgs['Prerelease'] = if ($env:RELEASE_PRERELEASE) { [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) } else { $false }
+    if ($env:RELEASE_DRAFT) { $private:createReleaseArgs['Draft'] = [System.Convert]::ToBoolean($env:RELEASE_DRAFT) }
+    if ($env:RELEASE_PRERELEASE) { $private:createReleaseArgs['Prerelease'] = [System.Convert]::ToBoolean($env:RELEASE_PRERELEASE) }
     $response = Create-GitHubRelease @private:createReleaseArgs
     $responseContent = $response.Content | ConvertFrom-Json
 
