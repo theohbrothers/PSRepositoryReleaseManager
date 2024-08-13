@@ -6,7 +6,6 @@ function Upload-GitHubReleaseAsset {
         [string]$UploadUrl
         ,
         [Parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
         [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
         [string[]]$Asset
         ,

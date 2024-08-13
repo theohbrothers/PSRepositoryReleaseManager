@@ -26,7 +26,6 @@ function Create-GitHubRelease {
         [string]$Name
         ,
         [Parameter(ParameterSetName='Path', Mandatory=$false)]
-        [ValidateNotNullOrEmpty()]
         [ValidateScript({Test-Path -Path $_ -PathType Leaf})]
         [string]$ReleaseNotesPath
         ,
