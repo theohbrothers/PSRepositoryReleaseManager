@@ -52,8 +52,8 @@ function Create-GitHubRelease {
         if ($Name) { $private:releaseArgs['Name'] = $Name }
         if ($ReleaseNotesPath) { $private:releaseArgs['Body'] = Get-Content -Path $ReleaseNotesPath -Raw }
         elseif ($ReleaseNotesContent) { $private:releaseArgs['Body'] = $ReleaseNotesContent }
-        if ($null -ne $Draft) { $private:releaseArgs['Draft'] = $Draft }
-        if ($null -ne $Prerelease) { $private:releaseArgs['Prerelease'] = $Prerelease }
+        if ($Draft) { $private:releaseArgs['Draft'] = $Draft }
+        if ($Prerelease) { $private:releaseArgs['Prerelease'] = $Prerelease }
         $response = New-GitHubRepositoryRelease @private:releaseArgs -ErrorAction Stop
         $response
     }catch {
