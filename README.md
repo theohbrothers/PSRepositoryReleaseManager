@@ -186,21 +186,14 @@ To create releases, reference the appropriate [`release.yml`](templates/azure-pi
 
 ## Maintenance
 
-### Managing the submodule
-
-#### Retrieving updates
-
-To update the submodule:
-
-```shell
-git submodule update --remote --recursive build/PSRepositoryReleaseManager
-```
+### Submodule
 
 #### Using a specific tag
 
-To use a specific tag of the submodule:
-
 ```shell
+# Update the submodule
+git submodule update --remote build/PSRepositoryReleaseManager
+
 # Checkout ref to use
 git --git-dir build/PSRepositoryReleaseManager/.git checkout vx.x.x
 
