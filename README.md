@@ -75,7 +75,7 @@ Configure the following CI settings for your main project if `PSRepositoryReleas
 
 Add a secret variable `GITHUB_API_TOKEN` containing your [GitHub API token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens), ensuring it has write permissions to the repository.
 
-In the case where GitHub Actions is used for releases, the job token [`GITHUB_TOKEN`](docs/samples/ci/github/generic/github-workflows.linux-container.yml#L58) may be used for creating releases should it have write permissions to the repository.
+In the case where GitHub Actions is used for releases, the job token [`GITHUB_TOKEN`](docs/samples/ci/github/github-workflows.linux-container.yml#L58) may be used for creating releases should it have write permissions to the repository.
 
 #### Environment variables
 
@@ -170,19 +170,19 @@ pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/s
 
 **Note:** Ensure the environment variable [`GITHUB_API_TOKEN`](#github-api-token) is defined prior to creating releases.
 
-Sample CI files demonstrating use of this approach can be found [here](docs/samples/ci/github/generic).
+Sample CI files demonstrating use of this approach can be found [here](docs/samples/ci/github).
 
 #### via Submodule and CI remote templates
 
 ##### Generating release notes
 
-To generate release notes, reference the appropriate [`generate.yml`](templates/azure-pipelines/entrypoint) entrypoint CI remote template provided by this project from your main project's CI file. The `generate.yml` templates also support the following [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.generate-params.yml#L4-#L7) for customizing the generation of release notes.
+To generate release notes, reference the appropriate [`generate.yml`](templates/azure-pipelines/entrypoint) entrypoint CI remote template provided by this project from your main project's CI file. The `generate.yml` templates also support the following [parameters](docs/samples/ci/azure-pipelines/azure-pipelines.generate-params.yml#L4-#L7) for customizing the generation of release notes.
 
 ##### Creating releases
 
 **Note:** Ensure your main project's CI file(s) and/or settings are configured to run CI jobs for tag refs, and that the environment variable [`GITHUB_API_TOKEN`](#github-api-token) is defined prior to creating releases.
 
-To create releases, reference the appropriate [`release.yml`](templates/azure-pipelines/entrypoint) entrypoint CI remote template provided by this project from your main project's CI file. The `release.yml` templates also support the following [parameters](docs/samples/ci/azure-pipelines/custom/azure-pipelines.release-params.yml#L4-#L21) for customizing the creation of releases.
+To create releases, reference the appropriate [`release.yml`](templates/azure-pipelines/entrypoint) entrypoint CI remote template provided by this project from your main project's CI file. The `release.yml` templates also support the following [parameters](docs/samples/ci/azure-pipelines/azure-pipelines.release-params.yml#L4-#L21) for customizing the creation of releases.
 
 ## Maintenance
 
@@ -214,4 +214,4 @@ git commit -am 'Bump PSRepositoryReleaseManager to vx.x.x'
 ## Best practices
 
 - Use only tag refs of `PSRepositoryReleaseManager` in your main project.
-- If using the project as a [Submodule with CI remote templates](#submodule), ensure your main project's CI file(s) is configured to use the [CI remote templates](docs/samples/ci/azure-pipelines/generic/azure-pipelines.linux-container.yml#L15-#L19) of `PSRepositoryReleaseManager`, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
+- If using the project as a [Submodule with CI remote templates](#submodule), ensure your main project's CI file(s) is configured to use the [CI remote templates](docs/samples/ci/azure-pipelines/azure-pipelines.linux-container.yml#L15-#L19) of `PSRepositoryReleaseManager`, and that the ref matches that of the `PSRepositoryReleaseManager` submodule used in your main project.
