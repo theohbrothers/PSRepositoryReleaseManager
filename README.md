@@ -91,7 +91,7 @@ The project provides a set of [entrypoint scripts](src/scripts/ci) for generatin
 
 #### Generating release notes
 
-The entrypoint script [`Invoke-Generate.ps1`](src/scripts/ci/Invoke-Generate.ps1) is used to generate release notes for any local git repository. To do so, simply define applicable [environment variables](#environment-variables-1) before executing the entrypoint script.
+The entrypoint script [`Invoke-Generate.ps1`](Invoke-Generate.ps1) is used to generate release notes for any local git repository. To do so, simply define applicable [environment variables](#environment-variables-1) before executing the entrypoint script.
 
 The project includes [inbuilt](.vscode/tasks.json) and [samples](docs/samples/.vscode) of `.vscode/tasks.json` for generating release notes via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute relevant build task(s) while entering custom or default values per variable prompt.
 
@@ -105,7 +105,7 @@ Generating of release notes supports all tag refs. Tags *need not* follow [Seman
 
 #### Creating releases
 
-The entrypoint script [`Invoke-Release.ps1`](src/scripts/ci/Invoke-Release.ps1) can be used to create releases for GitHub repositories. To do so, simply define applicable [environment variables](#environment-variables-1) before executing the entrypoint script.
+The entrypoint script [`Invoke-Release.ps1`](Invoke-Release.ps1) can be used to create releases for GitHub repositories. To do so, simply define applicable [environment variables](#environment-variables-1) before executing the entrypoint script.
 
 The project includes [inbuilt](.vscode/tasks.json) and [samples](docs/samples/.vscode) of `.vscode/tasks.json` for creating releases via [*Build Tasks*](https://code.visualstudio.com/docs/editor/tasks) in [VSCode](https://code.visualstudio.com/). Simply execute relevant build task(s) while entering custom or default values per variable prompt. Note that due to the inability to enter multiline strings in build tasks, the options `RELEASE_NOTES_CONTENT` and `RELEASE_ASSETS` are presently unavailable and limited in usability respectively.
 
@@ -162,10 +162,10 @@ export RELEASE_NAMESPACE="$GITHUB_REPOSITORY_OWNER"
 export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
 
 # Generate (Generates release notes)
-pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
+pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/Invoke-Generate.ps1'
 
 # Release (Creates GitHub release)
-pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
+pwsh -NoLogo -NonInteractive -NoProfile -Command './PSRepositoryReleaseManager/Invoke-Release.ps1'
 ```
 
 **Note:** Ensure the environment variable [`GITHUB_API_TOKEN`](#github-api-token) is defined prior to creating releases.
