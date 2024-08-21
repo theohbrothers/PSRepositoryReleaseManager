@@ -113,25 +113,25 @@
         {
             "label": "[PSRepositoryReleaseManager] Generate release notes (pwsh)",
             "type": "shell",
-            "command": "PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NOTES_VARIANT='${input:RELEASE_NOTES_VARIANT}' RELEASE_NOTES_PATH='${input:RELEASE_NOTES_PATH}' pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./build/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'",
+            "command": "PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NOTES_VARIANT='${input:RELEASE_NOTES_VARIANT}' RELEASE_NOTES_PATH='${input:RELEASE_NOTES_PATH}' pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./build/PSRepositoryReleaseManager/Invoke-Generate.ps1'",
             "group": "build"
         },
         {
             "label": "[PSRepositoryReleaseManager] Generate release notes (powershell)",
             "type": "shell",
-            "command": "PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NOTES_VARIANT='${input:RELEASE_NOTES_VARIANT}' RELEASE_NOTES_PATH='${input:RELEASE_NOTES_PATH}' powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./build/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'",
+            "command": "PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NOTES_VARIANT='${input:RELEASE_NOTES_VARIANT}' RELEASE_NOTES_PATH='${input:RELEASE_NOTES_PATH}' powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./build/PSRepositoryReleaseManager/Invoke-Generate.ps1'",
             "group": "build"
         },
         {
             "label": "[PSRepositoryReleaseManager] Create release (pwsh)",
             "type": "shell",
-            "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./build/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'",
+            "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./build/PSRepositoryReleaseManager/Invoke-Release.ps1'",
             "group": "build"
         },
         {
             "label": "[PSRepositoryReleaseManager] Create release (powershell)",
             "type": "shell",
-            "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./build/PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'",
+            "command": "GITHUB_API_TOKEN='${input:GITHUB_API_TOKEN}' PROJECT_DIRECTORY='${input:PROJECT_DIRECTORY}' RELEASE_TAG_REF='${input:RELEASE_TAG_REF}' RELEASE_NAMESPACE='${input:RELEASE_NAMESPACE}' RELEASE_REPOSITORY='${input:RELEASE_REPOSITORY}' RELEASE_NAME='${input:RELEASE_NAME}' RELEASE_DRAFT='${input:RELEASE_DRAFT}' RELEASE_PRERELEASE='${input:RELEASE_PRERELEASE}' RELEASE_ASSETS='${input:RELEASE_ASSETS}' powershell -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = \"Continue\"; ./build/PSRepositoryReleaseManager/Invoke-Release.ps1'",
             "group": "build"
         }
     ]
