@@ -40,7 +40,7 @@ jobs:
         export RELEASE_TAG_REF=$( echo "$GITHUB_REF" | sed -rn 's/^refs\/tags\/(.*)/\1/p' )
 
         # Generate (Generates release notes)
-        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./PSRepositoryReleaseManager/src/scripts/ci/Invoke-Generate.ps1'
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./PSRepositoryReleaseManager/Invoke-Generate.ps1'
         cat PSRepositoryReleaseManager/.release-notes.md
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
@@ -58,4 +58,4 @@ jobs:
         export RELEASE_REPOSITORY=$( basename "$( git rev-parse --show-toplevel )" )
 
         # Release (Creates GitHub release)
-        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./PSRepositoryReleaseManager/src/scripts/ci/Invoke-Release.ps1'
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./PSRepositoryReleaseManager/Invoke-Release.ps1'
