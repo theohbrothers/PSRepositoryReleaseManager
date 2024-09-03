@@ -11,7 +11,7 @@ steps:
     $env:RELEASE_TAG_REF = if ($matchInfo) { $matchInfo.Matches.Groups[1].Value } else { $null }
     ### End of CI-specific code
     $VerbosePreference = 'Continue'
-    $releaseNotesPath = .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Generate.ps1
+    $releaseNotesPath = .\build\PSRepositoryReleaseManager\Invoke-Generate.ps1
     Get-Content -Path $releaseNotesPath
     ### Begin CI-specific code: Set job-scoped variables
     echo "##vso[task.setvariable variable=RELEASE_NOTES_PATH_RESOLVED]${releaseNotesPath}"
