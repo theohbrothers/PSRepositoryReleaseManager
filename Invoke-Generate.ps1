@@ -26,19 +26,19 @@ try {
     $private:generateArgs = @{
         Path = $private:ProjectDir
         Ref = if ($env:RELEASE_TAG_REF) {
-                        "Using specified ref '$env:RELEASE_TAG_REF'" | Write-Verbose
-                        $env:RELEASE_TAG_REF
-                  }else {
-                      "Using default ref 'HEAD'" | Write-Verbose
-                      'HEAD'
-                  }
+                  "Using specified ref '$env:RELEASE_TAG_REF'" | Write-Verbose
+                  $env:RELEASE_TAG_REF
+              }else {
+                  "Using default ref 'HEAD'" | Write-Verbose
+                  'HEAD'
+              }
         Variant = if ($env:RELEASE_NOTES_VARIANT) {
-                        "Using specified release notes variant '$env:RELEASE_NOTES_VARIANT'" | Write-Verbose
-                        $env:RELEASE_NOTES_VARIANT
+                      "Using specified release notes variant '$env:RELEASE_NOTES_VARIANT'" | Write-Verbose
+                      $env:RELEASE_NOTES_VARIANT
                   }else {
-                    "Using default release notes variant 'VersionDate-HashSubject-NoMerges-CategorizedSorted'" | Write-Verbose
-                    'VersionDate-HashSubject-NoMerges-CategorizedSorted'
-                }
+                      "Using default release notes variant 'VersionDate-HashSubject-NoMerges-CategorizedSorted'" | Write-Verbose
+                      'VersionDate-HashSubject-NoMerges-CategorizedSorted'
+                  }
         ReleaseNotesPath = if ($env:RELEASE_NOTES_PATH) {
                                "Using specified release notes path '$env:RELEASE_NOTES_PATH'" | Write-Verbose
                                if ([System.IO.Path]::IsPathRooted($env:RELEASE_NOTES_PATH)) { $env:RELEASE_NOTES_PATH }
