@@ -18,7 +18,7 @@ steps:
     $env:RELEASE_REPOSITORY = if ($matchInfo) { $matchInfo.Matches.Groups[2].Value } else { $null }
     ### End of CI-specific code
     $VerbosePreference = 'Continue'
-    .\build\PSRepositoryReleaseManager\src\scripts\ci\Invoke-Release.ps1 > $null
+    .\build\PSRepositoryReleaseManager\Invoke-Release.ps1 > $null
   displayName: Create GitHub release
   condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   env:
