@@ -16,7 +16,7 @@ Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
         Get-Content -Path "$stdout" | Write-Host
     }
     It "Runs Invoke-Generate.ps1 with `$env:PROJECT_DIRECTORY" {
-        $env:PROJECT_DIRECTORY = "$(git rev-parse --show-toplevel)"
+        $env:PROJECT_DIRECTORY = git rev-parse --show-toplevel
 
         $stdout = ../Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
@@ -31,7 +31,7 @@ Describe "PSRepositoryReleaseManager" -Tag 'Integration' {
     }
     It "Runs Invoke-Generate.ps1 with `$env:RELEASE_TAG_REF='branch'" {
         $env:RELEASE_TAG_REF = 'master'
-        git checkout -b 'master' 'HEAD'
+        git checkout -b master HEAD
 
         $stdout = ../Invoke-Generate.ps1
         "Generate notes content:" | Write-Verbose
