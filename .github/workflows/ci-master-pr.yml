@@ -11,44 +11,44 @@ on:
     - master
 
 jobs:
-  # test-powershell-core-linux:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v1
-  #     with:
-  #       submodules: recursive
-  #   - name: Powershell version
-  #     run: |
-  #       pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
-  #   - name: Test
-  #     run: |
-  #       pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
+  test-powershell-core-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - name: Powershell version
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Test
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  # test-powershell-core-macos:
-  #   runs-on: macos-latest
-  #   steps:
-  #   - uses: actions/checkout@v1
-  #     with:
-  #       submodules: recursive
-  #   - name: Powershell version
-  #     run: |
-  #       pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
-  #   - name: Test
-  #     run: |
-  #       pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
+  test-powershell-core-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - name: Powershell version
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Test
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
-  # test-powershell-core-windows:
-  #   runs-on: windows-latest
-  #   steps:
-  #   - uses: actions/checkout@v1
-  #     with:
-  #       submodules: recursive
-  #   - name: Powershell version
-  #     run: |
-  #       pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
-  #   - name: Test
-  #     run: |
-  #       pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
+  test-powershell-core-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - name: Powershell version
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Test
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
   test-powershell-5_1-windows-2022:
     runs-on: windows-2022
@@ -208,9 +208,9 @@ jobs:
 
   release:
     needs:
-      # - test-powershell-core-linux
-      # - test-powershell-core-macos
-      # - test-powershell-core-windows
+      - test-powershell-core-linux
+      - test-powershell-core-macos
+      - test-powershell-core-windows
       - test-powershell-5_1-windows-2022
       # - test-powershell-5_1-windows-2019
       - test-powershell-6_1-container
