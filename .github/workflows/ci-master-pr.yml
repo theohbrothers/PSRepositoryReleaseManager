@@ -206,6 +206,24 @@ jobs:
       run: |
         pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
 
+  test-powershell-7_5-container:
+    runs-on: ubuntu-latest
+    container:
+      image: theohbrothers/docker-powershell:7.5-ubuntu-24.04-git
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: recursive
+    - name: Powershell version
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$PSVersionTable'
+    - name: Ignore git permissions
+      run: |
+        git config --global --add safe.directory "$( pwd )"
+    - name: Test
+      run: |
+        pwsh -NoLogo -NonInteractive -NoProfile -Command '$VerbosePreference = "Continue"; ./test/test.ps1'
+
   release:
     needs:
       - test-powershell-core-linux
@@ -220,6 +238,7 @@ jobs:
       - test-powershell-7_2-container
       - test-powershell-7_3-container
       - test-powershell-7_4-container
+      - test-powershell-7_5-container
     runs-on: ubuntu-latest
     container:
       image: theohbrothers/docker-powershell:7.2-ubuntu-22.04-git
